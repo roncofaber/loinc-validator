@@ -22,6 +22,7 @@ func main() {
 	})
 	mux.Handle("/validate", handlers.NewValidateHandler(tmpl, client))
 	mux.Handle("/batch", handlers.NewBatchHandler(tmpl, client))
+	mux.Handle("/export", handlers.NewExportHandler(tmpl))
 
 	log.Println("Server starting on :8080")
 	if err := http.ListenAndServe(":8080", mux); err != nil {
