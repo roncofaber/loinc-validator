@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LOINC Code Validator</title>
+  <script src="https://unpkg.com/htmx.org@2.0.4"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    body {
+      font-family: system-ui, sans-serif;
+      max-width: 760px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+      color: #1a1a1a;
+      background: #f8f9fa;
+    }
+    h1 { font-size: 1.6rem; margin-bottom: 0.25rem; }
+    p.subtitle { color: #555; margin-top: 0; margin-bottom: 2rem; }
+    section {
+      background: #fff;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+    h2 { font-size: 1.1rem; margin-top: 0; }
+    label { display: block; margin-bottom: 0.4rem; font-weight: 500; }
+    input[type="text"] {
+      width: 100%;
+      padding: 0.5rem 0.75rem;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 1rem;
+      margin-bottom: 0.75rem;
+    }
+    input[type="file"] { margin-bottom: 0.75rem; }
+    button {
+      background: #0066cc;
+      color: #fff;
+      border: none;
+      padding: 0.5rem 1.25rem;
+      border-radius: 4px;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+    button:hover { background: #0052a3; }
+    .htmx-indicator { display: none; color: #555; margin-left: 0.75rem; }
+    .htmx-request .htmx-indicator { display: inline; }
+    #result, #batch-result { margin-top: 1rem; }
+  </style>
+</head>
+<body>
+  <h1>LOINC Code Validator</h1>
+  <p class="subtitle">Validate LOINC codes against the NIH Clinical Tables API.</p>
+
+  <section>
+    <h2>Single Code Validation</h2>
+    <form hx-post="/validate"
+          hx-target="#result"
+          hx-swap="innerHTML"
+          hx-indicator="#single-indicator">
+      <label for="code">LOINC Code</label>
+      <input type="text" id="code" name="code" placeholder="e.g. 2345-7" autocomplete="off">
+      <button type="submit">Validate</button>
+      <span id="single-indicator" class="htmx-indicator">Checking...</span>
+    </form>
+    <div id="result"></div>
+  </section>
+
+  <section>
+    <h2>Batch Validation</h2>
+    <p style="color:#555;font-size:0.9rem;margin-top:0;">Upload a plain text or CSV file with one LOINC code per line.</p>
+    <form hx-post="/batch"
+          hx-target="#batch-result"
+          hx-swap="innerHTML"
+          hx-indicator="#batch-indicator"
+          hx-encoding="multipart/form-data">
+      <label for="file">File (one code per line)</label>
+      <input type="file" id="file" name="file" accept=".txt,.csv">
+      <br>
+      <button type="submit">Validate File</button>
+      <span id="batch-indicator" class="htmx-indicator">Processing...</span>
+    </form>
+    <div id="batch-result"></div>
+  </section>
+</body>
+</html>
