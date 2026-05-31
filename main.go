@@ -8,6 +8,8 @@ import (
 	"github.com/roncofaber/loinc-validator/internal/loinc"
 )
 
+const loincVersion = "2.82"
+
 func main() {
 	tmpl := handlers.MustLoadTemplates("templates")
 	client := loinc.NewDefaultClient()
@@ -19,7 +21,9 @@ func main() {
 			http.NotFound(w, r)
 			return
 		}
-		tmpl.ExecuteTemplate(w, "index.html", nil)
+		tmpl.ExecuteTemplate(w, "index.html", map[string]string{
+			"LOINCVersion": loincVersion,
+		})
 	})
 	mux.Handle("/validate", handlers.NewValidateHandler(tmpl, client))
 	mux.Handle("/batch", handlers.NewBatchHandler(tmpl, client))
