@@ -12,11 +12,10 @@
     &nbsp;({{.Summary.Total}} total)
   </p>
 
-  <form hx-post="/export" hx-target="#export-link" hx-swap="innerHTML">
+  <form method="post" action="/export">
     <input type="hidden" name="results" value="{{.ResultsJSON}}">
     <button type="submit">Export CSV</button>
   </form>
-  <div id="export-link" style="margin-top:0.5rem;"></div>
 
   <div style="overflow-x:auto;margin-top:1rem;">
     <table style="width:100%;border-collapse:collapse;font-size:0.9rem;">
