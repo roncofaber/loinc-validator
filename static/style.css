@@ -298,34 +298,61 @@ input[type="file"] {
 }
 
 /* ── Copy button ─────────────────────────────────────────────── */
+.copyable-row td:last-child {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.field-value {
+  flex: 1;
+}
+
 .copy-btn {
-  display: inline-block;
-  margin-left: 0.5rem;
-  padding: 0.1em 0.5em;
-  font-family: var(--font-sans);
-  font-size: 0.68rem;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  color: var(--text-muted);
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  padding: 0;
   background: transparent;
-  border: 1px solid var(--border-dark);
-  border-radius: 3px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  color: var(--text-faint);
   cursor: pointer;
-  vertical-align: middle;
-  transition: color 0.1s, border-color 0.1s, background 0.1s;
+  opacity: 0;
+  transition: opacity 0.15s, color 0.15s, border-color 0.15s, background 0.15s;
+}
+
+.copyable-row:hover .copy-btn {
+  opacity: 1;
 }
 
 .copy-btn:hover {
   color: var(--accent);
-  border-color: var(--accent);
+  border-color: var(--valid-border);
   background: var(--valid-bg);
 }
 
+.copy-btn svg {
+  width: 13px;
+  height: 13px;
+  display: block;
+}
+
+.copy-btn .icon-copy  { display: block; }
+.copy-btn .icon-check { display: none; }
+
 .copy-btn--done {
+  opacity: 1;
   color: var(--valid-badge);
   border-color: var(--valid-border);
   background: var(--valid-bg);
 }
+
+.copy-btn--done .icon-copy  { display: none; }
+.copy-btn--done .icon-check { display: block; }
 
 /* ── Advanced details toggle ────────────────────────────────── */
 details { margin-top: 1rem; }
