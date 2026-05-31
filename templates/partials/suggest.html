@@ -1,0 +1,11 @@
+{{if .}}
+<ul class="suggest-list">
+  {{range .}}
+  <li class="suggest-item"
+      onclick="document.getElementById('code').value='{{.Code}}'; document.getElementById('suggestions').innerHTML=''; document.getElementById('single-form').dispatchEvent(new Event('submit', {bubbles:true}))">
+    <span class="suggest-code">{{.Code}}</span>
+    <span class="suggest-name">{{.Name}}</span>
+  </li>
+  {{end}}
+</ul>
+{{end}}

@@ -17,16 +17,30 @@
 
     <section class="card">
       <p class="card-title">Single Code</p>
-      <form hx-post="/validate"
+      <form id="single-form"
+            hx-post="/validate"
             hx-target="#result"
             hx-swap="innerHTML"
-            hx-indicator="#single-indicator">
-        <label for="code">LOINC Code</label>
-        <input type="text" id="code" name="code" placeholder="e.g. 2345-7" autocomplete="off" spellcheck="false">
-        <div>
+            hx-indicator="#single-indicator"
+            hx-on:submit="document.getElementById('suggestions').innerHTML=''">
+        <label for="code">LOINC Code or name</label>
+        <div class="input-wrap">
+          <input type="text" id="code" name="code" placeholder="e.g. 2345-7 or &quot;glucose&quot;"
+                 autocomplete="off" spellcheck="false"
+                 hx-get="/suggest"
+                 hx-trigger="input changed delay:300ms"
+                 hx-target="#suggestions"
+                 hx-swap="innerHTML"
+                 hx-include="this"
+                 hx-params="code"
+                 onclick="document.getElementById('suggestions').innerHTML=''"
+                 onblur="setTimeout(function(){document.getElementById('suggestions').innerHTML=''},200)">
+          <div id="suggestions" class="suggest-dropdown"></div>
+        </div>
+        <div style="margin-top:0.75rem;">
           <button class="btn" type="submit">Validate</button>
           <button class="btn btn-ghost" type="button"
-                  onclick="this.form.reset(); document.getElementById('result').innerHTML=''">Reset</button>
+                  onclick="this.form.reset(); document.getElementById('result').innerHTML=''; document.getElementById('suggestions').innerHTML=''">Reset</button>
           <span id="single-indicator" class="indicator">Checking</span>
         </div>
       </form>
