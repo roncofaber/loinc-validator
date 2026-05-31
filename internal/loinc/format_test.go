@@ -17,6 +17,7 @@ func TestValidateFormat(t *testing.T) {
 		{"8867-4", false},
 		{"12345-5", false},
 		{"100000-9", false}, // 6-digit codes exist in LOINC 2.74+
+		{"1234567-4", false}, // 7-digit codes: regex doesn't cap length, check digit is 4
 
 		// LP Parts and LG Groups — clear rejection
 		{"LP14635-4", true},
@@ -29,7 +30,6 @@ func TestValidateFormat(t *testing.T) {
 
 		// Wrong structure
 		{"abc", true},
-		{"1234567-7", true}, // 7 digits — no such codes in LOINC 2.82
 		{"2345", true},      // missing check digit
 		{"2345-", true},     // missing check digit value
 		{"2345-77", true},   // check digit > 1 digit

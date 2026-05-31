@@ -6,7 +6,7 @@ import (
 	"strings"
 )
 
-var loincPattern = regexp.MustCompile(`^\d{1,6}-\d$`)
+var loincPattern = regexp.MustCompile(`^\d+-\d$`)
 
 // ValidateFormat checks that code has the correct LOINC format and a valid
 // Mod-10 check digit. Returns a specific error message when the check digit
@@ -24,7 +24,7 @@ func ValidateFormat(code string) error {
 		return fmt.Errorf("%q is a LOINC Group identifier (LG…), not an observation code — this app validates observation codes only (e.g. 2345-7)", code)
 	}
 	if !loincPattern.MatchString(code) {
-		return fmt.Errorf("invalid LOINC format %q: expected 1–6 digits, a dash, then 1 digit (e.g. 2345-7)", code)
+		return fmt.Errorf("invalid LOINC format %q: expected one or more digits, a dash, then 1 check digit (e.g. 2345-7)", code)
 	}
 
 	parts := strings.SplitN(code, "-", 2)
