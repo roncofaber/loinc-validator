@@ -25,6 +25,8 @@
         <input type="text" id="code" name="code" placeholder="e.g. 2345-7" autocomplete="off" spellcheck="false">
         <div>
           <button class="btn" type="submit">Validate</button>
+          <button class="btn btn-ghost" type="button"
+                  onclick="this.form.reset(); document.getElementById('result').innerHTML=''">Reset</button>
           <span id="single-indicator" class="indicator">Checking</span>
         </div>
       </form>
@@ -43,6 +45,8 @@
         <input type="file" id="file" name="file" accept=".txt,.csv">
         <div>
           <button class="btn" type="submit">Validate File</button>
+          <button class="btn btn-ghost" type="button"
+                  onclick="this.form.reset(); document.getElementById('batch-result').innerHTML=''">Reset</button>
           <span id="batch-indicator" class="indicator">Processing</span>
         </div>
       </form>

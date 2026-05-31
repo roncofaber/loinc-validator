@@ -181,6 +181,17 @@ input[type="file"] {
   font-size: 0.8rem;
 }
 
+.btn-ghost {
+  background: transparent;
+  color: var(--text-muted);
+  border: 1px solid var(--border-dark);
+}
+
+.btn-ghost:hover {
+  background: var(--bg);
+  color: var(--text);
+}
+
 /* ── Loading indicator ──────────────────────────────────────── */
 .indicator {
   display: none;
