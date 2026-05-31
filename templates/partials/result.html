@@ -11,6 +11,11 @@
     <tr><td style="padding:2px 8px 2px 0;font-weight:500;">Checked at</td><td>{{.CheckedAt.Format "2006-01-02 15:04:05 UTC"}}</td></tr>
   </table>
 </div>
+{{if .Deprecated}}
+<div style="background:#fff3cd;border:1px solid #ffc107;border-radius:4px;padding:0.75rem 1rem;color:#856404;margin-top:0.5rem;">
+  <strong>Warning:</strong> This code is marked as deprecated in the LOINC database and should not be used for new implementations. Consider finding an active replacement.
+</div>
+{{end}}
 {{else}}
 <div style="background:#f8d7da;border:1px solid #842029;border-radius:4px;padding:0.75rem 1rem;color:#842029;">
   <strong>Invalid LOINC code:</strong> {{.Code}} was not found in the LOINC database.

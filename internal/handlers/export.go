@@ -37,15 +37,20 @@ func (h *ExportHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Disposition", "attachment; filename="+filename)
 
 	cw := csv.NewWriter(w)
-	cw.Write([]string{"Code", "Valid", "Name", "CheckedAt", "Error"})
+	cw.Write([]string{"Code", "Valid", "Deprecated", "Name", "CheckedAt", "Error"})
 	for _, res := range results {
 		valid := "false"
 		if res.Valid {
 			valid = "true"
 		}
+		deprecated := "false"
+		if res.Deprecated {
+			deprecated = "true"
+		}
 		cw.Write([]string{
 			res.Code,
 			valid,
+			deprecated,
 			res.Name,
 			res.CheckedAt.UTC().Format(time.RFC3339),
 			res.Error,

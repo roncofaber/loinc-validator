@@ -13,12 +13,12 @@ import (
 const defaultBaseURL = "https://clinicaltables.nlm.nih.gov/api/loinc_items/v3/search"
 
 type LOINCResult struct {
-	Code      string
-	Name      string
-	Version   string
-	Valid      bool
-	CheckedAt time.Time
-	Error     string
+	Code       string
+	Name       string
+	Valid       bool
+	Deprecated  bool
+	CheckedAt  time.Time
+	Error      string
 }
 
 type Client struct {
@@ -88,6 +88,7 @@ func (c *Client) Validate(code string) (LOINCResult, error) {
 			result.Valid = true
 			result.Code = fields[0]
 			result.Name = fields[1]
+			result.Deprecated = strings.HasPrefix(fields[1], "Deprecated ")
 			return result, nil
 		}
 	}

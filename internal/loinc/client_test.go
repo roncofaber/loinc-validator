@@ -97,6 +97,41 @@ func TestCodeMismatch(t *testing.T) {
 	}
 }
 
+func TestDeprecatedCode(t *testing.T) {
+	body := `[1, ["100653-5"], null, [["100653-5", "Deprecated Pure tone air conduction threshold audiometry panel"]]]`
+	srv := mockServer(body, 200)
+	defer srv.Close()
+
+	client := loinc.NewClient(srv.URL)
+	result, err := client.Validate("100653-5")
+
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+	if !result.Valid {
+		t.Error("expected valid=true for existing (but deprecated) code")
+	}
+	if !result.Deprecated {
+		t.Error("expected deprecated=true for code with 'Deprecated ' prefix in name")
+	}
+}
+
+func TestActiveCodeNotDeprecated(t *testing.T) {
+	body := `[1, ["2345-7"], null, [["2345-7", "Glucose [Mass/volume] in Serum or Plasma"]]]`
+	srv := mockServer(body, 200)
+	defer srv.Close()
+
+	client := loinc.NewClient(srv.URL)
+	result, err := client.Validate("2345-7")
+
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+	if result.Deprecated {
+		t.Error("expected deprecated=false for active code")
+	}
+}
+
 func TestCheckedAtAlwaysSet(t *testing.T) {
 	body := `[0, [], null, []]`
 	srv := mockServer(body, 200)

@@ -18,7 +18,7 @@ func TestExportHandler(t *testing.T) {
 	h := handlers.NewExportHandler(tmpl)
 
 	results := []loinc.LOINCResult{
-		{Code: "2345-7", Name: "Glucose", Version: "2.73", Valid: true, CheckedAt: time.Now()},
+		{Code: "2345-7", Name: "Glucose", Valid: true, CheckedAt: time.Now()},
 		{Code: "99999-9", Valid: false, CheckedAt: time.Now()},
 	}
 	jsonBytes, _ := json.Marshal(results)
@@ -41,7 +41,7 @@ func TestExportHandler(t *testing.T) {
 	if !strings.Contains(body, "2345-7") {
 		t.Errorf("expected code 2345-7 in CSV, got: %s", body)
 	}
-	if !strings.Contains(body, "Code,Valid,Name,CheckedAt") {
+	if !strings.Contains(body, "Code,Valid,Deprecated,Name") {
 		t.Errorf("expected CSV header, got: %s", body)
 	}
 }

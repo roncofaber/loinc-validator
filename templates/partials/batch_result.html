@@ -35,6 +35,8 @@
           <td style="padding:6px 10px;border:1px solid #ddd;">
             {{if .Error}}
               <span style="color:#856404;">Error</span>
+            {{else if .Deprecated}}
+              <span style="color:#856404;">Deprecated</span>
             {{else if .Valid}}
               <span style="color:#0f5132;">Valid</span>
             {{else}}
