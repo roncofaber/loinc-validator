@@ -1,0 +1,506 @@
+# Large batch test — 500 active LOINC codes sampled across clinical domains
+# Source: LOINC 2.82, ACTIVE status only
+# Classes represented: chemistry, microbiology, hematology, drug/tox,
+#   serology, allergy, radiology, H&P, panels, coagulation, urinalysis,
+#   cardiology, respiratory, vital signs, pathology, and more
+
+39129-2  # Moisture of Skin
+56668-7  # Alpha aminoadipate/Creatinine [Ratio] in 24 hour Urine
+16866-6  # Fibrinopeptide B beta (43-47) Ag [Units/volume] in Platelet poor plasma by Immunoassay
+6003-8  # Platelet factor 4 Ag [Mass/volume] in Platelet poor plasma by Immunoassay
+23903-8  # Monocytes+Macrophages/Leukocytes in Specimen by Manual count
+92918-2  # CT Guidance for aspiration of Kidney - left
+55103-6  # Surgical operation note estimated blood loss Narrative
+12629-2  # Glucose [Mass/volume] in 24 hour Peritoneal dialysis fluid
+36640-1  # RF Cervical spine Views
+81167-9  # Cancer treatment --preoperative
+106503-6  # Do a load of laundry
+38876-9  # Respiratory contraindications to elevating head of bed greater than 30 degrees
+43124-7  # Cystine panel - Urine
+51910-8  # Erythrocytes [#/area] in Bronchoalveolar lavage by Microscopy high power field
+45458-7  # Medicare ancillary part A [Minimum Data Set]
+83317-8  # Sexual activity with anonymous partner in the past year
+80404-7  # R-R interval.standard deviation (Heart rate variability)
+3962-8  # Phenylephrine [Mass/volume] in Urine
+8681-9  # History of Nervous system disorders
+9275-9  # Breath rate method
+70701-8  # I have hidden this problem so others will not notice in the past 7 days [FACIT]
+49307-2  # Myocardium Ab pattern [Interpretation] in Serum Narrative
+28831-6  # Right glasses lens prescription Visual acuity far
+35313-6  # Lipase [Enzymatic activity/volume] in Body fluid --5th specimen post Sincalide
+107876-5  # White bean IgG Ab [Units/volume] in Serum or Plasma by Immunoassay
+101692-2  # Maximum heart rate
+4000-6  # Protriptyline [Presence] in Serum or Plasma
+89409-7  # Eating - functional goal during assessment period [CMS Assessment]
+70848-7  # My doctor explained the possible benefits of my treatment in the past 7 days [FACIT]
+134-7  # cefTAZidime [Susceptibility] by Disk diffusion (KB)
+8866-6  # Arterial pulse quality by palpation
+10933-0  # Guar gum IgE Ab [Units/volume] in Serum
+40456-6  # Beta 2 glycoprotein 1 Ab [Units/volume] in Serum
+10251-7  # Heart rate device Vendor serial number
+8361-8  # Body position with respect to gravity
+24904-5  # CT Pituitary and Sella turcica WO and W contrast IV
+31470-8  # Legionella pneumophila 9 Ab [Units/volume] in Serum
+20407-3  # Nitrite [Mass/volume] in Urine by Test strip
+84122-1  # Geriatric medicine Team Note
+82768-3  # Lab order priority [Type]
+89860-1  # CT Chest W inspiration and expiration
+13268-8  # Mycoplasma pneumoniae Ab [Units/volume] in Serum --1st specimen
+38885-0  # Extubation urgency
+40306-3  # Somatotropin [Mass/volume] in Serum or Plasma --3 hours post dose arginine
+73502-7  # Bivalirudin induced platelet IgM Ab [Presence] in Serum or Plasma by Flow cytometry (FC)
+88763-8  # Amount of hip pain experienced while at night while in bed in the last week [HOOS]
+88207-6  # Lymphocytic choriomeningitis virus RNA [Presence] in Cerebral spinal fluid by NAA with probe detection
+112488-2  # Do you experience a worsening of your fatigue or energy related illness after engaging in minimal physical effort
+105339-6  # Chlamydia trachomatis L1 DNA [Presence] in Specimen by NAA with probe detection
+102160-9  # Barley Pollen IgE Ab [Presence] in Serum by Radioallergosorbent test (RAST)
+96697-8  # Rate of fibrin formation [Units] in Blood
+38996-5  # Neutrophils [Presence] in Urine by Light microscopy
+8669-4  # History of Eyes disorders
+12184-8  # Choriogonadotropin [Presence] in Body fluid
+6059-0  # Candida albicans IgE Ab [Units/volume] in Serum
+8480-6  # Systolic blood pressure
+31880-8  # Measles virus Ag [Presence] in Penis
+3479-3  # Chlorthalidone [Mass/volume] in Urine
+90785-7  # Cystinuria panel - 24 hour Urine
+97793-4  # AO modifiers
+45675-6  # Allergies
+13052-6  # Protein S/Coagulation factor IX [Mass Ratio] in Platelet poor plasma by Coagulation assay
+93679-9  # Number of visits to the emergency department in last 6 months
+8357-6  # Blood pressure method
+40109-1  # aPTT in Platelet poor plasma by Coagulation assay --12 hours post XXX challenge
+25670-1  # Glucose [Mass/volume] in Urine --30 minutes post dose glucose
+70771-1  # I have had to work really hard to pay attention or I would make a mistake in the past 7 days [FACIT]
+41163-7  # Treponema pallidum DNA [Presence] in Specimen by NAA with probe detection
+31102-7  # Protein S actual/normal in Platelet poor plasma by Chromogenic method
+10324-2  # Breath rate device Institution inventory number
+12255-6  # Volume of 5 hour Urine
+12959-3  # Triiodothyronine (T3) [Mass/volume] in Serum or Plasma --8th specimen post XXX challenge
+4316-6  # Metaraminol [Mass] of Dose
+92672-5  # Hydroxyglutarates and glutarate and ethylmalonate and methylsuccinate panel - DBS
+95529-4  # Tobacco use in the past year
+4826-4  # HLA-B38(16) [Presence] in Donor
+25153-8  # Cholesterol crystals [#/area] in Urine sediment by Microscopy high power field
+93977-7  # Complement C2.functional [Units/volume] in Serum or Plasma
+8867-4  # Heart rate
+94651-7  # Country of travel [Location]
+100888-7  # Monkeypox virus clade II DNA [Presence] in Specimen by NAA with probe detection
+38439-6  # Barbiturates [Presence] in Meconium by Confirmatory method
+43416-7  # Hematocrit [Volume Fraction] of Stem cell product by calculation
+56521-8  # 11-Deoxycortisol [Mass/volume] in Serum or Plasma --1.5 hours post XXX challenge
+81760-1  # Lymphocyte proliferation.anti-CD3.maximum/CD45 in Blood by Flow cytometry (FC)
+19889-5  # Carbon dioxide/Gas.total.at end expiration in Exhaled gas
+43628-7  # Acetaminophen crystals [Presence] in Urine sediment by Light microscopy
+42634-6  # 1p and 19q chromosome deletion [Presence] in Fixed tissue by Molecular genetics method
+16135-6  # Beta 2 glycoprotein 1 IgG Ab [Units/volume] in Serum
+104607-7  # MDS v3.0 - RAI v1.19.1 - Swing Bed discharge (SD) item set during assessment period [CMS Assessment]
+16156-2  # Gastrin [Mass/volume] in Serum or Plasma --6th specimen post XXX challenge
+104963-4  # Diagnosis category
+80425-2  # Beta-N-acetylhexosaminidase.A [Enzymatic activity/volume] in DBS
+69191-5  # MR Breast for implant WO contrast
+59156-0  # Glucose [Moles/volume] in Urine by Automated test strip
+30948-4  # Vaccination adverse event Narrative
+17569-5  # SCL-70 extractable nuclear Ab [Presence] in Serum by Immunofluorescence
+38881-9  # Emotional stability behavior --pre event
+10162-6  # History of pregnancies Narrative
+86158-3  # Streptococcus pneumoniae Danish serotype 8 Ab [Mass/volume] in Serum --1st specimen
+16667-8  # Cortisol Free [Mass/time] in 48 hour Urine
+8364-2  # Body region Selection aggregation
+83971-2  # Social worker Long term care facility Referral note
+68100-7  # Lately, because of my illness, people were unkind to me [NeuroQol]
+83758-3  # Hematology+Medical oncology Resident Note
+83046-3  # XR Skull LE 3 AP and Lateral Views
+63739-7  # How many hours did you work last week at all jobs or businesses in the past week [NHANES]
+87430-5  # Cystatin C and Glomerular filtration rate by Cystatin C-based formula panel - Serum or Plasma
+87094-9  # Guidance for reposition of venous filter in Inferior vena cava
+33834-3  # Lymphocytes Plasmacytoid [#/volume] in Blood by Manual count
+19054-6  # Mycoplasma pneumoniae [Presence] in Specimen by Organism specific culture
+55771-0  # Basophils [#] in Cerebral spinal fluid by Manual count
+11218-5  # Microalbumin [Mass/volume] in Urine by Test strip
+79285-3  # Carnitine biosynthesis intermediates panel - Serum or Plasma
+5810-7  # Specific gravity of Urine by Refractometry
+41101-7  # GJB2 gene mutations found [Identifier] in Blood or Tissue by Molecular genetics method Nominal
+92650-1  # PARoxetine [Presence] in Urine by Confirmatory method
+8886-4  # Heart rate method
+54800-8  # Arthritis in last 7 days [MDSv3]
+73722-1  # Bile acid [Moles/volume] in Urine
+90038-1  # Weighted score [RAPID3]
+10826-6  # Nissel.microscopic observation [Identifier] in Tissue by Cresyl echt violet stain
+107846-8  # Cinnamon IgG Ab [Units/volume] in Serum or Plasma by Immunoassay
+1801-0  # Amylase renal clearance in 24 hour Urine and Serum or Plasma
+33673-5  # Thrombin time.factor substitution immediately after addition of protamine sulfate in Platelet poor plasma by Coagulation assay
+2195-6  # Dehydroepiandrosterone (DHEA) [Mass/volume] in Urine
+12248-1  # Epithelial cells.renal [Presence] in Urine sediment by Light microscopy
+92235-1  # Lab order result status
+38888-4  # Status of nursing unit activity level
+97851-0  # Subject of Person
+22000-4  # Site and behavior override flag Cancer case
+94417-3  # SLC6A4 gene 5-HTTLPR variant [Genotype] in Blood or Tissue by Molecular genetics method Nominal
+50224-5  # Epithelial casts [Presence] in Urine by Computer assisted method
+10326-7  # Breath rate device Vendor serial number
+81146-3  # CYP3A4 and CYP3A5 gene targeted mutation analysis in Blood or Tissue by Molecular genetics method
+8359-2  # Peripheral artery measurement site
+32013-5  # Eosinophils/Leukocytes in Pericardial fluid by Manual count
+56411-2  # Velvet grass IgG4 Ab [Mass/volume] in Serum
+82756-8  # Date of blood donation
+101929-8  # Supersaturation panel - Urine
+49644-8  # SCA10 gene allele 2.ATTCT repeats [Entitic number] in Blood or Tissue by Molecular genetics method
+100492-8  # Nutrition and dietetics Outpatient Progress note
+85738-3  # Bombay phenotype [Presence] on Red Blood Cells from Blood product unit
+21169-8  # CD71 cells/cells in Specimen
+112174-8  # Spelt IgE Ab [Units/volume] in Serum or Plasma by Immunoassay
+27204-7  # Cocaine [Mass/volume] in Vitreous fluid
+93754-0  # Encephalomyocarditis virus RNA [Cycle Threshold #] in Specimen by NAA with probe detection
+93439-8  # Herpes simplex virus 1 DNA [Presence] in Blood by NAA with non-probe detection
+53518-7  # Leukocytes [#/volume] in Dialysis fluid
+18072-9  # Left ventricular Major axis diastole [Length] by US.2D.A2C
+11826-5  # Kidney - left Hilum-cortex diameter US
+45066-8  # Creatinine and Glomerular filtration rate.predicted panel - Serum, Plasma or Blood
+31530-9  # Neuronal Ab [Units/volume] in Cerebral spinal fluid
+39118-5  # Saturated 4x4 gauze dressings [#] of Wound
+8835-1  # Systemic vascular Resistance index by Fick method
+83836-7  # Dentistry Summary note
+409-3  # Piperacillin [Susceptibility] by Disk diffusion (KB)
+193-3  # Clindamycin [Susceptibility] by Minimum inhibitory concentration (MIC)
+102981-8  # Honey bee IgG Ab [Presence] in Serum by Radioallergosorbent test (RAST)
+39-8  # Azlocillin [Susceptibility] by Minimum lethal concentration (MLC)
+39877-6  # NM Liver and Spleen Views
+74809-5  # von Willebrand factor (vWf).activity actual/normal in Control Platelet poor plasma by Immunoassay
+107802-1  # Lentils IgG Ab [Units/volume] in Serum or Plasma by Immunoassay
+33240-3  # Cystine crystals [Presence] in Urine by Computer assisted method
+73628-0  # Besifloxacin [Susceptibility] by Minimum inhibitory concentration (MIC)
+39456-9  # Acetaminophen [Moles/volume] in Urine
+15201-7  # Platelets Large Fragments [#/volume] in Blood by Manual count
+70238-1  # Transplant surgery Hospital Progress note
+76197-3  # Multiple sigh breaths delivered 1 minute Ventilator
+28604-7  # Phosphoethanolamine/Creatinine [Ratio] in Urine
+39963-4  # Creatinine [Mass/volume] in Serum or Plasma --4 hours post XXX challenge
+24925-0  # RFA Spinal artery Views W contrast IA
+101695-5  # Duration of intense heart rate zone
+73554-8  # Abciximab induced platelet IgM Ab [Presence] in Serum or Plasma by Flow cytometry (FC)
+38840-5  # XR Ankle - left 2 Views W manual stress
+91390-5  # History of Preadolescent sexual abuse
+38882-7  # Emotional stability behavior --post event
+73506-8  # Benazepril induced platelet IgG Ab [Presence] in Serum or Plasma by Flow cytometry (FC)
+89367-7  # von Willebrand factor.ristocetin cofactor inhibitor [Units/volume] in Platelet poor plasma by Coagulation assay
+79339-8  # Carnitine biosynthesis intermediates pattern newborn screen interpretation
+23782-6  # Swine influenza virus Ag [Presence] in Tissue by Immune stain
+49540-8  # Acid citrate dextrose [Volume] in Blood product unit
+86855-4  # MDS v3.0 - RAI v1.17.2 - Speech-language pathology and audiology services - ND during assessment period [CMS Assessment]
+8865-8  # Pulse intensity by palpation
+58076-1  # Yk sup(a) Ab [Presence] in Serum or Plasma
+67915-9  # I felt nervous when my normal routine was disturbed in the past 7 days [NeuroQol]
+10250-9  # Heart rate device Vendor model number
+8478-0  # Mean blood pressure
+42730-2  # Cardiolipin IgA Ab B2GP1 independent [Multiple of the median] in Serum
+35097-5  # Lymphocytes [#/volume] in Peritoneal fluid
+111668-0  # Left eye Visual Field Mean Sensitivity Static Automated Perimetry
+68825-9  # Pediatrics Hospital History and physical note
+68139-5  # Neuro-Qol pediatric short form - peer interaction - version 1.0 [NeuroQol.Peds]
+31565-5  # Polio virus 1 Ab [Units/volume] in Body fluid
+72224-9  # Pathologic casts [Presence] in Urine by Automated
+87827-2  # Casts [Presence] in Urine
+79346-3  # Alpha-aminoadipic semialdehyde/Creatinine [Molar ratio] in Urine
+12003-0  # Fetal Umbilical artery at fetus Pulsatility index US.doppler
+61058-4  # Alpha-Phenyl-2-Piperidine acetate [Presence] in Urine
+46468-5  # Current living arrangement
+103370-3  # XR Mandible - bilateral Single view
+107083-8  # CD3+CD26+ cells/Cells in Blood by Flow cytometry (FC)
+87207-7  # Care Area Assessment (CAA) Summary during assessment period [CMS Assessment]
+60026-2  # Leukocyte esterase [Presence] in Urine by Automated test strip
+92237-7  # Lab observation sub-type
+60712-7  # Head held in midline with visual stimulation [TIMP]
+54072-4  # Hemoglobin A/Hemoglobin.total in DBS
+53512-0  # Eicosanoylcarnitine (C20)/Creatinine [Molar ratio] in Urine
+92246-8  # Microorganism resistance mutation detected [Presence] by Molecular method
+60043-7  # Acepromazine [Mass/volume] in Blood
+52335-7  # Respiratory therapy treatment plan, Referral information Set
+84141-1  # Hematology+Medical oncology Group counseling note
+35084-3  # Fetal lung maturity in Amniotic fluid
+100662-6  # Cortisol free and total panel - Serum or Plasma
+61615-1  # Are you able to stand with your knees straight [PROMIS]
+90292-4  # Liver cancer antibodies and AFP [Interpretation] in Serum or Plasma Qualitative
+63299-2  # Nucleosome Ab [Presence] in Cerebral spinal fluid by Immunoassay
+86649-1  # Birth control method at intake Reported
+63204-2  # Privet IgG Ab [Mass/volume] in Serum
+10068-5  # S' wave amplitude in lead V5
+24773-4  # NM Kidney Views W radionuclide transplant scan
+111796-9  # Pain body site
+107374-1  # RF Guidance for percutaneous embolization coil for repair of aneurysm of Cerebral vessels
+38889-2  # Personnel notified of {event}
+96863-6  # Used prescription opiate pain reliever not as prescribed or not prescribed for you in past 3 months
+97312-3  # Campylobacter coli+jejuni+upsaliensis DNA [Presence] in Stool by NAA with probe detection
+8363-4  # Respiratory phase
+91026-5  # Event Inter-agency communication documentation
+36278-0  # MR Breast - left WO and W contrast IV
+82394-8  # Fibrillarin Ab [Presence] in Serum by Line blot
+70487-4  # I am bothered by odor coming from my vulva in the past 7 days [FACIT]
+51053-7  # CD126 blasts [Units/volume] in Blood
+85866-2  # Sleep medicine Consult note
+14876-7  # Phenylpropanolamine [Presence] in Gastric fluid
+30900-5  # Cold agglutinin [Titer] in Serum or Plasma by Adult RBC Agglutination
+94102-1  # Epstein Barr virus early diffuse IgA Ab [Units/volume] in Serum or Plasma by Immunoassay
+32770-0  # Transfusion band number
+35502-4  # Mitochondrial myopathy enzyme panel [Enzymatic activity/mass] - Tissue
+78265-6  # Emergency department Discharge teaching note
+313-7  # Lymecycline [Susceptibility] by Serum bactericidal titer
+21863-6  # Date last screened Cancer
+3651-7  # fluPHENAZine [Mass/volume] in Urine
+42444-0  # XR Thoracic spine Views AP W right bending and W left bending and WO bending
+38879-3  # Ventilator disconnect reason
+96596-2  # Cholesterol in HDL [Mass/volume] in DBS
+50966-1  # Flunitrazepam [Presence] in Serum, Plasma or Blood
+82785-7  # Lab order date
+9138-9  # Fluid output emesis 1 hour
+48299-2  # New coccine triggered leukotriene release [Mass/volume] by Leukocytes
+112414-8  # Gallopamil [Mass/volume] in Serum
+11327-4  # Heart rate method at First encounter
+11356-3  # History of Genitourinary systems disorders Narrative
+7503-6  # Moth triggered histamine release [Units/volume] in Blood
+13070-8  # Phosphatidate IgG Ab [Units/volume] in Serum
+72133-2  # Montreal Cognitive Assessment [MoCA]
+14810-6  # Leukocytes [#/volume] in Bronchial specimen by Manual count
+23637-2  # Cefdinir [Susceptibility] by Minimum inhibitory concentration (MIC)
+71677-9  # Monocytes/Leukocytes [Pure number fraction] in Blood by Automated count
+4211-9  # Desethylamiodarone [Mass] of Dose
+88532-7  # Human metapneumovirus identified in Cornea or Conjunctiva by Organism specific culture
+75584-3  # Fetal Prader-Willi syndrome risk [Interpretation] based on Plasma cell-free+WBC DNA by Dosage of chromosome-specific cfDNA Qualitative
+103215-0  # Wake time after sleep onset
+65869-0  # Pregnancy complication
+40153-9  # Glucose [Moles/volume] in Serum or Plasma --5 minutes post XXX challenge
+50402-7  # Blood pressure systolic and diastolic--after transfusion
+5781-0  # Crystals [type] in Synovial fluid by Light microscopy
+97396-6  # US Guidance for injection of Elbow - bilateral
+40358-4  # Desipramine [Presence] in Gastric fluid
+99889-8  # Crystal casts [#/area] in Urine sediment by Computer assisted method
+53551-8  # 3,4-Dihydroxyphenylacetate/Creatinine [Molar ratio] in 24 hour Urine
+96387-6  # Sensory symptoms
+103006-3  # Timothy recombinant (rPhl p) 7 + 12 IgE Ab [Presence] in Serum by Radioallergosorbent test (RAST)
+54998-0  # Suctioning in last 14 days - while not a resident [MDSv3]
+73199-2  # Pravastatin induced platelet IgG Ab [Presence] in Serum or Plasma by Flow cytometry (FC)
+4536-9  # Deoxyhemoglobin/Hemoglobin.total in Blood
+83164-4  # Additional feet past last 10 foot mark [NIH Toolbox] --2M post trial start
+4518-7  # Complement factor D [Mass/volume] in Serum or Plasma
+9196-7  # Type of Urine tube
+82773-3  # Lab result time reported
+65991-2  # Hallucination notes [Text] [DI-PAD]
+38579-9  # Chlordane [Mass/volume] in Air
+21909-7  # Descriptor.clinical Cancer Narrative
+29543-6  # Beta-N-acetylhexosaminidase.A/Beta-n-acetylhexosaminidase.total in Amniotic fluid cells
+26741-9  # Serine [Moles/volume] in Urine
+24267-7  # Coxsackievirus B5 Ab [Titer] in Serum --1st specimen
+12852-0  # Bovine inner ear Ag [Presence] in Serum or Plasma by Immunoblot
+42135-4  # US Guidance for superficial biopsy of Bone
+24276-8  # Saint Louis encephalitis virus Ab [Titer] in Serum --2nd specimen
+9281-7  # Respiratory rate 8 hour maximum
+9382-3  # Coproporphyrin [Mass/time] in unspecified time Stool
+33895-4  # Prothrombin time (PT) factor substitution 2 hours post incubation in Platelet poor plasma by Coagulation assay
+9067-0  # Fat intake Measured
+73378-2  # Finasteride induced platelet IgM Ab [Presence] in Serum or Plasma by Flow cytometry (FC)
+101693-0  # Duration of light heart rate zone
+7451-8  # Latex ALK triggered histamine release [Units/volume] in Blood
+9279-1  # Respiratory rate
+8462-4  # Diastolic blood pressure
+10325-9  # Breath rate device Vendor model number
+94586-5  # Dermatan sulfate and heparan sulfate and keratan sulfate panel - DBS
+61351-3  # Lymphocyte proliferation stimulated by 0.6 ug pokeweed mitogen in Blood
+92205-4  # When I'm upset with someone, a cigarette helps me cope [PROMIS]
+100940-6  # Neighbor relationships panel [R-Outcomes]
+39578-0  # Alternaria alternata Ab [Mass/volume] in Serum
+59068-7  # RPS19 gene targeted mutation analysis [Presence] in Blood or Tissue by Molecular genetics method
+34635-3  # Citalopram [Mass/volume] in Serum or Plasma
+15179-5  # Fibrin D-dimer [Presence] in Platelet poor plasma
+44884-5  # Malignant cells [#/volume] in Pleural fluid by Manual count
+74835-0  # Porphyrin fractions panel - Stool
+33688-3  # Yersinia pestis Ag [Presence] in Isolate by Immunofluorescence
+83579-3  # Hematology+Medical oncology Nurse Note
+9304-7  # Respiration rhythm
+38887-6  # Person present --at time of event
+55262-0  # Influenza virus immunization status
+1733-5  # Adipate [Mass/volume] in Urine
+107484-8  # Epithelial cells [Presence] in Pericardial fluid by Light microscopy
+71810-6  # I have difficulty sleeping since I took my last screen [M3]
+42742-7  # Phosphatidylcholine IgG Ab B2GP1 independent [Multiple of the median] in Serum
+3558-4  # Dicoumarol [Mass/volume] in Serum or Plasma
+83728-6  # Physical medicine and rehab procedure note
+87051-9  # Guidance for dilation of stricture of Biliary ducts
+88104-5  # Rhythmic or arrhythmic heart rate
+28068-5  # Beta aminobutyrate [Moles/volume] in Amniotic fluid
+11285-4  # Acuity assessment practitioner profession
+74352-6  # Cryoglobulin and cryofibrinogen panel - Serum and Plasma
+76500-8  # Within the last year, have you been humiliated or emotionally abused in other ways by your partner or ex-partner
+8885-6  # Heart rate measurement site
+5974-1  # Plasminogen activator inhibitor 1 [Units/volume] in Platelet poor plasma by Chromogenic method
+100613-9  # Pediatric cardiology Hospital Progress note
+8479-8  # Systolic blood pressure by palpation
+5792-7  # Glucose [Mass/volume] in Urine by Test strip
+105097-0  # Urate crystals amorphous [Presence] in Urine sediment
+79668-0  # Purine and Pyrimidine panel - Cerebral spinal fluid
+50491-0  # Gastrin [Mass/volume] in Serum or Plasma --7th specimen
+7709-9  # Sole IgE Ab [Units/volume] in Serum
+26256-8  # MR Knee - bilateral
+30315-6  # Acid alpha glucosidase [Enzymatic activity/mass] in Small intestine Tissue
+96702-6  # Clot initiation.kaolin induced [Time] in Blood by US
+90958-0  # PROMIS pediatric short form - pain interference 8a - version 2.0 raw score
+51017-2  # CD1 blasts [Units/volume] in Specimen
+53595-5  # Homovanillate [Mass/volume] in 24 hour Urine
+38883-5  # Reintubated urgency
+85695-5  # Prior condition onset year [Date]
+10628-6  # Spermatozoa Tail Swelling/Spermatozoa in Semen
+68934-9  # Heat shock protein 60 Ab [Units/volume] in Serum or Plasma by Immunoassay
+20686-2  # Anaplasma marginale Ab [Presence] in Serum by Complement fixation
+82772-5  # Lab result date reported
+53486-7  # Glucose [Moles/volume] in Serum or Plasma --1 hour post dose betaxolol
+46702-7  # Leukocytes [#/area] in Urine sediment by Automated count
+39099-7  # XR Ribs - bilateral 4 Views and Chest PA
+35866-3  # Organic acids panel - Serum or Plasma
+85117-0  # Sadness Survey version 2.0 - parent report - ages 3-7 - T-score [NIH Toolbox]
+80660-4  # Strongyloides sp IgG Ab [Presence] in Serum by Immunoassay
+86782-0  # Number of days of training and skill practice in amputation or prosthesis care in last 7 calendar days [CMS Assessment]
+29158-3  # Opiates [Mass/mass] in Meconium
+33091-0  # Gestational age estimated from Crown rump length on US by Daya 1993 method
+31625-7  # Sjogrens syndrome-A extractable nuclear IgG Ab [Presence] in Serum
+14828-8  # Mesothelial cells/Leukocytes in Pericardial fluid by Manual count
+71653-0  # Promyelocytes/Leukocytes [Pure number fraction] in Cerebral spinal fluid by Manual count
+11596-4  # Shigella dysenteriae Ab [Units/volume] in Serum
+25146-2  # Bilirubin crystals [#/area] in Urine sediment by Microscopy high power field
+105165-5  # MR Guidance for biopsy of Breast
+23-2  # Amphotericin B [Susceptibility] by Minimum lethal concentration (MLC)
+69931-4  # Food Allergen Mix 13 (Carrot+White bean+Peas+Potato) IgE Ab [Units/volume] in Serum by Multidisk
+92542-0  # Fy sup(b) Ag inferred phenotype [Presence] in Blood or Tissue from Donor by Molecular genetics method
+393-9  # Penicillin G [Susceptibility] by Disk diffusion (KB)
+31385-8  # Feline coronavirus Ab [Units/volume] in Serum
+76478-7  # Acetylcholinesterase panel - Amniotic fluid
+100400-1  # Quail meat IgG Ab [Units/volume] in Serum
+14251-3  # Mitochondria M2 IgG Ab [Units/volume] in Serum
+45372-0  # Blood pressure systolic and diastolic--post phlebotomy
+5983-2  # Plasminogen activator tissue type-Plasminogen activator inhibitor 1 complex [Mass/volume] in Platelet poor plasma by Immunoassay --10 minutes post venistasis
+51479-4  # Spermatozoa [#/volume] in Urine by Automated count
+38368-7  # Pigeon droppings IgG Ab [Mass/volume] in Serum
+8888-0  # Heart rate measure duration
+73029-1  # Clopidogrel induced neutrophil IgM Ab [Presence] in Serum or Plasma by Flow cytometry (FC)
+7765-1  # English Walnut IgE Ab [Units/volume] in Serum
+73852-6  # 7-Dehydrocholesterol and 8-Dehydrocholesterol panel - Serum or Plasma
+55173-9  # ED disposition and diagnosis data Set DEEDS
+80535-8  # Methylenedioxyethylamphetamine [Mass/mass] in Hair
+78993-3  # Prolactin isoforms panel - Serum or Plasma
+40218-0  # Glucose [Moles/volume] in Serum or Plasma --29 hours post XXX challenge
+50580-0  # Maternal screen for fetal abnormalities such as Open Neural Tube Defects, Trisomy 21 or Trisomy 18 panel - Serum or Plasma
+3224-3  # Coagulation factor XI inhibitor [Units/volume] in Platelet poor plasma by Coagulation assay
+84674-1  # Can pronounce joist [NIH Toolbox]
+41904-4  # Blood pressure measurement site
+51793-8  # Xylose [Mass/volume] in Serum or Plasma --1 hour post 5 g xylose PO
+16671-0  # Cortisol [Mass/volume] in Serum or Plasma --1 minute post XXX challenge
+36062-8  # CT Shoulder
+38878-5  # Ventilator mode change reason
+38886-8  # Endotracheal tube secure method
+99899-7  # Calcium oxalate dihydrate crystals [#/volume] in Urine sediment by Computer assisted method
+93270-7  # Preparatory acts or suicidal behaviors # 3 months
+103810-8  # Pulse pressure by Invasive
+57845-0  # Leukocytes [#/volume] in Body fluid by Automated count
+106432-8  # cefTAZidime+cloxacillin [Susceptibility] by Disk diffusion (KB)
+12241-6  # Osmotic fragility of Red Blood Cells by Diluted RBC
+73279-2  # Methylphenidate induced platelet IgM Ab [Presence] in Serum or Plasma by Flow cytometry (FC)
+33238-7  # Triple phosphate crystals [Presence] in Urine by Computer assisted method
+93730-0  # Testosterone [Moles/volume] in Amniotic fluid
+15362-7  # aPTT.inhibitor sensitive in Platelet poor plasma by Coagulation assay
+34928-2  # Urobilinogen [Moles/volume] in Urine by Test strip
+106685-1  # Symptom Impact Screening during assessment period [CMS Assessment]
+66127-2  # Amphetamine [Presence] in Serum or Plasma by Confirmatory method
+73133-1  # Tacrolimus induced platelet IgG Ab [Presence] in Serum or Plasma by Flow cytometry (FC)
+101455-4  # Mitochondrial metabolites panel - Serum or Plasma
+961-3  # C sup(x) Ab [Presence] in Serum or Plasma from Blood product unit
+26522-3  # Granulocytes/Leukocytes in Synovial fluid
+71069-9  # Did your doctor-s explain the possible benefits of your treatment [FACIT]
+1512-3  # Glucose [Mass/volume] in Serum or Plasma --1 minute post 0.5 g/kg glucose IV
+33801-2  # E selectin [Mass/volume] in Serum or Plasma
+90056-3  # Date and time lab result reported
+75187-5  # Non-treponemal test was reactive [CDC.CS]
+90103-3  # Emergency response plan identifier
+63286-9  # Myelin Ab [Presence] in Body fluid by Immunofluorescence
+74012-6  # Number of years alcohol consumed [Time]
+74808-7  # von Willebrand factor (vWf).activity actual/normal in Platelet poor plasma by Immunoassay --immediately after 1:1 addition of normal plasma
+77977-7  # Illness duration
+8934-2  # Enteral tube site
+95846-2  # Cell count and Differential panel - Sputum by Manual count
+2491-9  # Inulin renal clearance in 24 hour Urine and Serum or Plasma
+9278-3  # Breath rate special circumstances
+8362-6  # Phase of heart cycle
+102008-0  # ACTH heterophile Ab interference panel - Plasma
+95801-7  # Immunoglobulin light chains.free and IFE panel - Urine
+22876-7  # Border disease virus Ab [Units/volume] in Serum
+18540-5  # Q-T interval Lead V3
+9855-8  # Blood pressure special circumstances
+46717-5  # Thrombin time.factor substitution immediately after addition of bovine thrombin in Platelet poor plasma by Coagulation assay
+73552-2  # Drug induced platelet Ab [Interpretation] in Serum or Plasma Narrative
+2833-2  # Pregnanediol [Mass/volume] in Urine
+12513-8  # Bicarbonate [Moles/volume] in Water
+34982-9  # Unidentified cells/Leukocytes in Peritoneal fluid
+22751-2  # Tobramycin [Moles/volume] in Serum or Plasma --peak
+101094-1  # In^a Ab [Presence] in Serum or Plasma
+21518-6  # SCL-70 extractable nuclear IgG Ab [Presence] in Serum
+100994-3  # B-cell CD19 and CD20 subsets panel - Blood by Flow cytometry (FC)
+11328-2  # Heart rate at First encounter
+66879-8  # Skin IgG Ab [Titer] in Serum by Guinea pig esophagus substrate
+79048-5  # Are you able to move from the street to the sidewalk without a curb cut [PROMIS]
+81693-4  # MSH-6 Ag [Presence] in Cancer specimen by Immune stain
+60465-2  # Neisseria meningitidis serogroup w135 IgG Ab [Mass/volume] in Serum by Immunoassay
+106337-9  # US Guidance for biopsy of Hand - left
+41905-1  # Altitude
+50403-5  # Blood pressure systolic and diastolic--before transfusion
+18087-7  # Left ventricular Myocardial mass by US
+33020-9  # Triple phosphate crystals [#/area] in Urine sediment by Microscopy low power field
+102939-6  # Eel IgE Ab [Presence] in Serum by Radioallergosorbent test (RAST)
+12886-8  # Borrelia burgdorferi 66kD Ab [Presence] in Body fluid by Immunoblot
+101694-8  # Duration of moderate heart rate zone
+13830-5  # Phenylglyoxylate/Creatinine [Mass Ratio] in Urine
+47902-2  # Somatotropin [Units/volume] in Serum or Plasma --2 hours post dose betaxolol+glucagon
+80031-8  # Left ventricular posterior wall Thickness at end diastole by US.M-mode
+10398-6  # I Ag [Presence] on Red Blood Cells from Blood product unit
+40594-4  # Platelet aggregation [Units/volume] in Platelet rich plasma by EPINEPHrine induced 100 umol/L
+99885-6  # Hyaline-granular casts [Presence] in Urine sediment by Computer assisted method
+43623-8  # Acetylcholine receptor blocking Ab [Presence] in Serum
+92236-9  # Lab observation result status
+41065-4  # PTPN11 gene mutations found [Identifier] in Blood or Tissue by Molecular genetics method Nominal
+24321-2  # Basic metabolic 2000 panel - Serum or Plasma
+5988-1  # Plasminogen activator tissue type [Mass/volume] in Platelet poor plasma by Chromogenic method --10 minutes post venistasis
+36075-0  # MR Lower leg - left
+10249-1  # Heart rate device Institution inventory number
+111734-0  # Lip Philtrum length
+38880-1  # Ventilator alarm reason
+28127-9  # Kinesthetic alteration [CCC]
+43110-6  # Immunoglobulin light chains panel - 24 hour Urine
+63362-8  # Thyroperoxidase Ab [Units/volume] in Cerebral spinal fluid by Immunoassay
+50352-4  # Papain IgE Ab/IgE total in Serum
+7355-1  # Annual blue grass IgE Ab [Units/volume] in Serum
+19072-8  # Calcium.ionized [Moles/volume] adjusted to pH 7.4 in Serum or Plasma
+70282-9  # t(9;12)(q34.1;p13)(ABL1,ETV6) fusion transcript [Presence] in Blood or Tissue by Molecular genetics method
+87926-2  # Epithelial cells [#/volume] in Urine by Automated
+87707-6  # Job supervisory level or pay grade
+56279-3  # Guinea pig epithelium IgG4 Ab [Mass/volume] in Serum
+38877-7  # Oral care given
+8360-0  # Body position head tilt angle
+51202-0  # Platinum [Mass/volume] in Body fluid
+90580-2  # Thinking about the past 4 weeks, my child had a lot of fun [PROMIS.PARENTPROXY]
+40121-6  # Creatinine [Moles/volume] in Serum or Plasma --9 hours post XXX challenge
+82771-7  # Lab test location performed [Type]
+94035-3  # Suicide plan
+103217-6  # Mean respiratory rate
+101866-2  # Gas and electrolytes point of care panel - Venous blood
+80117-5  # 7-Aminoflunitrazepam [Mass/volume] in Body fluid by Confirmatory method
+16931-8  # Hematocrit/Hemoglobin [Ratio] of Blood by Automated count
+5786-9  # Epithelial casts [#/area] in Urine sediment by Microscopy low power field
+7786-7  # Yew IgE Ab [Units/volume] in Serum
+57543-1  # 17-Hydroxyprogesterone [Mass/volume] in Serum or Plasma --6th specimen post dose gonadotropin releasing hormone
+89498-0  # Prenatal diagnosis
+111476-8  # XR Ankle - left Views and Mortise
+79294-5  # D- and L-2-hydroxyglutarate panel - Cerebral spinal fluid
+89299-2  # Heart rate special circumstances
+37150-0  # XR Chest PA and Right oblique and Left oblique
+31159-7  # Heparin anti Xa [Units/volume] in Nonbiological fluid
+100376-3  # Bamboo sprouts IgG Ab [Units/volume] in Serum
+10458-8  # Alkaline phosphatase.placental Ag [Presence] in Tissue by Immune stain
+84618-8  # Can pronounce accrementitial [NIH Toolbox]
+35063-7  # Eosinophils [#/volume] in Body fluid
+28999-1  # Left eye Exopthalmia Exopthalmometer.Hertel
+8884-9  # Heart rate rhythm

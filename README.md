@@ -53,6 +53,19 @@ flyctl deploy
 
 The app will be available at `https://loinc-validator.fly.dev` (or the name configured in `fly.toml`).
 
+## Examples
+
+The [`examples/`](examples/) directory contains ready-to-use test inputs:
+
+| File | Description |
+|------|-------------|
+| [`batch_common_labs.txt`](examples/batch_common_labs.txt) | 20 most common lab codes — all active |
+| [`batch_vital_signs.txt`](examples/batch_vital_signs.txt) | 8 vital sign codes — all active |
+| [`batch_mixed_status.txt`](examples/batch_mixed_status.txt) | Mix of active, deprecated, discouraged, invalid, and malformed codes — exercises every result type |
+| [`batch_large.txt`](examples/batch_large.txt) | 500 active codes across 19 clinical domains — good for testing batch performance and CSV export |
+
+See [`examples/README.md`](examples/README.md) for individual codes to try in the single-code validator.
+
 ## Project Structure
 
 ```
