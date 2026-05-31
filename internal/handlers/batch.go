@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"strings"
 	"sync"
+	"time"
 
 	"github.com/roncofaber/loinc-validator/internal/loinc"
 )
@@ -105,7 +106,7 @@ func (h *BatchHandler) validateConcurrent(codes []string) []loinc.LOINCResult {
 			defer func() { <-sem }()
 
 			if err := loinc.ValidateFormat(c); err != nil {
-				results[idx] = loinc.LOINCResult{Code: c, Error: err.Error()}
+				results[idx] = loinc.LOINCResult{Code: c, Error: err.Error(), CheckedAt: time.Now()}
 				return
 			}
 			result, err := h.client.Validate(c)
