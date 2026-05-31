@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>LOINC Validator</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐷</text></svg>">
   <link rel="stylesheet" href="/static/style.css">
   <script src="https://unpkg.com/htmx.org@2.0.4"></script>
 </head>
@@ -12,7 +13,7 @@
 
     <header class="site-header">
       <h1>LOINC <span>Validator</span></h1>
-      <p>Check LOINC codes against the NIH Clinical Tables API</p>
+      <p>Check LOINC codes against the NIH Clinical Tables API &nbsp;·&nbsp; v{{.LOINCVersion}}</p>
     </header>
 
     <section class="card">
@@ -94,9 +95,8 @@
   </div>
 
   <footer class="site-footer">
-    Validating against LOINC <strong>{{.LOINCVersion}}</strong> &nbsp;·&nbsp;
     Data from <a href="https://clinicaltables.nlm.nih.gov/apidoc/loinc_items/v3/doc.html" target="_blank" rel="noopener">NIH Clinical Tables API</a> &nbsp;·&nbsp;
-    LOINC® is a registered trademark of Regenstrief Institute
+    <a href="https://loinc.org/" target="_blank" rel="noopener">LOINC®</a> is a registered trademark of Regenstrief Institute
   </footer>
 </body>
 </html>
