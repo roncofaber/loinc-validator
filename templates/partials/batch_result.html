@@ -1,49 +1,49 @@
 {{if .Error}}
-<div style="background:#fff3cd;border:1px solid #ffc107;border-radius:4px;padding:0.75rem 1rem;color:#856404;">
-  {{.Error}}
+<div class="result-box error" style="margin-top:1rem;">
+  <span class="status-badge error-tag">Error</span>
+  <p>{{.Error}}</p>
 </div>
 {{else}}
-<div>
-  <p style="margin-top:0;">
-    <strong>Results:</strong>
-    {{.Summary.Valid}} valid &nbsp;·&nbsp;
-    {{.Summary.Invalid}} invalid &nbsp;·&nbsp;
-    {{.Summary.Errors}} errors
-    &nbsp;({{.Summary.Total}} total)
-  </p>
+<div style="margin-top:1rem;">
+  <div class="summary-bar">
+    <span class="summary-pill valid">{{.Summary.Valid}} valid</span>
+    <span class="summary-pill invalid">{{.Summary.Invalid}} invalid</span>
+    {{if .Summary.Errors}}<span class="summary-pill warn">{{.Summary.Errors}} errors</span>{{end}}
+    <span class="summary-pill neutral">{{.Summary.Total}} total</span>
 
-  <form method="post" action="/export">
-    <input type="hidden" name="results" value="{{.ResultsJSON}}">
-    <button type="submit">Export CSV</button>
-  </form>
+    <form method="post" action="/export" style="margin-left:auto;">
+      <input type="hidden" name="results" value="{{.ResultsJSON}}">
+      <button class="btn btn-sm" type="submit">↓ Export CSV</button>
+    </form>
+  </div>
 
-  <div style="overflow-x:auto;margin-top:1rem;">
-    <table style="width:100%;border-collapse:collapse;font-size:0.9rem;">
+  <div class="batch-table-wrap">
+    <table class="batch-table">
       <thead>
-        <tr style="background:#f0f0f0;">
-          <th style="text-align:left;padding:6px 10px;border:1px solid #ddd;">Code</th>
-          <th style="text-align:left;padding:6px 10px;border:1px solid #ddd;">Status</th>
-          <th style="text-align:left;padding:6px 10px;border:1px solid #ddd;">Name</th>
-          <th style="text-align:left;padding:6px 10px;border:1px solid #ddd;">Checked At</th>
+        <tr>
+          <th>Code</th>
+          <th>Status</th>
+          <th>Name</th>
+          <th>Checked At</th>
         </tr>
       </thead>
       <tbody>
         {{range .Results}}
         <tr>
-          <td style="padding:6px 10px;border:1px solid #ddd;">{{.Code}}</td>
-          <td style="padding:6px 10px;border:1px solid #ddd;">
+          <td class="col-code">{{.Code}}</td>
+          <td>
             {{if .Error}}
-              <span style="color:#856404;">Error</span>
+              <span class="chip error-tag">Error</span>
             {{else if .Deprecated}}
-              <span style="color:#856404;">Deprecated</span>
+              <span class="chip deprecated">Deprecated</span>
             {{else if .Valid}}
-              <span style="color:#0f5132;">Valid</span>
+              <span class="chip valid">Valid</span>
             {{else}}
-              <span style="color:#842029;">Invalid</span>
+              <span class="chip invalid">Invalid</span>
             {{end}}
           </td>
-          <td style="padding:6px 10px;border:1px solid #ddd;">{{.Name}}</td>
-          <td style="padding:6px 10px;border:1px solid #ddd;">{{.CheckedAt.Format "2006-01-02 15:04:05"}}</td>
+          <td class="col-name">{{.Name}}</td>
+          <td class="col-time">{{.CheckedAt.Format "2006-01-02 15:04:05"}}</td>
         </tr>
         {{end}}
       </tbody>

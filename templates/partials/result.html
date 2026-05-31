@@ -1,44 +1,55 @@
 {{if .Error}}
-<div style="background:#fff3cd;border:1px solid #ffc107;border-radius:4px;padding:0.75rem 1rem;color:#856404;">
-  {{.Error}}
+<div class="result-box error">
+  <span class="status-badge error-tag">Error</span>
+  <p>{{.Error}}</p>
 </div>
 {{else if .Valid}}
-<div style="background:#d1e7dd;border:1px solid #0f5132;border-radius:4px;padding:0.75rem 1rem;color:#0f5132;">
-  <strong>Valid LOINC code</strong><br>
-  <table style="margin-top:0.5rem;border-collapse:collapse;width:100%;">
-    <tr><td style="padding:2px 8px 2px 0;font-weight:500;">Code</td><td>{{.Code}}</td></tr>
-    <tr><td style="padding:2px 8px 2px 0;font-weight:500;">Name</td><td>{{.Name}}</td></tr>
-    <tr><td style="padding:2px 8px 2px 0;font-weight:500;">Checked at</td><td>{{.CheckedAt.Format "2006-01-02 15:04:05 UTC"}}</td></tr>
+<div class="result-box valid">
+  <span class="status-badge valid">Valid</span>
+  <table class="result-fields">
+    <tr>
+      <td>Code</td>
+      <td class="code-value">{{.Code}}</td>
+    </tr>
+    <tr>
+      <td>Name</td>
+      <td>{{.Name}}</td>
+    </tr>
+    <tr>
+      <td>Checked</td>
+      <td>{{.CheckedAt.Format "2006-01-02 15:04:05 UTC"}}</td>
+    </tr>
   </table>
 
-  <details style="margin-top:0.75rem;">
-    <summary style="cursor:pointer;font-weight:500;color:#0f5132;user-select:none;">Advanced details</summary>
-    <table style="margin-top:0.5rem;border-collapse:collapse;width:100%;color:#1a1a1a;">
+  <details>
+    <summary>Advanced details</summary>
+    <table class="result-fields" style="margin-top:0.75rem;">
       {{if .ShortName}}
-      <tr><td style="padding:2px 8px 2px 0;font-weight:500;white-space:nowrap;">Short name</td><td>{{.ShortName}}</td></tr>
+      <tr><td>Short name</td><td>{{.ShortName}}</td></tr>
       {{end}}
       {{if .Component}}
-      <tr><td style="padding:2px 8px 2px 0;font-weight:500;white-space:nowrap;">Component</td><td>{{.Component}}</td></tr>
+      <tr><td>Component</td><td>{{.Component}}</td></tr>
       {{end}}
       {{if .DataType}}
-      <tr><td style="padding:2px 8px 2px 0;font-weight:500;white-space:nowrap;">Data type</td><td>{{.DataType}}</td></tr>
+      <tr><td>Data type</td><td>{{.DataType}}</td></tr>
       {{end}}
       {{if .Units}}
-      <tr><td style="padding:2px 8px 2px 0;font-weight:500;white-space:nowrap;">Units</td><td>{{range $i, $u := .Units}}{{if $i}}, {{end}}{{$u}}{{end}}</td></tr>
+      <tr><td>Units</td><td>{{range $i, $u := .Units}}{{if $i}}, {{end}}{{$u}}{{end}}</td></tr>
       {{end}}
       {{if .RelatedNames}}
-      <tr><td style="padding:2px 8px 2px 0;font-weight:500;white-space:nowrap;vertical-align:top;">Related names</td><td style="font-size:0.875rem;">{{.RelatedNames}}</td></tr>
+      <tr><td>Related</td><td class="related">{{.RelatedNames}}</td></tr>
       {{end}}
     </table>
   </details>
 </div>
 {{if .Deprecated}}
-<div style="background:#fff3cd;border:1px solid #ffc107;border-radius:4px;padding:0.75rem 1rem;color:#856404;margin-top:0.5rem;">
-  <strong>Warning:</strong> This code is marked as deprecated in the LOINC database and should not be used for new implementations. Consider finding an active replacement.
+<div class="deprecated-warn">
+  <strong>Deprecated:</strong> This code should not be used for new implementations. Consider finding an active replacement.
 </div>
 {{end}}
 {{else}}
-<div style="background:#f8d7da;border:1px solid #842029;border-radius:4px;padding:0.75rem 1rem;color:#842029;">
-  <strong>Invalid LOINC code:</strong> {{.Code}} was not found in the LOINC database.
+<div class="result-box invalid">
+  <span class="status-badge invalid">Not found</span>
+  <p><span class="code-value">{{.Code}}</span> was not found in the LOINC database.</p>
 </div>
 {{end}}
