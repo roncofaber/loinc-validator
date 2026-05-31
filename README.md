@@ -1,6 +1,6 @@
 # LOINC Code Validator
 
-**Live:** https://loinc-validator.fly.dev
+**Live:** https://loinc-validator.fly.dev &nbsp;|&nbsp; **Source:** https://github.com/roncofaber/loinc-validator
 
 A web application for validating LOINC codes against the [NIH Clinical Tables API](https://clinicaltables.nlm.nih.gov/apidoc/loinc/v3/doc.html), built with Go and HTMX.
 
@@ -19,7 +19,7 @@ A web application for validating LOINC codes against the [NIH Clinical Tables AP
 **Prerequisites:** Go 1.23+
 
 ```bash
-git clone <repo-url>
+git clone https://github.com/roncofaber/loinc-validator
 cd loinc-validator
 go run .
 # Open http://localhost:8080
