@@ -51,12 +51,16 @@ body {
   background: var(--bg);
   color: var(--text);
   min-height: 100vh;
-  padding: 0 1rem 4rem;
+  display: flex;
+  flex-direction: column;
+  padding: 0 1rem;
 }
 
 .page-wrap {
   max-width: 720px;
+  width: 100%;
   margin: 0 auto;
+  flex: 1;
 }
 
 /* ── Header ─────────────────────────────────────────────────── */
@@ -405,8 +409,10 @@ details summary::-webkit-details-marker { display: none; }
 
 /* ── Footer ─────────────────────────────────────────────────── */
 .site-footer {
-  margin-top: 2.5rem;
-  padding: 1.25rem 0;
+  max-width: 720px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 1.25rem 0 2rem;
   border-top: 1px solid var(--border);
   font-size: 0.75rem;
   color: var(--text-faint);
