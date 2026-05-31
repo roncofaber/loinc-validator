@@ -57,7 +57,7 @@ func (h *BatchHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	scanner := bufio.NewScanner(file)
 	for scanner.Scan() {
 		line := strings.TrimSpace(scanner.Text())
-		if line != "" {
+		if line != "" && !strings.HasPrefix(line, "#") {
 			codes = append(codes, line)
 		}
 	}

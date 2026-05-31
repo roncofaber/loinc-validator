@@ -1,0 +1,26 @@
+# Mixed batch — tests all result types the validator can produce
+#
+# Active codes
+2345-7
+8867-4
+718-7
+#
+# 6-digit code (valid, tests format regex)
+100000-9
+#
+# Deprecated codes (valid + deprecation warning)
+1009-0
+100653-5
+101721-9
+#
+# Discouraged codes (valid, no warning — STATUS not exposed by NIH API)
+102006-4
+10735-9
+#
+# Does not exist in LOINC
+99999-9
+00000-0
+#
+# Malformed inputs (format error, no API call made)
+notacode
+1234567-9
