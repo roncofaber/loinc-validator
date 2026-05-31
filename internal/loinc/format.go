@@ -6,7 +6,7 @@ import (
 	"strings"
 )
 
-var loincPattern = regexp.MustCompile(`^\d{1,5}-\d$`)
+var loincPattern = regexp.MustCompile(`^\d{1,6}-\d$`)
 
 func ValidateFormat(code string) error {
 	code = strings.TrimSpace(code)

@@ -41,7 +41,7 @@ func TestExportHandler(t *testing.T) {
 	if !strings.Contains(body, "2345-7") {
 		t.Errorf("expected code 2345-7 in CSV, got: %s", body)
 	}
-	if !strings.Contains(body, "Code,Valid,Name") {
+	if !strings.Contains(body, "Code,Valid,Name,CheckedAt") {
 		t.Errorf("expected CSV header, got: %s", body)
 	}
 }

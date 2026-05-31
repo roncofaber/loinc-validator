@@ -49,7 +49,7 @@ func (c *Client) Validate(code string) (LOINCResult, error) {
 	params := url.Values{}
 	params.Set("terms", code)
 	params.Set("sf", "LOINC_NUM")
-	params.Set("df", "LOINC_NUM,LONG_COMMON_NAME,VersionLastChanged")
+	params.Set("df", "LOINC_NUM,LONG_COMMON_NAME")
 	params.Set("maxList", "5")
 
 	reqURL := c.baseURL + "?" + params.Encode()
@@ -84,11 +84,10 @@ func (c *Client) Validate(code string) (LOINCResult, error) {
 	}
 
 	for _, fields := range displayFields {
-		if len(fields) >= 3 && strings.EqualFold(fields[0], code) {
+		if len(fields) >= 2 && strings.EqualFold(fields[0], code) {
 			result.Valid = true
 			result.Code = fields[0]
 			result.Name = fields[1]
-			result.Version = fields[2]
 			return result, nil
 		}
 	}

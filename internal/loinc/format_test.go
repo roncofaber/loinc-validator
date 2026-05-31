@@ -14,15 +14,16 @@ func TestValidateFormat(t *testing.T) {
 		{"2345-7", false},
 		{"1-1", false},
 		{"12345-6", false},
+		{"100000-9", false},  // 6-digit codes exist in LOINC (e.g. codes added in v2.74+)
 		{"", true},
 		{"   ", true},
 		{"abc", true},
-		{"123456-7", true}, // too many leading digits
-		{"2345", true},     // missing check digit
-		{"2345-", true},    // missing check digit value
-		{"2345-77", true},  // check digit > 1 digit
-		{"-7", true},       // no leading digits
-		{"23 45-7", true},  // space inside
+		{"1234567-7", true}, // 7 digits — no such codes exist in LOINC 2.82
+		{"2345", true},      // missing check digit
+		{"2345-", true},     // missing check digit value
+		{"2345-77", true},   // check digit > 1 digit
+		{"-7", true},        // no leading digits
+		{"23 45-7", true},   // space inside
 	}
 
 	for _, tt := range tests {

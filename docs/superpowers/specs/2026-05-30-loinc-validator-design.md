@@ -140,7 +140,7 @@ Multi-stage Dockerfile produces a minimal (~10MB) static binary image. Deployed 
 
 | Priority | Feature |
 |----------|---------|
-| A (Small) | Display additional info for valid codes: name, LOINC version, related terms |
+| A (Small) | Display additional info for valid codes: name and LOINC version shown in core response; related/synonymous terms fetched via additional `df` fields in the same API call |
 | B (Small) | Upload a file with a list of LOINC codes, output a validation report |
 | C (Small) | Export validation results with metadata (timestamp, LOINC version) |
 | D (Medium) | Deploy to Fly.io |

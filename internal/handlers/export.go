@@ -37,7 +37,7 @@ func (h *ExportHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Disposition", "attachment; filename="+filename)
 
 	cw := csv.NewWriter(w)
-	cw.Write([]string{"Code", "Valid", "Name", "Version", "CheckedAt", "Error"})
+	cw.Write([]string{"Code", "Valid", "Name", "CheckedAt", "Error"})
 	for _, res := range results {
 		valid := "false"
 		if res.Valid {
@@ -47,7 +47,6 @@ func (h *ExportHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 			res.Code,
 			valid,
 			res.Name,
-			res.Version,
 			res.CheckedAt.UTC().Format(time.RFC3339),
 			res.Error,
 		})

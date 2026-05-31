@@ -17,7 +17,7 @@ func mockServer(response string, statusCode int) *httptest.Server {
 }
 
 func TestValidCode(t *testing.T) {
-	body := `[1, ["2345-7"], null, [["2345-7", "Glucose [Mass/volume] in Serum or Plasma", "2.73"]]]`
+	body := `[1, ["2345-7"], null, [["2345-7", "Glucose [Mass/volume] in Serum or Plasma"]]]`
 	srv := mockServer(body, 200)
 	defer srv.Close()
 
@@ -35,9 +35,6 @@ func TestValidCode(t *testing.T) {
 	}
 	if result.Name != "Glucose [Mass/volume] in Serum or Plasma" {
 		t.Errorf("unexpected name: %s", result.Name)
-	}
-	if result.Version != "2.73" {
-		t.Errorf("unexpected version: %s", result.Version)
 	}
 	if result.CheckedAt.IsZero() {
 		t.Error("CheckedAt should not be zero")
@@ -85,7 +82,7 @@ func TestMalformedResponse(t *testing.T) {
 }
 
 func TestCodeMismatch(t *testing.T) {
-	body := `[1, ["23456-7"], null, [["23456-7", "Some other test", "2.73"]]]`
+	body := `[1, ["23456-7"], null, [["23456-7", "Some other test"]]]`
 	srv := mockServer(body, 200)
 	defer srv.Close()
 
