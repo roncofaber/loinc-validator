@@ -132,6 +132,34 @@ func TestActiveCodeNotDeprecated(t *testing.T) {
 	}
 }
 
+func TestAdvancedFields(t *testing.T) {
+	body := `[1, ["2345-7"], {"RELATEDNAMES2":["Glu; Plasma; Serum"],"datatype":["REAL"],"units":[[{"unit":"mg/dL"},{"unit":"mmol/L"}]]}, [["2345-7", "Glucose [Mass/volume] in Serum or Plasma", "Glucose SerPl-mCnc", "Glucose"]]]`
+	srv := mockServer(body, 200)
+	defer srv.Close()
+
+	client := loinc.NewClient(srv.URL)
+	result, err := client.Validate("2345-7")
+
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+	if result.ShortName != "Glucose SerPl-mCnc" {
+		t.Errorf("unexpected ShortName: %q", result.ShortName)
+	}
+	if result.Component != "Glucose" {
+		t.Errorf("unexpected Component: %q", result.Component)
+	}
+	if result.DataType != "REAL" {
+		t.Errorf("unexpected DataType: %q", result.DataType)
+	}
+	if result.RelatedNames != "Glu; Plasma; Serum" {
+		t.Errorf("unexpected RelatedNames: %q", result.RelatedNames)
+	}
+	if len(result.Units) != 2 || result.Units[0] != "mg/dL" || result.Units[1] != "mmol/L" {
+		t.Errorf("unexpected Units: %v", result.Units)
+	}
+}
+
 func TestCheckedAtAlwaysSet(t *testing.T) {
 	body := `[0, [], null, []]`
 	srv := mockServer(body, 200)

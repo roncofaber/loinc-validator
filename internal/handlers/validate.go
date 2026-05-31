@@ -19,12 +19,17 @@ func NewValidateHandler(tmpl *template.Template, client *loinc.Client) *Validate
 }
 
 type resultData struct {
-	Code       string
-	Name       string
-	Valid       bool
-	Deprecated  bool
-	CheckedAt  time.Time
-	Error      string
+	Code         string
+	Name         string
+	ShortName    string
+	Component    string
+	RelatedNames string
+	DataType     string
+	Units        []string
+	Valid         bool
+	Deprecated    bool
+	CheckedAt    time.Time
+	Error        string
 }
 
 func (h *ValidateHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
@@ -50,10 +55,15 @@ func (h *ValidateHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	}
 
 	h.tmpl.ExecuteTemplate(w, "result.html", resultData{
-		Code:       result.Code,
-		Name:       result.Name,
-		Valid:       result.Valid,
-		Deprecated:  result.Deprecated,
-		CheckedAt:  result.CheckedAt,
+		Code:         result.Code,
+		Name:         result.Name,
+		ShortName:    result.ShortName,
+		Component:    result.Component,
+		RelatedNames: result.RelatedNames,
+		DataType:     result.DataType,
+		Units:        result.Units,
+		Valid:         result.Valid,
+		Deprecated:    result.Deprecated,
+		CheckedAt:    result.CheckedAt,
 	})
 }

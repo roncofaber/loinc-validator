@@ -10,6 +10,27 @@
     <tr><td style="padding:2px 8px 2px 0;font-weight:500;">Name</td><td>{{.Name}}</td></tr>
     <tr><td style="padding:2px 8px 2px 0;font-weight:500;">Checked at</td><td>{{.CheckedAt.Format "2006-01-02 15:04:05 UTC"}}</td></tr>
   </table>
+
+  <details style="margin-top:0.75rem;">
+    <summary style="cursor:pointer;font-weight:500;color:#0f5132;user-select:none;">Advanced details</summary>
+    <table style="margin-top:0.5rem;border-collapse:collapse;width:100%;color:#1a1a1a;">
+      {{if .ShortName}}
+      <tr><td style="padding:2px 8px 2px 0;font-weight:500;white-space:nowrap;">Short name</td><td>{{.ShortName}}</td></tr>
+      {{end}}
+      {{if .Component}}
+      <tr><td style="padding:2px 8px 2px 0;font-weight:500;white-space:nowrap;">Component</td><td>{{.Component}}</td></tr>
+      {{end}}
+      {{if .DataType}}
+      <tr><td style="padding:2px 8px 2px 0;font-weight:500;white-space:nowrap;">Data type</td><td>{{.DataType}}</td></tr>
+      {{end}}
+      {{if .Units}}
+      <tr><td style="padding:2px 8px 2px 0;font-weight:500;white-space:nowrap;">Units</td><td>{{range $i, $u := .Units}}{{if $i}}, {{end}}{{$u}}{{end}}</td></tr>
+      {{end}}
+      {{if .RelatedNames}}
+      <tr><td style="padding:2px 8px 2px 0;font-weight:500;white-space:nowrap;vertical-align:top;">Related names</td><td style="font-size:0.875rem;">{{.RelatedNames}}</td></tr>
+      {{end}}
+    </table>
+  </details>
 </div>
 {{if .Deprecated}}
 <div style="background:#fff3cd;border:1px solid #ffc107;border-radius:4px;padding:0.75rem 1rem;color:#856404;margin-top:0.5rem;">
