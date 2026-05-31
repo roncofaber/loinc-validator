@@ -297,6 +297,36 @@ input[type="file"] {
   line-height: 1.6;
 }
 
+/* ── Copy button ─────────────────────────────────────────────── */
+.copy-btn {
+  display: inline-block;
+  margin-left: 0.5rem;
+  padding: 0.1em 0.5em;
+  font-family: var(--font-sans);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--text-muted);
+  background: transparent;
+  border: 1px solid var(--border-dark);
+  border-radius: 3px;
+  cursor: pointer;
+  vertical-align: middle;
+  transition: color 0.1s, border-color 0.1s, background 0.1s;
+}
+
+.copy-btn:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+  background: var(--valid-bg);
+}
+
+.copy-btn--done {
+  color: var(--valid-badge);
+  border-color: var(--valid-border);
+  background: var(--valid-bg);
+}
+
 /* ── Advanced details toggle ────────────────────────────────── */
 details { margin-top: 1rem; }
 

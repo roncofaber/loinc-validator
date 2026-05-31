@@ -9,11 +9,17 @@
   <table class="result-fields">
     <tr>
       <td>Code</td>
-      <td class="code-value">{{.Code}}</td>
+      <td class="code-value">
+        {{.Code}}
+        <button class="copy-btn" onclick="copyText(this, '{{.Code}}')" title="Copy code">Copy</button>
+      </td>
     </tr>
     <tr>
       <td>Name</td>
-      <td>{{.Name}}</td>
+      <td>
+        {{.Name}}
+        <button class="copy-btn" onclick="copyText(this, '{{.Name}}')" title="Copy name">Copy</button>
+      </td>
     </tr>
     <tr>
       <td>Checked</td>
@@ -53,3 +59,16 @@
   <p><span class="code-value">{{.Code}}</span> was not found in the LOINC database.</p>
 </div>
 {{end}}
+
+<script>
+function copyText(btn, text) {
+  navigator.clipboard.writeText(text).then(function() {
+    btn.textContent = 'Copied!';
+    btn.classList.add('copy-btn--done');
+    setTimeout(function() {
+      btn.textContent = 'Copy';
+      btn.classList.remove('copy-btn--done');
+    }, 1500);
+  });
+}
+</script>
