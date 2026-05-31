@@ -10,7 +10,7 @@ import (
 	"time"
 )
 
-const defaultBaseURL = "https://clinicaltables.nlm.nih.gov/api/loinc/v3/search"
+const defaultBaseURL = "https://clinicaltables.nlm.nih.gov/api/loinc_items/v3/search"
 
 type LOINCResult struct {
 	Code      string
