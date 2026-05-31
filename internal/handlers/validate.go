@@ -3,6 +3,7 @@ package handlers
 import (
 	"html/template"
 	"net/http"
+	"strings"
 	"time"
 
 	"github.com/roncofaber/loinc-validator/internal/loinc"
@@ -32,7 +33,7 @@ func (h *ValidateHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	code := r.FormValue("code")
+	code := strings.TrimSpace(r.FormValue("code"))
 
 	if err := loinc.ValidateFormat(code); err != nil {
 		h.tmpl.ExecuteTemplate(w, "result.html", resultData{Error: err.Error()})
