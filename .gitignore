@@ -1,0 +1,9 @@
+# Claude Code local settings
+.claude/
+
+# Go build output
+loinc-validator
+
+# OS
+.DS_Store
+Thumbs.db
