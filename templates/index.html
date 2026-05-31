@@ -34,7 +34,7 @@
             hx-post="/validate"
             hx-target="#result"
             hx-swap="innerHTML"
-            hx-indicator="#single-indicator, #single-progress"
+            hx-indicator="#single-indicator"
             hx-on:submit="document.getElementById('suggestions').innerHTML='';
                           document.getElementById('single-reset').style.display='flex';">
         <label for="code">LOINC Code or name</label>
@@ -47,16 +47,17 @@
                  hx-swap="innerHTML"
                  hx-include="this"
                  hx-params="code"
+                 hx-indicator="#suggest-progress"
                  onclick="document.getElementById('suggestions').innerHTML=''"
                  onblur="setTimeout(function(){document.getElementById('suggestions').innerHTML=''},200)">
           <div id="suggestions" class="suggest-dropdown"></div>
+          <div class="progress-bar" id="suggest-progress"></div>
         </div>
         <div style="margin-top:0.75rem;">
           <button class="btn" type="submit">Validate</button>
           <span id="single-indicator" class="indicator">Checking</span>
         </div>
       </form>
-      <div class="progress-bar" id="single-progress"></div>
       <div id="result"></div>
     </section>
 
