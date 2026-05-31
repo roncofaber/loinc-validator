@@ -1,13 +1,18 @@
 # LOINC Code Validator
 
+**Live:** https://loinc-validator.fly.dev
+
 A web application for validating LOINC codes against the [NIH Clinical Tables API](https://clinicaltables.nlm.nih.gov/apidoc/loinc/v3/doc.html), built with Go and HTMX.
 
 ## Features
 
-- **Single code validation** — enter a LOINC code and instantly see if it's valid, along with its name and version
-- **Batch validation** — upload a plain text or CSV file (one code per line) and get a full validation report
-- **CSV export** — download batch results as a timestamped CSV file with metadata (code, validity, name, version, checked-at time)
-- **Clear error handling** — empty input, malformed codes, API errors, and no-match cases are all handled with user-friendly messages
+- **Single code validation** — enter a LOINC code and instantly see if it's valid, along with its name, short name, component, data type, units, and related terms
+- **Check digit validation** — the Mod-10 check digit is verified locally before hitting the API; wrong check digits produce a specific correction suggestion (e.g. *"did you mean 2345-7?"*)
+- **Deprecated code detection** — codes whose name begins with "Deprecated" are flagged with a warning (see Limitations for coverage details)
+- **LP Part / LG Group detection** — LOINC Part (`LP…`) and Group (`LG…`) identifiers are explicitly rejected with a clear explanation
+- **Batch validation** — upload a plain text or CSV file (one code per line) and get a full validation report; lines starting with `#` are treated as comments
+- **CSV export** — download batch results as a timestamped CSV file with metadata (code, valid, deprecated, name, checked-at time)
+- **Clear error handling** — empty input, malformed codes, wrong check digits, API errors, and no-match cases are all handled with specific, actionable messages
 
 ## Local Setup
 
