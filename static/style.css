@@ -336,6 +336,36 @@ input[type="file"] {
   line-height: 1.6;
 }
 
+/* ── Progress bar ────────────────────────────────────────────── */
+.progress-bar {
+  height: 2px;
+  background: transparent;
+  border-radius: 2px;
+  margin-top: 0.75rem;
+  overflow: hidden;
+  display: none;
+}
+
+.progress-bar.htmx-request {
+  display: block;
+  background: var(--border);
+}
+
+.progress-bar.htmx-request::after {
+  content: '';
+  display: block;
+  height: 100%;
+  width: 40%;
+  background: var(--accent);
+  border-radius: 2px;
+  animation: progress-slide 1.2s ease-in-out infinite;
+}
+
+@keyframes progress-slide {
+  0%   { transform: translateX(-100%); }
+  100% { transform: translateX(350%); }
+}
+
 /* ── Autocomplete ────────────────────────────────────────────── */
 .input-wrap {
   position: relative;

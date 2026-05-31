@@ -33,7 +33,7 @@
             hx-post="/validate"
             hx-target="#result"
             hx-swap="innerHTML"
-            hx-indicator="#single-indicator"
+            hx-indicator="#single-indicator, #single-progress"
             hx-on:submit="document.getElementById('suggestions').innerHTML='';
                           document.getElementById('single-reset').style.display='flex';">
         <label for="code">LOINC Code or name</label>
@@ -55,6 +55,7 @@
           <span id="single-indicator" class="indicator">Checking</span>
         </div>
       </form>
+      <div class="progress-bar" id="single-progress"></div>
       <div id="result"></div>
     </section>
 
@@ -75,7 +76,7 @@
             hx-post="/batch"
             hx-target="#batch-result"
             hx-swap="innerHTML"
-            hx-indicator="#batch-indicator"
+            hx-indicator="#batch-indicator, #batch-progress"
             hx-encoding="multipart/form-data"
             hx-on:submit="document.getElementById('batch-reset').style.display='flex';">
         <label for="file">File upload</label>
@@ -86,6 +87,7 @@
           <span id="batch-indicator" class="indicator">Processing</span>
         </div>
       </form>
+      <div class="progress-bar" id="batch-progress"></div>
       <div id="batch-result"></div>
     </section>
 
