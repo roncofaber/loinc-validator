@@ -14,6 +14,7 @@ This folder contains example codes and batch files for testing the LOINC Code Va
 | `100653-5` | Deprecated audiometry panel | Valid + deprecation warning |
 | `102006-4` | Discouraged von Willebrand test | Valid (no warning — see Limitations in README) |
 | `99999-9` | Non-existent code | Invalid |
+| `2345-4` | Wrong check digit (correct is 7) | Format error with suggestion |
 | `abc` | Malformed input | Format error |
 | `` | Empty input | Format error |
 

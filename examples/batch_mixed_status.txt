@@ -24,3 +24,5 @@
 # Malformed inputs (format error, no API call made)
 notacode
 1234567-9
+# Wrong check digit (correct is 7) — produces specific suggestion
+2345-4
