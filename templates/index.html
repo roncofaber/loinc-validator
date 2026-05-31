@@ -17,12 +17,23 @@
 
     <section class="card">
       <p class="card-title">Single Code</p>
+      <button class="card-reset" id="single-reset" aria-label="Clear"
+              onclick="document.getElementById('single-form').reset();
+                       document.getElementById('result').innerHTML='';
+                       document.getElementById('suggestions').innerHTML='';
+                       this.style.display='none';"
+              style="display:none">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <line x1="3" y1="3" x2="13" y2="13"/><line x1="13" y1="3" x2="3" y2="13"/>
+        </svg>
+      </button>
       <form id="single-form"
             hx-post="/validate"
             hx-target="#result"
             hx-swap="innerHTML"
             hx-indicator="#single-indicator"
-            hx-on:submit="document.getElementById('suggestions').innerHTML=''">
+            hx-on:submit="document.getElementById('suggestions').innerHTML='';
+                          document.getElementById('single-reset').style.display='flex';">
         <label for="code">LOINC Code or name</label>
         <div class="input-wrap">
           <input type="text" id="code" name="code" placeholder="e.g. 2345-7 or &quot;glucose&quot;"
@@ -39,8 +50,6 @@
         </div>
         <div style="margin-top:0.75rem;">
           <button class="btn" type="submit">Validate</button>
-          <button class="btn btn-ghost" type="button"
-                  onclick="this.form.reset(); document.getElementById('result').innerHTML=''; document.getElementById('suggestions').innerHTML=''">Reset</button>
           <span id="single-indicator" class="indicator">Checking</span>
         </div>
       </form>
@@ -49,18 +58,27 @@
 
     <section class="card">
       <p class="card-title">Batch Validation</p>
-      <form hx-post="/batch"
+      <button class="card-reset" id="batch-reset" aria-label="Clear"
+              onclick="document.getElementById('batch-form').reset();
+                       document.getElementById('batch-result').innerHTML='';
+                       this.style.display='none';"
+              style="display:none">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <line x1="3" y1="3" x2="13" y2="13"/><line x1="13" y1="3" x2="3" y2="13"/>
+        </svg>
+      </button>
+      <form id="batch-form"
+            hx-post="/batch"
             hx-target="#batch-result"
             hx-swap="innerHTML"
             hx-indicator="#batch-indicator"
-            hx-encoding="multipart/form-data">
+            hx-encoding="multipart/form-data"
+            hx-on:submit="document.getElementById('batch-reset').style.display='flex';">
         <label for="file">File upload</label>
         <p class="hint">Plain text or CSV — one LOINC code per line. Lines starting with # are ignored.</p>
         <input type="file" id="file" name="file" accept=".txt,.csv">
         <div>
           <button class="btn" type="submit">Validate File</button>
-          <button class="btn btn-ghost" type="button"
-                  onclick="this.form.reset(); document.getElementById('batch-result').innerHTML=''">Reset</button>
           <span id="batch-indicator" class="indicator">Processing</span>
         </div>
       </form>
