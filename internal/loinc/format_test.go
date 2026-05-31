@@ -18,6 +18,11 @@ func TestValidateFormat(t *testing.T) {
 		{"12345-5", false},
 		{"100000-9", false}, // 6-digit codes exist in LOINC 2.74+
 
+		// LP Parts and LG Groups — clear rejection
+		{"LP14635-4", true},
+		{"LG100-4", true},
+		{"lp14635-4", true}, // case-insensitive
+
 		// Empty / whitespace
 		{"", true},
 		{"   ", true},
@@ -46,6 +51,26 @@ func TestValidateFormat(t *testing.T) {
 				t.Errorf("unexpected error for input %q: %v", tt.input, err)
 			}
 		})
+	}
+}
+
+func TestValidateFormatLPMessage(t *testing.T) {
+	err := loinc.ValidateFormat("LP14635-4")
+	if err == nil {
+		t.Fatal("expected error for LP Part identifier")
+	}
+	if !strings.Contains(err.Error(), "Part identifier") {
+		t.Errorf("expected message to mention Part identifier, got: %s", err.Error())
+	}
+}
+
+func TestValidateFormatLGMessage(t *testing.T) {
+	err := loinc.ValidateFormat("LG100-4")
+	if err == nil {
+		t.Fatal("expected error for LG Group identifier")
+	}
+	if !strings.Contains(err.Error(), "Group identifier") {
+		t.Errorf("expected message to mention Group identifier, got: %s", err.Error())
 	}
 }
 

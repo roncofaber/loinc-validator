@@ -16,6 +16,13 @@ func ValidateFormat(code string) error {
 	if code == "" {
 		return fmt.Errorf("LOINC code cannot be empty")
 	}
+	upper := strings.ToUpper(code)
+	if strings.HasPrefix(upper, "LP") {
+		return fmt.Errorf("%q is a LOINC Part identifier (LP…), not an observation code — this app validates observation codes only (e.g. 2345-7)", code)
+	}
+	if strings.HasPrefix(upper, "LG") {
+		return fmt.Errorf("%q is a LOINC Group identifier (LG…), not an observation code — this app validates observation codes only (e.g. 2345-7)", code)
+	}
 	if !loincPattern.MatchString(code) {
 		return fmt.Errorf("invalid LOINC format %q: expected 1–6 digits, a dash, then 1 digit (e.g. 2345-7)", code)
 	}
