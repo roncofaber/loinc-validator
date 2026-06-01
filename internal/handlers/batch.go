@@ -119,6 +119,9 @@ func (h *BatchHandler) validateConcurrent(codes []string) []coding.Result {
 				results[idx] = coding.Result{Code: c, Error: "API error: " + err.Error(), CheckedAt: time.Now()}
 				return
 			}
+			if !res.Valid && res.Error == "" {
+				res.Error = "Not found in database"
+			}
 			results[idx] = res
 		}(i, code)
 	}
