@@ -1,11 +1,7 @@
 package icd10
 
 import (
-	"encoding/json"
-	"fmt"
-	"io"
 	"net/http"
-	"net/url"
 	"time"
 
 	"github.com/roncofaber/loinc-validator/internal/coding"
@@ -39,7 +35,7 @@ func (c *ICD10Codec) ValidateFormat(code string) error {
 
 // Validate queries the ICD-10-CM API for the given code and returns the result.
 func (c *ICD10Codec) Validate(code string) (coding.Result, error) {
-	rows, err := c.search(icd10SearchURL, icd10SearchFields, icd10DisplayFields, code, 5)
+	rows, err := search(c.httpClient, icd10SearchURL, icd10SearchFields, icd10DisplayFields, code, 5)
 	if err != nil {
 		return coding.Result{Code: code, CheckedAt: time.Now()}, err
 	}
@@ -52,7 +48,7 @@ func (c *ICD10Codec) Validate(code string) (coding.Result, error) {
 
 // Suggest queries the ICD-10-CM API for autocomplete candidates.
 func (c *ICD10Codec) Suggest(query string, maxList int) ([][]string, error) {
-	return c.search(icd10SearchURL, icd10SearchFields, icd10DisplayFields, query, maxList)
+	return search(c.httpClient, icd10SearchURL, icd10SearchFields, icd10DisplayFields, query, maxList)
 }
 
 func (c *ICD10Codec) Parse(fields []string) coding.Result {
@@ -88,47 +84,4 @@ func (c *ICD10Codec) SimilarCandidates(code string) []string {
 		add(current)
 	}
 	return candidates
-}
-
-func (c *ICD10Codec) search(baseURL, sf, df, term string, maxList int) ([][]string, error) {
-	params := url.Values{}
-	params.Set("terms", term)
-	params.Set("sf", sf)
-	params.Set("df", df)
-	params.Set("maxList", fmt.Sprintf("%d", maxList))
-
-	resp, err := c.httpClient.Get(baseURL + "?" + params.Encode())
-	if err != nil {
-		return nil, fmt.Errorf("API request failed: %w", err)
-	}
-	defer resp.Body.Close()
-
-	if resp.StatusCode != http.StatusOK {
-		return nil, fmt.Errorf("API returned status %d", resp.StatusCode)
-	}
-
-	body, err := io.ReadAll(resp.Body)
-	if err != nil {
-		return nil, fmt.Errorf("reading response: %w", err)
-	}
-
-	var raw []json.RawMessage
-	if err := json.Unmarshal(body, &raw); err != nil {
-		return nil, fmt.Errorf("parsing response: %w", err)
-	}
-	if len(raw) < 4 {
-		return nil, fmt.Errorf("unexpected response structure")
-	}
-
-	var rows [][]string
-	if err := json.Unmarshal(raw[3], &rows); err != nil {
-		return nil, fmt.Errorf("parsing display fields: %w", err)
-	}
-	return rows, nil
-}
-
-// ValidateForSimilar validates a candidate code against the API — used by
-// the similar handler when checking transposition/prefix candidates.
-func (c *ICD10Codec) ValidateForSimilar(code string) (coding.Result, error) {
-	return c.Validate(code)
 }
