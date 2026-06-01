@@ -9,19 +9,20 @@ import (
 	"sync"
 	"time"
 
-	"github.com/roncofaber/loinc-validator/internal/loinc"
+	"github.com/roncofaber/loinc-validator/internal/coding"
 )
 
 const maxWorkers = 10
-const maxFileSize = 5 << 20 // 5 MB
+const maxFileSize = 5 << 20
 
 type BatchHandler struct {
-	tmpl   *template.Template
-	client *loinc.Client
+	tmpl  *template.Template
+	codec coding.Codec
+	http  *coding.HTTPClient
 }
 
-func NewBatchHandler(tmpl *template.Template, client *loinc.Client) *BatchHandler {
-	return &BatchHandler{tmpl: tmpl, client: client}
+func NewBatchHandler(tmpl *template.Template, codec coding.Codec) *BatchHandler {
+	return &BatchHandler{tmpl: tmpl, codec: codec, http: coding.NewHTTPClient()}
 }
 
 type batchSummary struct {
@@ -32,7 +33,7 @@ type batchSummary struct {
 }
 
 type batchTemplateData struct {
-	Results     []loinc.LOINCResult
+	Results     []coding.Result
 	ResultsJSON string
 	Summary     batchSummary
 	Error       string
@@ -76,7 +77,6 @@ func (h *BatchHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	}
 
 	results := h.validateConcurrent(codes)
-
 	summary := batchSummary{Total: len(results)}
 	for _, res := range results {
 		switch {
@@ -90,7 +90,6 @@ func (h *BatchHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	}
 
 	jsonBytes, _ := json.Marshal(results)
-
 	h.tmpl.ExecuteTemplate(w, "batch_result.html", batchTemplateData{
 		Results:     results,
 		ResultsJSON: string(jsonBytes),
@@ -98,8 +97,8 @@ func (h *BatchHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	})
 }
 
-func (h *BatchHandler) validateConcurrent(codes []string) []loinc.LOINCResult {
-	results := make([]loinc.LOINCResult, len(codes))
+func (h *BatchHandler) validateConcurrent(codes []string) []coding.Result {
+	results := make([]coding.Result, len(codes))
 	sem := make(chan struct{}, maxWorkers)
 	var wg sync.WaitGroup
 
@@ -110,16 +109,21 @@ func (h *BatchHandler) validateConcurrent(codes []string) []loinc.LOINCResult {
 			sem <- struct{}{}
 			defer func() { <-sem }()
 
-			if err := loinc.ValidateFormat(c); err != nil {
-				results[idx] = loinc.LOINCResult{Code: c, Error: err.Error(), CheckedAt: time.Now()}
+			if err := h.codec.ValidateFormat(c); err != nil {
+				results[idx] = coding.Result{Code: c, Error: err.Error(), CheckedAt: time.Now()}
 				return
 			}
-			result, err := h.client.Validate(c)
+			rows, err := h.http.Validate(h.codec, c)
 			if err != nil {
-				result.Code = c
-				result.Error = "API error: " + err.Error()
+				results[idx] = coding.Result{Code: c, Error: "API error: " + err.Error(), CheckedAt: time.Now()}
+				return
 			}
-			results[idx] = result
+			row, _ := coding.ExactMatch(rows, c)
+			if row == nil {
+				results[idx] = coding.Result{Code: c, CheckedAt: time.Now()}
+				return
+			}
+			results[idx] = h.codec.Parse(row)
 		}(i, code)
 	}
 

@@ -22,17 +22,16 @@ func makeFileUpload(t *testing.T, content string) *http.Request {
 	}
 	fw.Write([]byte(content))
 	w.Close()
-	req := httptest.NewRequest(http.MethodPost, "/batch", &buf)
+	req := httptest.NewRequest(http.MethodPost, "/loinc/batch", &buf)
 	req.Header.Set("Content-Type", w.FormDataContentType())
 	return req
 }
 
 func TestBatchHandlerNoFile(t *testing.T) {
 	tmpl := handlers.MustLoadTemplates("../../templates")
-	client := loinc.NewDefaultClient()
-	h := handlers.NewBatchHandler(tmpl, client)
+	h := handlers.NewBatchHandler(tmpl, loinc.NewCodec())
 
-	req := httptest.NewRequest(http.MethodPost, "/batch", nil)
+	req := httptest.NewRequest(http.MethodPost, "/loinc/batch", nil)
 	req.Header.Set("Content-Type", "multipart/form-data; boundary=xxx")
 	rec := httptest.NewRecorder()
 
@@ -45,8 +44,7 @@ func TestBatchHandlerNoFile(t *testing.T) {
 
 func TestBatchHandlerEmptyFile(t *testing.T) {
 	tmpl := handlers.MustLoadTemplates("../../templates")
-	client := loinc.NewDefaultClient()
-	h := handlers.NewBatchHandler(tmpl, client)
+	h := handlers.NewBatchHandler(tmpl, loinc.NewCodec())
 
 	req := makeFileUpload(t, "")
 	rec := httptest.NewRecorder()

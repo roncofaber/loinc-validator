@@ -1,22 +1,22 @@
 package handlers
 
 import (
-	"fmt"
 	"html/template"
 	"net/http"
 	"strings"
 	"sync"
 
-	"github.com/roncofaber/loinc-validator/internal/loinc"
+	"github.com/roncofaber/loinc-validator/internal/coding"
 )
 
 type SimilarHandler struct {
-	tmpl   *template.Template
-	client *loinc.Client
+	tmpl  *template.Template
+	codec coding.Codec
+	http  *coding.HTTPClient
 }
 
-func NewSimilarHandler(tmpl *template.Template, client *loinc.Client) *SimilarHandler {
-	return &SimilarHandler{tmpl: tmpl, client: client}
+func NewSimilarHandler(tmpl *template.Template, codec coding.Codec) *SimilarHandler {
+	return &SimilarHandler{tmpl: tmpl, codec: codec, http: coding.NewHTTPClient()}
 }
 
 func (h *SimilarHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
@@ -25,34 +25,35 @@ func (h *SimilarHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	candidates := transpositionCandidates(code)
+	candidates := h.codec.SimilarCandidates(code)
 	if len(candidates) == 0 {
 		return
 	}
 
-	results := make([]loinc.LOINCResult, len(candidates))
+	results := make([]coding.Result, len(candidates))
 	var wg sync.WaitGroup
 	for i, candidate := range candidates {
 		wg.Add(1)
 		go func(idx int, c string) {
 			defer wg.Done()
-			res, err := h.client.Validate(c)
-			if err == nil {
-				results[idx] = res
+			rows, err := h.http.Validate(h.codec, c)
+			if err != nil {
+				return
+			}
+			row, _ := coding.ExactMatch(rows, c)
+			if row != nil {
+				results[idx] = h.codec.Parse(row)
 			}
 		}(i, candidate)
 	}
 	wg.Wait()
 
-	var suggestions []loinc.Suggestion
+	var suggestions []coding.Suggestion
 	seen := make(map[string]bool)
 	for _, res := range results {
 		if res.Valid && !seen[res.Code] {
 			seen[res.Code] = true
-			suggestions = append(suggestions, loinc.Suggestion{
-				Code: res.Code,
-				Name: res.Name,
-			})
+			suggestions = append(suggestions, coding.Suggestion{Code: res.Code, Name: res.Name})
 		}
 	}
 
@@ -61,31 +62,4 @@ func (h *SimilarHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	}
 
 	h.tmpl.ExecuteTemplate(w, "similar.html", suggestions)
-}
-
-// transpositionCandidates returns codes formed by swapping each pair of
-// adjacent digits in the numeric prefix, with recomputed check digits.
-func transpositionCandidates(code string) []string {
-	parts := strings.SplitN(code, "-", 2)
-	if len(parts) != 2 {
-		return nil
-	}
-	prefix := parts[0]
-	seen := make(map[string]bool)
-	var candidates []string
-	for i := 0; i < len(prefix)-1; i++ {
-		b := []byte(prefix)
-		b[i], b[i+1] = b[i+1], b[i]
-		newPrefix := string(b)
-		if newPrefix == prefix {
-			continue
-		}
-		chk := loinc.CheckDigit(newPrefix)
-		candidate := fmt.Sprintf("%s-%d", newPrefix, chk)
-		if !seen[candidate] {
-			seen[candidate] = true
-			candidates = append(candidates, candidate)
-		}
-	}
-	return candidates
 }

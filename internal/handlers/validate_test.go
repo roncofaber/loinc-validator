@@ -13,11 +13,10 @@ import (
 
 func TestValidateHandlerEmptyInput(t *testing.T) {
 	tmpl := handlers.MustLoadTemplates("../../templates")
-	client := loinc.NewDefaultClient()
-	h := handlers.NewValidateHandler(tmpl, client)
+	h := handlers.NewValidateHandler(tmpl, loinc.NewCodec())
 
 	form := url.Values{"code": {""}}
-	req := httptest.NewRequest(http.MethodPost, "/validate", strings.NewReader(form.Encode()))
+	req := httptest.NewRequest(http.MethodPost, "/loinc/validate", strings.NewReader(form.Encode()))
 	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
 	rec := httptest.NewRecorder()
 
@@ -33,11 +32,10 @@ func TestValidateHandlerEmptyInput(t *testing.T) {
 
 func TestValidateHandlerMalformedCode(t *testing.T) {
 	tmpl := handlers.MustLoadTemplates("../../templates")
-	client := loinc.NewDefaultClient()
-	h := handlers.NewValidateHandler(tmpl, client)
+	h := handlers.NewValidateHandler(tmpl, loinc.NewCodec())
 
 	form := url.Values{"code": {"notacode"}}
-	req := httptest.NewRequest(http.MethodPost, "/validate", strings.NewReader(form.Encode()))
+	req := httptest.NewRequest(http.MethodPost, "/loinc/validate", strings.NewReader(form.Encode()))
 	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
 	rec := httptest.NewRecorder()
 

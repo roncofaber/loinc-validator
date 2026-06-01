@@ -1,28 +1,22 @@
 package handlers
 
 import (
-	"encoding/json"
 	"fmt"
 	"html/template"
-	"io"
 	"net/http"
-	"net/url"
 	"strings"
-	"time"
+
+	"github.com/roncofaber/loinc-validator/internal/coding"
 )
 
-const suggestBaseURL = "https://clinicaltables.nlm.nih.gov/api/loinc_items/v3/search"
-
 type SuggestHandler struct {
-	tmpl       *template.Template
-	httpClient *http.Client
+	tmpl  *template.Template
+	codec coding.Codec
+	http  *coding.HTTPClient
 }
 
-func NewSuggestHandler(tmpl *template.Template) *SuggestHandler {
-	return &SuggestHandler{
-		tmpl:       tmpl,
-		httpClient: &http.Client{Timeout: 5 * time.Second},
-	}
+func NewSuggestHandler(tmpl *template.Template, codec coding.Codec) *SuggestHandler {
+	return &SuggestHandler{tmpl: tmpl, codec: codec, http: coding.NewHTTPClient()}
 }
 
 type suggestion struct {
@@ -37,43 +31,19 @@ func (h *SuggestHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	params := url.Values{}
-	params.Set("terms", q)
-	params.Set("df", "LOINC_NUM,LONG_COMMON_NAME")
-	params.Set("maxList", "6")
-
-	resp, err := h.httpClient.Get(suggestBaseURL + "?" + params.Encode())
-	if err != nil || resp.StatusCode != http.StatusOK {
-		w.WriteHeader(http.StatusOK)
-		return
-	}
-	defer resp.Body.Close()
-
-	body, err := io.ReadAll(resp.Body)
+	rows, err := h.http.Suggest(h.codec, q, 6)
 	if err != nil {
 		w.WriteHeader(http.StatusOK)
 		return
 	}
 
-	var raw []json.RawMessage
-	if err := json.Unmarshal(body, &raw); err != nil || len(raw) < 4 {
-		w.WriteHeader(http.StatusOK)
-		return
-	}
-
-	var displayFields [][]string
-	if err := json.Unmarshal(raw[3], &displayFields); err != nil {
-		w.WriteHeader(http.StatusOK)
-		return
-	}
-
 	var suggestions []suggestion
-	for _, fields := range displayFields {
-		if len(fields) >= 2 {
-			suggestions = append(suggestions, suggestion{Code: fields[0], Name: fields[1]})
+	for _, row := range rows {
+		if len(row) >= 2 {
+			suggestions = append(suggestions, suggestion{Code: row[0], Name: row[1]})
 		}
 	}
 
 	h.tmpl.ExecuteTemplate(w, "suggest.html", suggestions)
-	fmt.Fprint(w, "") // ensure non-nil response
+	fmt.Fprint(w, "")
 }

@@ -9,15 +9,15 @@ import (
 	"testing"
 	"time"
 
+	"github.com/roncofaber/loinc-validator/internal/coding"
 	"github.com/roncofaber/loinc-validator/internal/handlers"
-	"github.com/roncofaber/loinc-validator/internal/loinc"
 )
 
 func TestExportHandler(t *testing.T) {
 	tmpl := handlers.MustLoadTemplates("../../templates")
 	h := handlers.NewExportHandler(tmpl)
 
-	results := []loinc.LOINCResult{
+	results := []coding.Result{
 		{Code: "2345-7", Name: "Glucose", Valid: true, CheckedAt: time.Now()},
 		{Code: "99999-9", Valid: false, CheckedAt: time.Now()},
 	}
@@ -33,9 +33,8 @@ func TestExportHandler(t *testing.T) {
 	if rec.Code != http.StatusOK {
 		t.Errorf("expected 200, got %d", rec.Code)
 	}
-	contentType := rec.Header().Get("Content-Type")
-	if !strings.Contains(contentType, "text/csv") {
-		t.Errorf("expected text/csv, got %s", contentType)
+	if !strings.Contains(rec.Header().Get("Content-Type"), "text/csv") {
+		t.Errorf("expected text/csv, got %s", rec.Header().Get("Content-Type"))
 	}
 	body := rec.Body.String()
 	if !strings.Contains(body, "2345-7") {

@@ -8,7 +8,7 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/roncofaber/loinc-validator/internal/loinc"
+	"github.com/roncofaber/loinc-validator/internal/coding"
 )
 
 type ExportHandler struct {
@@ -26,13 +26,13 @@ func (h *ExportHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	}
 
 	rawJSON := r.FormValue("results")
-	var results []loinc.LOINCResult
+	var results []coding.Result
 	if err := json.Unmarshal([]byte(rawJSON), &results); err != nil {
 		http.Error(w, "invalid results data", http.StatusBadRequest)
 		return
 	}
 
-	filename := fmt.Sprintf("loinc_validation_%s.csv", time.Now().UTC().Format("20060102_150405"))
+	filename := fmt.Sprintf("validation_%s.csv", time.Now().UTC().Format("20060102_150405"))
 	w.Header().Set("Content-Type", "text/csv")
 	w.Header().Set("Content-Disposition", "attachment; filename="+filename)
 
