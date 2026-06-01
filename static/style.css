@@ -709,6 +709,11 @@ details summary::-webkit-details-marker { display: none; }
   font-size: 0.75rem;
   color: var(--text-faint);
   line-height: 1.6;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.5rem;
 }
 
 .site-footer a {
