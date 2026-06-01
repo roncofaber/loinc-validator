@@ -60,7 +60,7 @@
         hx-encoding="multipart/form-data"
         hx-on:submit="document.getElementById('loinc-batch-reset').style.display='flex';">
     <label for="loinc-file">File upload</label>
-    <p class="hint">Plain text or CSV — one LOINC code per line. Lines starting with # are ignored.</p>
+    <p class="hint">Plain text or CSV, one LOINC code per line. Lines starting with # are ignored.</p>
     <input type="file" id="loinc-file" name="file" accept=".txt,.csv"
            onchange="if(this.files.length) document.getElementById('loinc-batch-reset').style.display='flex';">
     <div>

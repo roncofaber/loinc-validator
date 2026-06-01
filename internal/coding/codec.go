@@ -1,3 +1,8 @@
+// Package coding defines the Codec interface and shared types used by all
+// medical coding system implementations. Each coding system (LOINC, ICD-10-CM,
+// etc.) implements Codec to plug into the shared handler and routing layer.
+// Adding a new system requires only a new Codec implementation — no changes
+// to handlers, routes, or templates.
 package coding
 
 import "time"
@@ -32,15 +37,13 @@ type Codec interface {
 	SystemID() string
 	// Version is the data version shown in the UI (e.g. "2.82", "2026").
 	Version() string
-	// SearchURL is the NIH Clinical Tables API base URL for this system.
-	SearchURL() string
-	// SearchFields is the sf= query parameter (fields to search against).
-	SearchFields() string
-	// DisplayFields is the df= query parameter (fields to return).
-	DisplayFields() string
 	// ValidateFormat checks code structure before hitting the API.
 	// Returns nil if the code is structurally valid.
 	ValidateFormat(code string) error
+	// Validate queries the system's API and returns the result for the given code.
+	Validate(code string) (Result, error)
+	// Suggest returns up to maxList candidate rows for autocomplete.
+	Suggest(query string, maxList int) ([][]string, error)
 	// Parse maps a display-fields row from the API response into a Result.
 	Parse(fields []string) Result
 	// SimilarCandidates returns codes to check when a code is not found.

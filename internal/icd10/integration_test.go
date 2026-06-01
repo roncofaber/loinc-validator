@@ -4,7 +4,6 @@ import (
 	"os"
 	"testing"
 
-	"github.com/roncofaber/loinc-validator/internal/coding"
 	"github.com/roncofaber/loinc-validator/internal/icd10"
 )
 
@@ -14,19 +13,12 @@ func TestIntegrationValidCode(t *testing.T) {
 	}
 
 	codec := icd10.NewCodec()
-	client := coding.NewHTTPClient()
-
-	rows, err := client.Validate(codec, "E11.9")
+	result, err := codec.Validate("E11.9")
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
-	row, _ := coding.ExactMatch(rows, "E11.9")
-	if row == nil {
-		t.Fatal("expected E11.9 to be found")
-	}
-	result := codec.Parse(row)
 	if !result.Valid {
-		t.Error("expected valid=true")
+		t.Fatal("expected E11.9 to be valid")
 	}
 	if result.Name == "" {
 		t.Error("expected non-empty name")
@@ -39,14 +31,11 @@ func TestIntegrationInvalidCode(t *testing.T) {
 	}
 
 	codec := icd10.NewCodec()
-	client := coding.NewHTTPClient()
-
-	rows, err := client.Validate(codec, "Z99.99")
+	result, err := codec.Validate("Z99.99")
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
-	row, _ := coding.ExactMatch(rows, "Z99.99")
-	if row != nil {
+	if result.Valid {
 		t.Error("expected Z99.99 to be not found")
 	}
 }
@@ -56,16 +45,13 @@ func TestIntegrationNonBillableHeader(t *testing.T) {
 		t.Skip("skipping integration test; set ICD10_INTEGRATION=1 to run")
 	}
 
-	// A01 is a valid ICD-10-CM category but non-billable — API returns not found on exact match
+	// A01 is a valid ICD-10-CM category but non-billable — returns not found on exact match
 	codec := icd10.NewCodec()
-	client := coding.NewHTTPClient()
-
-	rows, err := client.Validate(codec, "A01")
+	result, err := codec.Validate("A01")
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
-	row, _ := coding.ExactMatch(rows, "A01")
-	if row != nil {
-		t.Error("expected A01 (non-billable header) to return not found on exact match")
+	if result.Valid {
+		t.Error("expected A01 (non-billable header) to return not found")
 	}
 }

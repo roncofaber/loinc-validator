@@ -84,7 +84,7 @@ See [`examples/README.md`](examples/README.md) for individual codes to try in th
 ├── internal/
 │   ├── coding/
 │   │   ├── codec.go               # Codec interface + shared Result/Suggestion types
-│   │   └── client.go              # Shared NIH HTTP client (codec-agnostic)
+│   │   └── client.go              # ExactMatch helper (shared response utility)
 │   ├── loinc/
 │   │   ├── codec.go               # LOINC Codec implementation
 │   │   ├── client.go              # LOINC API wrapper (extra fields: units, datatype, etc.)
@@ -158,10 +158,8 @@ The app is built around a `coding.Codec` interface (`internal/coding/codec.go`) 
 
 **ICD-10-CM is the proof of concept** for this design. It was added without modifying any handler, routing logic, shared template, or CSS.
 
-### Why LOINC has its own HTTP client but other systems don't
+### Per-system HTTP clients
 
-The NIH Clinical Tables API is consistent across all coding systems: same response format (`[total, codes, extra, displayFields]`), same query parameters, same field structure. A single shared client in `internal/coding/client.go` handles all systems generically.
+Each coding system owns its own HTTP client within its package (`loinc/codec.go`, `icd10/codec.go`). This is intentional — the `ef=` (extra fields) parameter is a general NIH Clinical Tables API feature available on all endpoints, but each system exposes different fields. LOINC uses it to fetch units of measure, data type, and synonym terms. ICD-10-CM only exposes `code` and `name` with no additional fields available via `ef=`. Future systems may expose their own extra fields.
 
-LOINC is the exception: it uniquely supports `ef=` (extra fields) for retrieving structured metadata like units of measure, data type, and related synonym terms — data that requires a separate HTTP parameter and a more complex response parsing path. This lives in `internal/loinc/client.go` and is accessed via the `ValidateWithExtras` method on the LOINC codec.
-
-Every other NIH Clinical Tables API (ICD-10-CM included) returns only `code` and `name`, so the shared client is sufficient and no system-specific client is needed.
+By keeping the HTTP logic in each codec, every system is fully self-contained and can evolve independently. The shared `internal/coding/client.go` contains only `ExactMatch` — a small utility for finding an exact-match row in an API response array.

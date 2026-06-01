@@ -12,11 +12,10 @@ import (
 type SimilarHandler struct {
 	tmpl  *template.Template
 	codec coding.Codec
-	http  *coding.HTTPClient
 }
 
 func NewSimilarHandler(tmpl *template.Template, codec coding.Codec) *SimilarHandler {
-	return &SimilarHandler{tmpl: tmpl, codec: codec, http: coding.NewHTTPClient()}
+	return &SimilarHandler{tmpl: tmpl, codec: codec}
 }
 
 func (h *SimilarHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
@@ -36,13 +35,9 @@ func (h *SimilarHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		wg.Add(1)
 		go func(idx int, c string) {
 			defer wg.Done()
-			rows, err := h.http.Validate(h.codec, c)
-			if err != nil {
-				return
-			}
-			row, _ := coding.ExactMatch(rows, c)
-			if row != nil {
-				results[idx] = h.codec.Parse(row)
+			res, err := h.codec.Validate(c)
+			if err == nil {
+				results[idx] = res
 			}
 		}(i, candidate)
 	}

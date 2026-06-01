@@ -18,11 +18,10 @@ const maxFileSize = 5 << 20
 type BatchHandler struct {
 	tmpl  *template.Template
 	codec coding.Codec
-	http  *coding.HTTPClient
 }
 
 func NewBatchHandler(tmpl *template.Template, codec coding.Codec) *BatchHandler {
-	return &BatchHandler{tmpl: tmpl, codec: codec, http: coding.NewHTTPClient()}
+	return &BatchHandler{tmpl: tmpl, codec: codec}
 }
 
 type batchSummary struct {
@@ -115,17 +114,12 @@ func (h *BatchHandler) validateConcurrent(codes []string) []coding.Result {
 				results[idx] = coding.Result{Code: c, Error: err.Error(), CheckedAt: time.Now()}
 				return
 			}
-			rows, err := h.http.Validate(h.codec, c)
+			res, err := h.codec.Validate(c)
 			if err != nil {
 				results[idx] = coding.Result{Code: c, Error: "API error: " + err.Error(), CheckedAt: time.Now()}
 				return
 			}
-			row, _ := coding.ExactMatch(rows, c)
-			if row == nil {
-				results[idx] = coding.Result{Code: c, CheckedAt: time.Now()}
-				return
-			}
-			results[idx] = h.codec.Parse(row)
+			results[idx] = res
 		}(i, code)
 	}
 

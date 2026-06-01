@@ -142,12 +142,6 @@ body {
 .tab-panel { display: none; }
 .tab-panel.active {
   display: block;
-  animation: tabFadeIn 0.15s ease;
-}
-
-@keyframes tabFadeIn {
-  from { opacity: 0; }
-  to   { opacity: 1; }
 }
 
 /* ── Section cards ──────────────────────────────────────────── */

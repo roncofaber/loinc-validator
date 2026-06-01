@@ -1,3 +1,8 @@
+// This file contains the LOINC-specific NIH API client. It exists separately
+// from internal/coding/client.go because the LOINC API uniquely supports the
+// ef= (extra fields) parameter, returning structured metadata such as units of
+// measure, data type, and related synonym terms. All other NIH Clinical Tables
+// APIs return only code and name, and are handled by the shared client.
 package loinc
 
 import (

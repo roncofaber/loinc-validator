@@ -12,11 +12,10 @@ import (
 type SuggestHandler struct {
 	tmpl  *template.Template
 	codec coding.Codec
-	http  *coding.HTTPClient
 }
 
 func NewSuggestHandler(tmpl *template.Template, codec coding.Codec) *SuggestHandler {
-	return &SuggestHandler{tmpl: tmpl, codec: codec, http: coding.NewHTTPClient()}
+	return &SuggestHandler{tmpl: tmpl, codec: codec}
 }
 
 type suggestion struct {
@@ -31,7 +30,7 @@ func (h *SuggestHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	rows, err := h.http.Suggest(h.codec, q, 6)
+	rows, err := h.codec.Suggest(q, 6)
 	if err != nil {
 		w.WriteHeader(http.StatusOK)
 		return
