@@ -355,7 +355,7 @@ input[type="file"] {
 
 .result-fields td {
   padding: 0.3rem 0;
-  vertical-align: top;
+  vertical-align: middle;
 }
 
 .result-fields td:first-child {
@@ -383,6 +383,11 @@ input[type="file"] {
   font-size: 0.8rem;
   color: var(--text-muted);
   line-height: 1.6;
+  vertical-align: top;
+}
+
+.result-fields tr:has(.related) td:first-child {
+  vertical-align: top;
 }
 
 /* ── Progress bar ────────────────────────────────────────────── */
