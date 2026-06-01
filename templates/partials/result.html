@@ -68,7 +68,7 @@
   {{if or .ShortName .Component .DataType .Units .RelatedNames}}
   <details>
     <summary>Advanced details</summary>
-    <table class="result-fields" style="margin-top:0.75rem;">
+    <table class="result-fields mt-sm">
       {{if .ShortName}}<tr><td>Short name</td><td>{{.ShortName}}</td></tr>{{end}}
       {{if .Component}}<tr><td>Component</td><td>{{.Component}}</td></tr>{{end}}
       {{if .DataType}}<tr><td>Data type</td><td>{{.DataType}}</td></tr>{{end}}

@@ -1,17 +1,17 @@
 {{if .Error}}
-<div class="result-box error" style="margin-top:1rem;">
+<div class="result-box error mt-md">
   <span class="status-badge error-tag">Error</span>
   <p>{{.Error}}</p>
 </div>
 {{else}}
-<div style="margin-top:1rem;">
+<div class="mt-md">
   <div class="summary-bar">
     <span class="summary-pill valid">{{.Summary.Valid}} valid</span>
     <span class="summary-pill invalid">{{.Summary.Invalid}} invalid</span>
     {{if .Summary.Errors}}<span class="summary-pill warn">{{.Summary.Errors}} errors</span>{{end}}
     <span class="summary-pill neutral">{{.Summary.Total}} total</span>
 
-    <form method="post" action="/export" style="margin-left:auto;">
+    <form method="post" action="/export" class="ml-auto">
       <input type="hidden" name="results" value="{{.ResultsJSON}}">
       <input type="hidden" name="system" value="{{.SystemID}}">
       <button class="btn btn-sm" type="submit">↓ Export CSV</button>

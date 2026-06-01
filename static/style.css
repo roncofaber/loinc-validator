@@ -79,7 +79,7 @@ body {
   line-height: 1.15;
 }
 
-.h1-loinc {
+.h1-primary {
   font-family: var(--font-mono);
   font-weight: 500;
   color: var(--text);
@@ -621,6 +621,11 @@ details summary::-webkit-details-marker { display: none; }
   margin-top: 0.75rem;
   line-height: 1.5;
 }
+
+/* ── Utility spacing ─────────────────────────────────────────── */
+.mt-sm   { margin-top: 0.75rem; }
+.mt-md   { margin-top: 1rem; }
+.ml-auto { margin-left: auto; }
 
 /* ── Batch results ──────────────────────────────────────────── */
 .summary-bar {
