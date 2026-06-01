@@ -3,9 +3,13 @@
   {{range .}}
   <li class="suggest-item"
       onmousedown="event.preventDefault();
-                   document.getElementById('code').value='{{.Code}}';
-                   document.getElementById('suggestions').innerHTML='';
-                   document.getElementById('single-form').requestSubmit();">
+                   var wrap = this.closest('.input-wrap');
+                   var input = wrap.querySelector('input[type=text]');
+                   var dropdown = wrap.querySelector('.suggest-dropdown');
+                   var form = input.closest('form');
+                   input.value='{{.Code}}';
+                   dropdown.innerHTML='';
+                   form.requestSubmit();">
     <span class="suggest-code">{{.Code}}</span>
     <span class="suggest-name">{{.Name}}</span>
   </li>
