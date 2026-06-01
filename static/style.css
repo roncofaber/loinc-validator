@@ -711,9 +711,21 @@ details summary::-webkit-details-marker { display: none; }
   line-height: 1.6;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   flex-wrap: wrap;
-  gap: 0.5rem;
+  gap: 0 1.25rem;
+}
+
+.site-footer > * + * {
+  position: relative;
+}
+
+.site-footer > * + *::before {
+  content: '·';
+  position: absolute;
+  left: -0.75rem;
+  color: var(--border-dark);
+  pointer-events: none;
 }
 
 .site-footer a {
