@@ -30,6 +30,7 @@ type resultData struct {
 	Deprecated    bool
 	CheckedAt    time.Time
 	Error        string
+	Suggestion   *loinc.Suggestion // set when check digit is wrong
 }
 
 func (h *ValidateHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
@@ -41,7 +42,20 @@ func (h *ValidateHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	code := strings.TrimSpace(r.FormValue("code"))
 
 	if err := loinc.ValidateFormat(code); err != nil {
-		h.tmpl.ExecuteTemplate(w, "result.html", resultData{Error: err.Error()})
+		data := resultData{Error: err.Error()}
+
+		// If the only problem is the check digit, look up the corrected code
+		// and offer it as a clickable suggestion.
+		if corrected := loinc.CorrectedCode(code); corrected != "" {
+			if res, apiErr := h.client.Validate(corrected); apiErr == nil && res.Valid {
+				data.Suggestion = &loinc.Suggestion{
+					Code: res.Code,
+					Name: res.Name,
+				}
+			}
+		}
+
+		h.tmpl.ExecuteTemplate(w, "result.html", data)
 		return
 	}
 

@@ -47,6 +47,22 @@ type Suggestion struct {
 // CheckDigit computes the LOINC Mod-10 check digit for the numeric prefix.
 func CheckDigit(prefix string) int { return checkDigit(prefix) }
 
+// CorrectedCode returns the code with the correct check digit if the only
+// problem is a wrong check digit, or empty string for any other error.
+func CorrectedCode(code string) string {
+	code = strings.TrimSpace(code)
+	if !loincPattern.MatchString(code) {
+		return ""
+	}
+	parts := strings.SplitN(code, "-", 2)
+	submitted := int(parts[1][0] - '0')
+	expected := checkDigit(parts[0])
+	if submitted == expected {
+		return "" // no check digit error
+	}
+	return fmt.Sprintf("%s-%d", parts[0], expected)
+}
+
 // checkDigit computes the LOINC Mod-10 check digit for the numeric prefix.
 // Each digit is processed right-to-left; even-indexed positions (0-based from
 // the right) are doubled, with values > 9 reduced by 9.

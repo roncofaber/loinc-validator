@@ -2,6 +2,21 @@
 <div class="result-box error">
   <span class="status-badge error-tag">Error</span>
   <p>{{.Error}}</p>
+  {{if .Suggestion}}
+  <div class="similar-suggestions">
+    <p class="similar-label">Did you mean?</p>
+    <ul class="suggest-list">
+      <li class="suggest-item"
+          onmousedown="event.preventDefault();
+                       document.getElementById('code').value='{{.Suggestion.Code}}';
+                       document.getElementById('suggestions').innerHTML='';
+                       document.getElementById('single-form').requestSubmit();">
+        <span class="suggest-code">{{.Suggestion.Code}}</span>
+        <span class="suggest-name">{{.Suggestion.Name}}</span>
+      </li>
+    </ul>
+  </div>
+  {{end}}
 </div>
 {{else if .Valid}}
 <div class="result-box valid">
