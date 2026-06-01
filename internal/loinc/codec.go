@@ -1,14 +1,9 @@
 package loinc
 
 import (
-	"fmt"
-	"io"
 	"net/http"
-	"net/url"
 	"strings"
 	"time"
-
-	"encoding/json"
 
 	"github.com/roncofaber/loinc-validator/internal/coding"
 )
@@ -64,7 +59,7 @@ func (c *LOINCCodec) Validate(code string) (coding.Result, error) {
 
 // Suggest queries the LOINC API for autocomplete candidates.
 func (c *LOINCCodec) Suggest(query string, maxList int) ([][]string, error) {
-	return search(c.httpClient, loincSearchURL, loincSearchFields, loincDisplayFields, query, maxList)
+	return coding.Search(c.httpClient, loincSearchURL, loincSearchFields, loincDisplayFields, query, maxList)
 }
 
 func (c *LOINCCodec) Parse(fields []string) coding.Result {
@@ -116,40 +111,3 @@ func transpositionCandidates(code string) []string {
 	return candidates
 }
 
-// search is a shared helper for NIH Clinical Tables API calls.
-func search(client *http.Client, baseURL, sf, df, term string, maxList int) ([][]string, error) {
-	params := url.Values{}
-	params.Set("terms", term)
-	params.Set("sf", sf)
-	params.Set("df", df)
-	params.Set("maxList", fmt.Sprintf("%d", maxList))
-
-	resp, err := client.Get(baseURL + "?" + params.Encode())
-	if err != nil {
-		return nil, fmt.Errorf("API request failed: %w", err)
-	}
-	defer resp.Body.Close()
-
-	if resp.StatusCode != http.StatusOK {
-		return nil, fmt.Errorf("API returned status %d", resp.StatusCode)
-	}
-
-	body, err := io.ReadAll(resp.Body)
-	if err != nil {
-		return nil, fmt.Errorf("reading response: %w", err)
-	}
-
-	var raw []json.RawMessage
-	if err := json.Unmarshal(body, &raw); err != nil {
-		return nil, fmt.Errorf("parsing response: %w", err)
-	}
-	if len(raw) < 4 {
-		return nil, fmt.Errorf("unexpected response structure")
-	}
-
-	var rows [][]string
-	if err := json.Unmarshal(raw[3], &rows); err != nil {
-		return nil, fmt.Errorf("parsing display fields: %w", err)
-	}
-	return rows, nil
-}

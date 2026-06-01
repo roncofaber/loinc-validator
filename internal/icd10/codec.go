@@ -7,6 +7,7 @@ import (
 	"github.com/roncofaber/loinc-validator/internal/coding"
 )
 
+
 const (
 	icd10SearchURL     = "https://clinicaltables.nlm.nih.gov/api/icd10cm/v3/search"
 	icd10SearchFields  = "code,name"
@@ -35,7 +36,7 @@ func (c *ICD10Codec) ValidateFormat(code string) error {
 
 // Validate queries the ICD-10-CM API for the given code and returns the result.
 func (c *ICD10Codec) Validate(code string) (coding.Result, error) {
-	rows, err := search(c.httpClient, icd10SearchURL, icd10SearchFields, icd10DisplayFields, code, 5)
+	rows, err := coding.Search(c.httpClient, icd10SearchURL, icd10SearchFields, icd10DisplayFields, code, 5)
 	if err != nil {
 		return coding.Result{Code: code, CheckedAt: time.Now()}, err
 	}
@@ -48,7 +49,7 @@ func (c *ICD10Codec) Validate(code string) (coding.Result, error) {
 
 // Suggest queries the ICD-10-CM API for autocomplete candidates.
 func (c *ICD10Codec) Suggest(query string, maxList int) ([][]string, error) {
-	return search(c.httpClient, icd10SearchURL, icd10SearchFields, icd10DisplayFields, query, maxList)
+	return coding.Search(c.httpClient, icd10SearchURL, icd10SearchFields, icd10DisplayFields, query, maxList)
 }
 
 func (c *ICD10Codec) Parse(fields []string) coding.Result {
