@@ -47,9 +47,11 @@ func (h *BatchHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	r.Body = http.MaxBytesReader(w, r.Body, maxFileSize)
 	file, _, err := r.FormFile("file")
 	if err != nil {
-		h.tmpl.ExecuteTemplate(w, "batch_result.html", batchTemplateData{
-			Error: "Please upload a file (no file received).",
-		})
+		msg := "Please upload a file (no file received)."
+		if err.Error() == "http: request body too large" {
+			msg = "File too large — maximum size is 5 MB."
+		}
+		h.tmpl.ExecuteTemplate(w, "batch_result.html", batchTemplateData{Error: msg})
 		return
 	}
 	defer file.Close()
