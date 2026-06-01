@@ -2,27 +2,20 @@
 
 **Live:** https://loinc-validator.fly.dev &nbsp;|&nbsp; **Source:** https://github.com/roncofaber/loinc-validator
 
-A multi-system medical code validator supporting LOINC and ICD-10-CM, built with Go and HTMX against the [NIH Clinical Tables API](https://clinicaltables.nlm.nih.gov/).
+Validates medical codes against the [NIH Clinical Tables API](https://clinicaltables.nlm.nih.gov/), built with Go and HTMX. Currently supports **LOINC v2.82** and **ICD-10-CM v2026**.
 
 ## Features
 
-### LOINC (v2.82)
-- **Single code validation** — enter a LOINC code and instantly see if it's valid, along with its name, short name, component, data type, units, and related terms
-- **Check digit validation** — the Mod-10 check digit is verified locally before hitting the API; wrong check digits produce a specific correction suggestion (e.g. *"did you mean 2345-7?"*)
-- **Deprecated code detection** — codes whose name begins with "Deprecated" are flagged with a warning (see Limitations for coverage details)
-- **LP Part / LG Group detection** — LOINC Part (`LP…`) and Group (`LG…`) identifiers are explicitly rejected with a clear explanation
-- **Batch validation** — upload a plain text or CSV file (one code per line) and get a full validation report; lines starting with `#` are treated as comments
-- **CSV export** — download batch results as a timestamped CSV file with metadata (code, valid, deprecated, name, checked-at time)
-- **Clear error handling** — empty input, malformed codes, wrong check digits, API errors, and no-match cases are all handled with specific, actionable messages
+- **Single code validation**: displays name and metadata; system-specific details (LOINC: component, data type, units, related terms; ICD-10-CM: diagnosis name)
+- **Batch validation**: upload a plain text or CSV file (one code per line, `#` comments supported); per-row status in results table
+- **Format validation**: structural checks before hitting the API (LOINC Mod-10 check digit with correction suggestion; ICD-10-CM spec compliance)
+- **Similar code suggestions**: LOINC: adjacent-digit transpositions with recomputed check digit; ICD-10-CM: prefix truncation, decimal expansion, and missing decimal detection 
+- **Live autocomplete**: search by code or name for both systems
+- **Deprecated code detection**: LOINC codes flagged via name prefix; LP Part / LG Group identifiers explicitly rejected with clear explanation
+- **CSV export**: timestamped file with code, valid, deprecated, name, checked-at, error columns
+- **Extensible**: adding a third system (e.g. HCPCS, RxNorm) requires one codec file, one template, one line in `main.go`
 
-### ICD-10-CM (v2026)
-- **Single code validation** — enter an ICD-10-CM diagnosis code and see if it exists in the NIH database
-- **Format validation** — validates structure (letter + 2 digits + optional decimal + up to 4 alphanumeric characters); all letters A–Z are accepted, including U (U07.1 COVID-19, U09.9 long COVID are valid billable codes)
-- **Autocomplete** — search by code or diagnosis name; works for both systems independently
-- **Batch validation** — same file upload and CSV export as LOINC
-- **Extensible architecture** — adding a third system (e.g. HCPCS) requires only one new codec file and one line in `main.go`
-
-## Local Setup
+## Setup
 
 **Prerequisites:** Go 1.22+ (developed with Go 1.26)
 
@@ -33,17 +26,12 @@ go run .
 # Open http://localhost:8080
 ```
 
-## Running Tests
+## Tests
 
 ```bash
-# Unit tests only
-go test ./...
-
-# Include LOINC integration tests against the real NIH API (requires internet)
-LOINC_INTEGRATION=1 go test ./...
-
-# Include ICD-10-CM integration tests
-ICD10_INTEGRATION=1 go test ./...
+go test ./...                     # unit tests
+LOINC_INTEGRATION=1 go test ./... # real LOINC API
+ICD10_INTEGRATION=1 go test ./... # real ICD-10-CM API
 ```
 
 ## Docker
@@ -51,121 +39,61 @@ ICD10_INTEGRATION=1 go test ./...
 ```bash
 docker build -t loinc-validator .
 docker run -p 8080:8080 loinc-validator
-# Open http://localhost:8080
 ```
-
-## Deployment (Fly.io)
-
-```bash
-# Install flyctl: https://fly.io/docs/hands-on/install-flyctl/
-flyctl auth login
-flyctl deploy
-```
-
-The app will be available at `https://loinc-validator.fly.dev` (or the name configured in `fly.toml`).
 
 ## Examples
 
-The [`examples/`](examples/) directory contains ready-to-use test inputs:
-
-| File | Description |
-|------|-------------|
-| [`loinc_batch_common_labs.txt`](examples/loinc_batch_common_labs.txt) | 20 most common lab codes — all active |
-| [`loinc_batch_vital_signs.txt`](examples/loinc_batch_vital_signs.txt) | 8 vital sign codes — all active |
-| [`loinc_batch_mixed_status.txt`](examples/loinc_batch_mixed_status.txt) | Mix of active, deprecated, discouraged, invalid, and malformed codes — exercises every result type |
-| [`loinc_batch_large.txt`](examples/loinc_batch_large.txt) | 500 active codes across 19 clinical domains — good for testing batch performance and CSV export |
-
-See [`examples/README.md`](examples/README.md) for individual codes to try in the single-code validator.
+See [`examples/`](examples/) and [`examples/README.md`](examples/README.md) for ready-to-use batch files for both systems.
 
 ## Project Structure
 
 ```
-├── main.go                        # HTTP server, dynamic route registration per codec
+├── main.go
 ├── internal/
 │   ├── coding/
-│   │   ├── codec.go               # Codec interface + shared Result/Suggestion types
-│   │   └── client.go              # ExactMatch helper (shared response utility)
+│   │   ├── codec.go      # Codec interface + Result/Suggestion types
+│   │   └── utils.go      # Search(), ExactMatch(), NewHTTPClient()
 │   ├── loinc/
-│   │   ├── codec.go               # LOINC Codec implementation
-│   │   ├── client.go              # LOINC API wrapper (extra fields: units, datatype, etc.)
-│   │   ├── format.go              # LOINC format validation + Mod-10 check digit
-│   │   ├── client_test.go         # Unit tests (mocked HTTP)
-│   │   ├── format_test.go         # Table-driven format tests
-│   │   └── integration_test.go    # Real API smoke tests
+│   │   ├── codec.go      # LOINC Codec
+│   │   ├── client.go     # LOINC API client (ef= extra fields)
+│   │   └── format.go     # Format validation + Mod-10 check digit
 │   ├── icd10/
-│   │   ├── codec.go               # ICD-10-CM Codec implementation
-│   │   ├── format.go              # ICD-10-CM format validation
-│   │   ├── format_test.go         # Table-driven format tests
-│   │   ├── codec_test.go          # Unit tests
-│   │   └── integration_test.go    # Real API smoke tests
-│   └── handlers/
-│       ├── templates.go           # Template loader (base + partials + system tabs)
-│       ├── validate.go            # POST /{system}/validate
-│       ├── batch.go               # POST /{system}/batch
-│       ├── suggest.go             # GET /{system}/suggest (autocomplete)
-│       ├── similar.go             # GET /{system}/suggest-similar
-│       └── export.go              # POST /export (system-agnostic)
+│   │   ├── codec.go      # ICD-10-CM Codec
+│   │   ├── client.go     # Delegates to coding.Search()
+│   │   └── format.go     # ICD-10-CM format validation
+│   └── handlers/         # validate, batch, suggest, similar, export
 ├── templates/
-│   ├── index.html                 # Tab bar + panels
-│   ├── loinc/tab.html             # LOINC form content
-│   ├── icd10/tab.html             # ICD-10-CM form content
-│   └── partials/
-│       ├── result.html            # Single-code result fragment (shared)
-│       ├── batch_result.html      # Batch result table (shared)
-│       ├── suggest.html           # Autocomplete dropdown (shared)
-│       └── similar.html          # "Did you mean?" suggestions (shared)
-├── static/style.css               # All styles via CSS variables — no inline styles
-└── examples/                      # Ready-to-use test files for both systems
+│   ├── index.html        # Tab bar + panels
+│   ├── icons.html        # Named SVG templates
+│   ├── loinc/tab.html
+│   ├── icd10/tab.html
+│   └── partials/         # result, batch_result, suggest, similar
+└── static/style.css      # CSS variables
 ```
 
 ## Strengths
 
-- **Single binary, no runtime dependencies** — the entire app compiles to one ~8MB static binary. Deployment is trivial.
-- **No frontend build step** — HTMX is loaded from CDN. Changing the UI means editing HTML templates only, with no npm, no bundler, no build step.
-- **Concurrent batch processing** — up to 10 codes are validated in parallel, bounded to be respectful of the NIH API.
-- **Stateless server** — no database required; batch results are embedded as JSON in the HTML response and passed to the export endpoint by the browser.
-- **Clean separation of concerns** — the NIH API wrapper, format validator, and HTTP handlers are independent units with well-defined interfaces and their own tests.
+- **Single static binary** — no runtime dependencies, no frontend build step; HTMX loaded from CDN.
+- **Three-layer LOINC validation** — regex shape → Mod-10 check digit (local) → API existence. Each layer fails with a specific, actionable message.
+- **Codec interface** — handlers are fully system-agnostic; each coding system is self-contained with its own client, format validator, and codec.
+- **Concurrent batch processing** — up to 10 concurrent API calls, bounded to be respectful of the NIH API.
+- **Stateless server** — no database required; batch results travel through the browser for export.
+- **Go test conventions** — unit tests co-located with code, mocked HTTP transports, integration tests gated by environment variables.
 
 ## Limitations
 
-- **Rate limiting** — the NIH API has no documented rate limit, but very large batches (1000+ codes) may be slow or throttled. The 10-worker cap is a courtesy measure, not a guarantee.
-- **No persistence** — results exist only within the browser session. Closing the tab loses the batch results (though the CSV can be exported first).
-- **Format regex is a shape filter only** — the regex `^\d+-\d$` validates only the structural shape of an observation code (one or more digits, a dash, exactly one check digit). It intentionally imposes no upper length bound on the numeric prefix, since LOINC codes are assigned sequentially and will eventually exceed any fixed cap. Real validation is done by the check digit (catches typos) and the API lookup (catches non-existent codes).
-- **No E2E tests** — browser-level testing (loading states, HTMX fragment swaps) is not covered. This is a known gap.
-- **JSON in hidden form field** — batch results are passed to `/export` as a JSON-encoded hidden field. For very large batches this field grows proportionally; a session store would be the production solution.
-- **Deprecated code detection is heuristic** — the NIH API does not expose a `STATUS` field, so we cannot distinguish `ACTIVE`, `DEPRECATED`, `DISCOURAGED`, or `TRIAL` codes server-side. As a partial mitigation, codes whose name begins with `"Deprecated "` are flagged with a warning in the UI and CSV — this covers the majority of deprecated codes but not all (LOINC 2.82 has ~589 deprecated codes without this prefix, and ~1,378 discouraged codes which are not flagged at all). A production-grade solution would bundle the LOINC release table locally and cross-reference `STATUS` at validation time, at the cost of periodic table updates when new LOINC releases are published (approximately twice per year).
-- **LOINC version is hardcoded** — the NIH Clinical Tables API does not expose the LOINC release version it serves in any machine-readable way (no response header, no dedicated endpoint). The version shown in the footer (`loincVersion` constant in `main.go`) must be updated manually when LOINC publishes a new release. The API docs page uses a JavaScript function `showVersion()` to display the version client-side, but the underlying endpoint is not publicly documented or stable.
-- **ICD-10-CM non-billable category headers** — codes like `A01` (Typhoid and paratyphoid fevers) are valid ICD-10-CM concepts used to organise the tabular list but cannot be used for billing. The NIH API correctly returns them as "not found" on exact lookup. A production system would load the CMS tabular list locally to distinguish billable vs non-billable codes explicitly.
-- **ICD-10-CM retired codes** — the API does not expose whether a code has been retired in a prior year's release. Codes entered by users that were valid in older releases may return as "not found" without explanation.
-- **ICD-10-CM similarity search is prefix-based only** — unlike LOINC, ICD-10-CM has no check digit, so transposition-based suggestions are not possible. Instead, the validator tries progressively shorter prefix variants (e.g. `E11.99` → `E11.9`, `E11`) to surface near-matches. The autocomplete complements this for name-based discovery.
-- **No replacement code suggestions for deprecated codes** — the LOINC release ships a `MapTo.csv` file mapping each deprecated code to its active replacement (with a comment indicating context when multiple replacements exist, e.g. Ordinal vs Quantitative). The NIH API does not expose this mapping. A future improvement would load `MapTo.csv` at startup and surface the replacement code and name alongside the deprecation warning, saving users the manual lookup.
+- **Deprecated/discouraged status** — the NIH API does not expose `STATUS`. Deprecated codes are detected heuristically via name prefix ("Deprecated ") — covers most but not all cases. Discouraged and TRIAL codes are not flagged.
+- **No MapTo suggestions** — `MapTo.csv` in the LOINC release maps deprecated codes to active replacements; the API does not expose this mapping.
+- **LOINC version hardcoded** — the API exposes no machine-readable version; `loincVersion` in `main.go` must be updated manually with each LOINC release (~twice per year).
+- **ICD-10-CM non-billable headers** — category codes (e.g. `A01`) return "not found" from the API; the similar suggestions machinery surfaces billable children as alternatives.
+- **ICD-10-CM retired codes** — the API does not indicate whether a code has been retired in a prior release.
+- **Batch results in hidden field** — the JSON payload grows with batch size; a session store would be the production solution for very large files.
+- **No E2E tests** — HTMX fragment swaps and browser interactions are not covered.
 
 ## Technical Choices
 
-Go's standard library + HTMX is a strong fit for this use case: the app is primarily a thin layer between a user form and an external API. The HTMX model (server returns HTML fragments, not JSON) eliminates the need for a separate frontend API contract, a build pipeline, and client-side state management.
+Go stdlib + HTMX: the app is a thin layer between a form and an external API. HTMX eliminates a frontend build pipeline and JSON API contract. No web framework keeps the dependency surface minimal and the code auditable — relevant for a healthcare-adjacent tool.
 
-Using only the Go standard library (no web framework) keeps the dependency surface minimal and the code easy to audit — relevant for a healthcare-adjacent tool where understanding every layer of the stack matters. The single-binary deployment model also simplifies operations significantly.
+The `coding.Codec` interface decouples systems from handlers. Each system owns its HTTP client — LOINC uses `ef=` for rich extra fields; ICD-10-CM delegates to the shared `coding.Search()` since its API exposes only code and name. Adding HCPCS or RxNorm follows the same pattern: one codec, one template, one registration.
 
-The main trade-off of this stack is an interactivity ceiling: if the app were to grow into a rich dashboard with client-side filtering, sorting, or real-time updates, HTMX would need to be supplemented or replaced. For this scope, it is the right choice.
-
-### Extensible multi-system architecture
-
-The app is built around a `coding.Codec` interface (`internal/coding/codec.go`) that every medical coding system implements. All HTTP handlers, routing, and UI are system-agnostic — they operate on the interface, not on any specific system. Adding a new coding system (e.g. HCPCS, RxNorm, HPO) requires exactly three changes:
-
-1. `internal/<system>/codec.go` — implement the `Codec` interface
-2. `templates/<system>/tab.html` — the form UI for that system
-3. One line in `main.go` — add the codec to the slice
-
-**ICD-10-CM is the proof of concept** for this design. It was added without modifying any handler, routing logic, shared template, or CSS.
-
-### Known architectural improvements
-
-- **Per-system result templates** — the shared `templates/partials/result.html` uses `{{if .ShortName}}` / `{{if .DataType}}` guards to conditionally show LOINC-specific fields. As more systems are added with their own optional fields, this template will accumulate more conditionals. The cleaner pattern is per-system result partials (`templates/loinc/result.html`, `templates/icd10/result.html`) dispatched by `SystemID`, following the same approach already used for `tab.html`. Each system template then renders exactly what it has, with no cross-system conditionals.
-
-- **HTTP client factory** — both `loinc/codec.go` and `icd10/codec.go` instantiate `&http.Client{Timeout: 10 * time.Second}` directly. A `coding.NewHTTPClient()` factory in `utils.go` would give a single place to tune timeouts, add transport-level settings (retries, TLS config), or instrument requests across all systems.
-
-### Per-system HTTP clients
-
-Each coding system owns its own HTTP client within its package (`loinc/codec.go`, `icd10/codec.go`). This is intentional — the `ef=` (extra fields) parameter is a general NIH Clinical Tables API feature available on all endpoints, but each system exposes different fields. LOINC uses it to fetch units of measure, data type, and synonym terms. ICD-10-CM only exposes `code` and `name` with no additional fields available via `ef=`. Future systems may expose their own extra fields.
-
-By keeping the HTTP logic in each codec, every system is fully self-contained and can evolve independently. The shared `internal/coding/client.go` contains only `ExactMatch` — a small utility for finding an exact-match row in an API response array.
+**Known improvement:** per-system result templates (e.g. `loinc/result.html`) would replace the conditional guards in the shared `partials/result.html` as more systems with different optional fields are added.
