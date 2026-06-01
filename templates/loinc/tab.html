@@ -31,6 +31,7 @@
              hx-include="this"
              hx-params="code"
              hx-indicator="#loinc-suggest-progress"
+             hx-on:htmx:after-swap="var d=document.getElementById('loinc-suggestions'); if(!d.textContent.trim()) d.innerHTML='';"
              onclick="document.getElementById('loinc-suggestions').innerHTML=''"
              onblur="setTimeout(function(){document.getElementById('loinc-suggestions').innerHTML=''},200)">
       <div id="loinc-suggestions" class="suggest-dropdown"></div>
