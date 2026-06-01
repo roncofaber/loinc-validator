@@ -4,6 +4,8 @@
 
 Validates medical codes against the [NIH Clinical Tables API](https://clinicaltables.nlm.nih.gov/), built with Go and HTMX. Currently supports **LOINC v2.82** and **ICD-10-CM v2026**.
 
+> Built as a submission for the **Swiss Data Science Center (SDSC)** Software R&D Engineer task on a LOINC code validator. The core ask was a web app to validate a single LOINC code against the NIH API. For the task-specific write-up — scope, what was built in the timeframe, development process and AI assistance, and future work — see [`SUBMISSION.md`](SUBMISSION.md).
+
 ## Features
 
 - **Single code validation**: displays name and metadata; system-specific details (LOINC: component, data type, units, related terms; ICD-10-CM: diagnosis name)
@@ -82,20 +84,16 @@ See [`examples/`](examples/) and [`examples/README.md`](examples/README.md) for 
 
 - The app is a **single static binary** with no runtime dependencies and no frontend build step.
 - The **modular structure** of each coding system is self-contained with its own client, format validator, and codec. This makes extending the app to support other NIH APIs trivial. The ICD-10-CM integration on top of LOINC is an example.
-- For **batch processing**, up to 10 concurrent API calls are made (the limit is set to not abuse of the NIH API). This makes batch file analysis faster.
-- **Stateless server**: no database required; batch results travel directly through the browser for export (this could also be a long-term limitation...).
+- For **batch processing**, up to 10 concurrent API calls are made (the limit is set to avoid overloading the NIH API). This makes batch file analysis faster.
+- **Stateless server**: no database required; batch results travel directly through the browser for export (which is also a scaling limitation — see [Limitations](#limitations)).
 
 ## Limitations
 
 - **Deprecated/discouraged status**: for LOINC, the NIH API does not expose `STATUS`. Deprecated codes are detected via name prefix ("Deprecated "). This covers most but not all cases. Discouraged and TRIAL codes are not properly flagged.
 - **No MapTo suggestions**: `MapTo.csv` in the LOINC release maps deprecated codes to active replacements; the API does not expose this mapping.
-- **LOINC version hardcoded**: the API exposes no machine-readable version; `loincVersion` in `main.go` must be updated manually with each LOINC release.
+- **LOINC version hardcoded**: the API exposes no machine-readable version; `loincVersion` in `internal/loinc/codec.go` must be updated manually with each LOINC release.
 - **Batch results in hidden field**: the JSON payload grows with batch size; a session store would be the production solution for very large files.
 
 ## Technical Choices
 
-Go stdlib + HTMX: the app is a thin layer between a form and an external API. HTMX eliminates a frontend build pipeline and JSON API contract. No web framework keeps the dependency surface minimal.
-
-The coding.Codec interface keeps handlers independent of the underlying system. Under the hood, each system manages its own API calls. LOINC needs a dedicated client because it fetches extra fields like units and synonyms via the ef= parameter, while ICD-10-CM only returns code and name so it can share the generic coding.Search(). The result is that adding HCPCS, RxNorm, or any other NIH Clinical Tables endpoint is straightforward: implement the interface, add a tab template, and register it in main.go.
-
-**Known improvement:** per-system result templates (e.g. `loinc/result.html`) would replace the conditional guards in the shared `partials/result.html` as more systems with different optional fields are added.
+See [`SUBMISSION.md` → Technical choices](SUBMISSION.md#technical-choices) for the rationale behind the stack and the `Codec` architecture.

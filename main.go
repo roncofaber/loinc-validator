@@ -24,10 +24,10 @@ func main() {
 
 	for _, codec := range codecs {
 		id := codec.SystemID()
-		mux.Handle("/"+id+"/validate",        handlers.NewValidateHandler(tmpl, codec))
-		mux.Handle("/"+id+"/suggest",         handlers.NewSuggestHandler(tmpl, codec))
+		mux.Handle("/"+id+"/validate", handlers.NewValidateHandler(tmpl, codec))
+		mux.Handle("/"+id+"/suggest", handlers.NewSuggestHandler(tmpl, codec))
 		mux.Handle("/"+id+"/suggest-similar", handlers.NewSimilarHandler(tmpl, codec))
-		mux.Handle("/"+id+"/batch",           handlers.NewBatchHandler(tmpl, codec))
+		mux.Handle("/"+id+"/batch", handlers.NewBatchHandler(tmpl, codec))
 	}
 
 	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
