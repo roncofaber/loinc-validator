@@ -83,7 +83,7 @@ func TestValidateFormatCheckDigitMessage(t *testing.T) {
 	if !strings.Contains(msg, "expected 7") {
 		t.Errorf("expected error to mention 'expected 7', got: %s", msg)
 	}
-	if !strings.Contains(msg, "2345-7") {
-		t.Errorf("expected error to suggest '2345-7', got: %s", msg)
+	if !strings.Contains(msg, "expected 7") {
+		t.Errorf("expected error to mention 'expected 7', got: %s", msg)
 	}
 }

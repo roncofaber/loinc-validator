@@ -32,8 +32,8 @@ func ValidateFormat(code string) error {
 	expected := checkDigit(parts[0])
 
 	if submitted != expected {
-		return fmt.Errorf("invalid check digit for %q: expected %d, got %d — did you mean %s-%d?",
-			code, expected, submitted, parts[0], expected)
+		return fmt.Errorf("invalid check digit for %q: expected %d, got %d",
+			code, expected, submitted)
 	}
 	return nil
 }
