@@ -1,11 +1,12 @@
-# LOINC Code Validator
+# Medical Code Validator
 
 **Live:** https://loinc-validator.fly.dev &nbsp;|&nbsp; **Source:** https://github.com/roncofaber/loinc-validator
 
-A web application for validating LOINC codes against the [NIH Clinical Tables API](https://clinicaltables.nlm.nih.gov/apidoc/loinc/v3/doc.html), built with Go and HTMX.
+A multi-system medical code validator supporting LOINC and ICD-10-CM, built with Go and HTMX against the [NIH Clinical Tables API](https://clinicaltables.nlm.nih.gov/).
 
 ## Features
 
+### LOINC (v2.82)
 - **Single code validation** — enter a LOINC code and instantly see if it's valid, along with its name, short name, component, data type, units, and related terms
 - **Check digit validation** — the Mod-10 check digit is verified locally before hitting the API; wrong check digits produce a specific correction suggestion (e.g. *"did you mean 2345-7?"*)
 - **Deprecated code detection** — codes whose name begins with "Deprecated" are flagged with a warning (see Limitations for coverage details)
@@ -13,6 +14,13 @@ A web application for validating LOINC codes against the [NIH Clinical Tables AP
 - **Batch validation** — upload a plain text or CSV file (one code per line) and get a full validation report; lines starting with `#` are treated as comments
 - **CSV export** — download batch results as a timestamped CSV file with metadata (code, valid, deprecated, name, checked-at time)
 - **Clear error handling** — empty input, malformed codes, wrong check digits, API errors, and no-match cases are all handled with specific, actionable messages
+
+### ICD-10-CM (v2026)
+- **Single code validation** — enter an ICD-10-CM diagnosis code and see if it exists in the NIH database
+- **Format validation** — validates structure (letter + 2 digits + optional decimal + up to 4 alphanumeric characters); rejects `U` prefix (reserved for ICD-11)
+- **Autocomplete** — search by code or diagnosis name; works for both systems independently
+- **Batch validation** — same file upload and CSV export as LOINC
+- **Extensible architecture** — adding a third system (e.g. HCPCS) requires only one new codec file and one line in `main.go`
 
 ## Local Setup
 
@@ -31,8 +39,11 @@ go run .
 # Unit tests only
 go test ./...
 
-# Include integration tests against the real NIH API (requires internet)
+# Include LOINC integration tests against the real NIH API (requires internet)
 LOINC_INTEGRATION=1 go test ./...
+
+# Include ICD-10-CM integration tests
+ICD10_INTEGRATION=1 go test ./...
 ```
 
 ## Docker
@@ -106,6 +117,9 @@ See [`examples/README.md`](examples/README.md) for individual codes to try in th
 - **JSON in hidden form field** — batch results are passed to `/export` as a JSON-encoded hidden field. For very large batches this field grows proportionally; a session store would be the production solution.
 - **Deprecated code detection is heuristic** — the NIH API does not expose a `STATUS` field, so we cannot distinguish `ACTIVE`, `DEPRECATED`, `DISCOURAGED`, or `TRIAL` codes server-side. As a partial mitigation, codes whose name begins with `"Deprecated "` are flagged with a warning in the UI and CSV — this covers the majority of deprecated codes but not all (LOINC 2.82 has ~589 deprecated codes without this prefix, and ~1,378 discouraged codes which are not flagged at all). A production-grade solution would bundle the LOINC release table locally and cross-reference `STATUS` at validation time, at the cost of periodic table updates when new LOINC releases are published (approximately twice per year).
 - **LOINC version is hardcoded** — the NIH Clinical Tables API does not expose the LOINC release version it serves in any machine-readable way (no response header, no dedicated endpoint). The version shown in the footer (`loincVersion` constant in `main.go`) must be updated manually when LOINC publishes a new release. The API docs page uses a JavaScript function `showVersion()` to display the version client-side, but the underlying endpoint is not publicly documented or stable.
+- **ICD-10-CM non-billable category headers** — codes like `A01` (Typhoid and paratyphoid fevers) are valid ICD-10-CM concepts used to organise the tabular list but cannot be used for billing. The NIH API correctly returns them as "not found" on exact lookup. A production system would load the CMS tabular list locally to distinguish billable vs non-billable codes explicitly.
+- **ICD-10-CM retired codes** — the API does not expose whether a code has been retired in a prior year's release. Codes entered by users that were valid in older releases may return as "not found" without explanation.
+- **ICD-10-CM no similarity search** — unlike LOINC, ICD-10-CM has no check digit, so transposition-based "did you mean?" suggestions are not available. The autocomplete covers the discovery use case.
 - **No replacement code suggestions for deprecated codes** — the LOINC release ships a `MapTo.csv` file mapping each deprecated code to its active replacement (with a comment indicating context when multiple replacements exist, e.g. Ordinal vs Quantitative). The NIH API does not expose this mapping. A future improvement would load `MapTo.csv` at startup and surface the replacement code and name alongside the deprecation warning, saving users the manual lookup.
 
 ## Technical Choices
