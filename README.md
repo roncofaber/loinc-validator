@@ -17,7 +17,7 @@ A multi-system medical code validator supporting LOINC and ICD-10-CM, built with
 
 ### ICD-10-CM (v2026)
 - **Single code validation** — enter an ICD-10-CM diagnosis code and see if it exists in the NIH database
-- **Format validation** — validates structure (letter + 2 digits + optional decimal + up to 4 alphanumeric characters); rejects `U` prefix (reserved for ICD-11)
+- **Format validation** — validates structure (letter + 2 digits + optional decimal + up to 4 alphanumeric characters); all letters A–Z are accepted, including U (U07.1 COVID-19, U09.9 long COVID are valid billable codes)
 - **Autocomplete** — search by code or diagnosis name; works for both systems independently
 - **Batch validation** — same file upload and CSV export as LOINC
 - **Extensible architecture** — adding a third system (e.g. HCPCS) requires only one new codec file and one line in `main.go`
@@ -80,24 +80,42 @@ See [`examples/README.md`](examples/README.md) for individual codes to try in th
 ## Project Structure
 
 ```
-├── main.go                        # HTTP server, route registration
+├── main.go                        # HTTP server, dynamic route registration per codec
 ├── internal/
+│   ├── coding/
+│   │   ├── codec.go               # Codec interface + shared Result/Suggestion types
+│   │   └── client.go              # Shared NIH HTTP client (codec-agnostic)
 │   ├── loinc/
-│   │   ├── client.go              # NIH API wrapper
-│   │   ├── format.go              # LOINC code format validation
+│   │   ├── codec.go               # LOINC Codec implementation
+│   │   ├── client.go              # LOINC API wrapper (extra fields: units, datatype, etc.)
+│   │   ├── format.go              # LOINC format validation + Mod-10 check digit
 │   │   ├── client_test.go         # Unit tests (mocked HTTP)
 │   │   ├── format_test.go         # Table-driven format tests
 │   │   └── integration_test.go    # Real API smoke tests
+│   ├── icd10/
+│   │   ├── codec.go               # ICD-10-CM Codec implementation
+│   │   ├── format.go              # ICD-10-CM format validation
+│   │   ├── format_test.go         # Table-driven format tests
+│   │   ├── codec_test.go          # Unit tests
+│   │   └── integration_test.go    # Real API smoke tests
 │   └── handlers/
-│       ├── templates.go           # Template loader
-│       ├── validate.go            # POST /validate
-│       ├── batch.go               # POST /batch
-│       └── export.go              # POST /export
-└── templates/
-    ├── index.html                 # Main page
-    └── partials/
-        ├── result.html            # Single-code result fragment
-        └── batch_result.html      # Batch result table fragment
+│       ├── templates.go           # Template loader (base + partials + system tabs)
+│       ├── validate.go            # POST /{system}/validate
+│       ├── batch.go               # POST /{system}/batch
+│       ├── suggest.go             # GET /{system}/suggest (autocomplete)
+│       ├── similar.go             # GET /{system}/suggest-similar
+│       └── export.go              # POST /export (system-agnostic)
+├── templates/
+│   ├── index.html                 # Tab bar + panels
+│   ├── loinc/tab.html             # LOINC form content
+│   ├── icd10/tab.html             # ICD-10-CM form content
+│   └── partials/
+│       ├── result.html            # Single-code result fragment (shared)
+│       ├── batch_result.html      # Batch result table (shared)
+│       ├── suggest.html           # Autocomplete dropdown (shared)
+│       └── similar.html          # "Did you mean?" suggestions (shared)
+├── static/style.css               # All styles via CSS variables — no inline styles
+└── examples/                      # Ready-to-use test files for both systems
 ```
 
 ## Strengths
@@ -119,7 +137,7 @@ See [`examples/README.md`](examples/README.md) for individual codes to try in th
 - **LOINC version is hardcoded** — the NIH Clinical Tables API does not expose the LOINC release version it serves in any machine-readable way (no response header, no dedicated endpoint). The version shown in the footer (`loincVersion` constant in `main.go`) must be updated manually when LOINC publishes a new release. The API docs page uses a JavaScript function `showVersion()` to display the version client-side, but the underlying endpoint is not publicly documented or stable.
 - **ICD-10-CM non-billable category headers** — codes like `A01` (Typhoid and paratyphoid fevers) are valid ICD-10-CM concepts used to organise the tabular list but cannot be used for billing. The NIH API correctly returns them as "not found" on exact lookup. A production system would load the CMS tabular list locally to distinguish billable vs non-billable codes explicitly.
 - **ICD-10-CM retired codes** — the API does not expose whether a code has been retired in a prior year's release. Codes entered by users that were valid in older releases may return as "not found" without explanation.
-- **ICD-10-CM no similarity search** — unlike LOINC, ICD-10-CM has no check digit, so transposition-based "did you mean?" suggestions are not available. The autocomplete covers the discovery use case.
+- **ICD-10-CM similarity search is prefix-based only** — unlike LOINC, ICD-10-CM has no check digit, so transposition-based suggestions are not possible. Instead, the validator tries progressively shorter prefix variants (e.g. `E11.99` → `E11.9`, `E11`) to surface near-matches. The autocomplete complements this for name-based discovery.
 - **No replacement code suggestions for deprecated codes** — the LOINC release ships a `MapTo.csv` file mapping each deprecated code to its active replacement (with a comment indicating context when multiple replacements exist, e.g. Ordinal vs Quantitative). The NIH API does not expose this mapping. A future improvement would load `MapTo.csv` at startup and surface the replacement code and name alongside the deprecation warning, saving users the manual lookup.
 
 ## Technical Choices
