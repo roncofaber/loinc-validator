@@ -86,6 +86,8 @@
 {{end}}
 
 <script>
+// Re-process HTMX on injected content so hx-trigger="load" fires correctly.
+htmx.process(document.currentScript.parentElement);
 function copyText(btn, text) {
   navigator.clipboard.writeText(text).then(function() {
     btn.classList.add('copy-btn--done');

@@ -5,9 +5,14 @@
     {{range .}}
     <li class="suggest-item"
         onmousedown="event.preventDefault();
-                     document.getElementById('code').value='{{.Code}}';
-                     document.getElementById('suggestions').innerHTML='';
-                     document.getElementById('single-form').requestSubmit();">
+                     var container = this.closest('[id$="-similar-results"]') || this.closest('.result-box');
+                     var panel = container.closest('.tab-panel');
+                     var input = panel ? panel.querySelector('input[type=text]') : document.querySelector('input[type=text]');
+                     var form = input.closest('form');
+                     var dropdown = panel ? panel.querySelector('.suggest-dropdown') : document.querySelector('.suggest-dropdown');
+                     input.value='{{.Code}}';
+                     if(dropdown) dropdown.innerHTML='';
+                     form.requestSubmit();">
       <span class="suggest-code">{{.Code}}</span>
       <span class="suggest-name">{{.Name}}</span>
     </li>
