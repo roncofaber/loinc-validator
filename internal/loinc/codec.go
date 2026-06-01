@@ -9,10 +9,11 @@ import (
 )
 
 const (
-	loincSearchURL     = "https://clinicaltables.nlm.nih.gov/api/loinc_items/v3/search"
-	loincSearchFields  = "LOINC_NUM"
-	loincDisplayFields = "LOINC_NUM,LONG_COMMON_NAME,SHORTNAME,COMPONENT"
-	loincVersion       = "2.82"
+	loincSearchURL        = "https://clinicaltables.nlm.nih.gov/api/loinc_items/v3/search"
+	loincSearchFields     = "LOINC_NUM"
+	loincSuggestFields    = "LOINC_NUM,LONG_COMMON_NAME"
+	loincDisplayFields    = "LOINC_NUM,LONG_COMMON_NAME,SHORTNAME,COMPONENT"
+	loincVersion          = "2.82"
 )
 
 // LOINCCodec implements coding.Codec for LOINC observation codes.
@@ -57,9 +58,9 @@ func (c *LOINCCodec) Validate(code string) (coding.Result, error) {
 	}, nil
 }
 
-// Suggest queries the LOINC API for autocomplete candidates.
+// Suggest queries the LOINC API for autocomplete candidates by code or name.
 func (c *LOINCCodec) Suggest(query string, maxList int) ([][]string, error) {
-	return coding.Search(c.httpClient, loincSearchURL, loincSearchFields, loincDisplayFields, query, maxList)
+	return coding.Search(c.httpClient, loincSearchURL, loincSuggestFields, loincDisplayFields, query, maxList)
 }
 
 func (c *LOINCCodec) Parse(fields []string) coding.Result {
