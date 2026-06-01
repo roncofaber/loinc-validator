@@ -147,3 +147,21 @@ Go's standard library + HTMX is a strong fit for this use case: the app is prima
 Using only the Go standard library (no web framework) keeps the dependency surface minimal and the code easy to audit — relevant for a healthcare-adjacent tool where understanding every layer of the stack matters. The single-binary deployment model also simplifies operations significantly.
 
 The main trade-off of this stack is an interactivity ceiling: if the app were to grow into a rich dashboard with client-side filtering, sorting, or real-time updates, HTMX would need to be supplemented or replaced. For this scope, it is the right choice.
+
+### Extensible multi-system architecture
+
+The app is built around a `coding.Codec` interface (`internal/coding/codec.go`) that every medical coding system implements. All HTTP handlers, routing, and UI are system-agnostic — they operate on the interface, not on any specific system. Adding a new coding system (e.g. HCPCS, RxNorm, HPO) requires exactly three changes:
+
+1. `internal/<system>/codec.go` — implement the `Codec` interface
+2. `templates/<system>/tab.html` — the form UI for that system
+3. One line in `main.go` — add the codec to the slice
+
+**ICD-10-CM is the proof of concept** for this design. It was added without modifying any handler, routing logic, shared template, or CSS.
+
+### Why LOINC has its own HTTP client but other systems don't
+
+The NIH Clinical Tables API is consistent across all coding systems: same response format (`[total, codes, extra, displayFields]`), same query parameters, same field structure. A single shared client in `internal/coding/client.go` handles all systems generically.
+
+LOINC is the exception: it uniquely supports `ef=` (extra fields) for retrieving structured metadata like units of measure, data type, and related synonym terms — data that requires a separate HTTP parameter and a more complex response parsing path. This lives in `internal/loinc/client.go` and is accessed via the `ValidateWithExtras` method on the LOINC codec.
+
+Every other NIH Clinical Tables API (ICD-10-CM included) returns only `code` and `name`, so the shared client is sufficient and no system-specific client is needed.
