@@ -158,6 +158,12 @@ The app is built around a `coding.Codec` interface (`internal/coding/codec.go`) 
 
 **ICD-10-CM is the proof of concept** for this design. It was added without modifying any handler, routing logic, shared template, or CSS.
 
+### Known architectural improvements
+
+- **Per-system result templates** — the shared `templates/partials/result.html` uses `{{if .ShortName}}` / `{{if .DataType}}` guards to conditionally show LOINC-specific fields. As more systems are added with their own optional fields, this template will accumulate more conditionals. The cleaner pattern is per-system result partials (`templates/loinc/result.html`, `templates/icd10/result.html`) dispatched by `SystemID`, following the same approach already used for `tab.html`. Each system template then renders exactly what it has, with no cross-system conditionals.
+
+- **HTTP client factory** — both `loinc/codec.go` and `icd10/codec.go` instantiate `&http.Client{Timeout: 10 * time.Second}` directly. A `coding.NewHTTPClient()` factory in `utils.go` would give a single place to tune timeouts, add transport-level settings (retries, TLS config), or instrument requests across all systems.
+
 ### Per-system HTTP clients
 
 Each coding system owns its own HTTP client within its package (`loinc/codec.go`, `icd10/codec.go`). This is intentional — the `ef=` (extra fields) parameter is a general NIH Clinical Tables API feature available on all endpoints, but each system exposes different fields. LOINC uses it to fetch units of measure, data type, and synonym terms. ICD-10-CM only exposes `code` and `name` with no additional fields available via `ef=`. Future systems may expose their own extra fields.
