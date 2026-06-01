@@ -1,0 +1,78 @@
+{{define "loinc/tab.html"}}
+<section class="card">
+  <p class="card-title">Single Code</p>
+  <button class="card-reset" id="loinc-single-reset" aria-label="Clear"
+          onclick="document.getElementById('loinc-single-form').reset();
+                   document.getElementById('loinc-result').innerHTML='';
+                   document.getElementById('loinc-suggestions').innerHTML='';
+                   this.style.display='none';"
+          style="display:none">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
+      <path d="M3 3v5h5"/>
+    </svg>
+    Clear
+  </button>
+  <form id="loinc-single-form"
+        hx-post="/loinc/validate"
+        hx-target="#loinc-result"
+        hx-swap="innerHTML"
+        hx-indicator="#loinc-single-indicator"
+        hx-on:submit="document.getElementById('loinc-suggestions').innerHTML='';
+                      document.getElementById('loinc-single-reset').style.display='flex';">
+    <label for="loinc-code">LOINC Code or name</label>
+    <div class="input-wrap">
+      <input type="text" id="loinc-code" name="code" placeholder="e.g. 2345-7 or &quot;glucose&quot;"
+             autocomplete="off" spellcheck="false"
+             hx-get="/loinc/suggest"
+             hx-trigger="input changed delay:300ms"
+             hx-target="#loinc-suggestions"
+             hx-swap="innerHTML"
+             hx-include="this"
+             hx-params="code"
+             hx-indicator="#loinc-suggest-progress"
+             onclick="document.getElementById('loinc-suggestions').innerHTML=''"
+             onblur="setTimeout(function(){document.getElementById('loinc-suggestions').innerHTML=''},200)">
+      <div id="loinc-suggestions" class="suggest-dropdown"></div>
+      <div class="progress-bar" id="loinc-suggest-progress"></div>
+    </div>
+    <div style="margin-top:0.75rem;">
+      <button class="btn" type="submit">Validate</button>
+      <span id="loinc-single-indicator" class="indicator">Checking</span>
+    </div>
+  </form>
+  <div id="loinc-result"></div>
+</section>
+
+<section class="card">
+  <p class="card-title">Batch Validation</p>
+  <button class="card-reset" id="loinc-batch-reset" aria-label="Clear"
+          onclick="document.getElementById('loinc-batch-form').reset();
+                   document.getElementById('loinc-batch-result').innerHTML='';
+                   this.style.display='none';"
+          style="display:none">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
+      <path d="M3 3v5h5"/>
+    </svg>
+    Clear
+  </button>
+  <form id="loinc-batch-form"
+        hx-post="/loinc/batch"
+        hx-target="#loinc-batch-result"
+        hx-swap="innerHTML"
+        hx-indicator="#loinc-batch-indicator, #loinc-batch-progress"
+        hx-encoding="multipart/form-data"
+        hx-on:submit="document.getElementById('loinc-batch-reset').style.display='flex';">
+    <label for="loinc-file">File upload</label>
+    <p class="hint">Plain text or CSV — one LOINC code per line. Lines starting with # are ignored.</p>
+    <input type="file" id="loinc-file" name="file" accept=".txt,.csv">
+    <div>
+      <button class="btn" type="submit">Validate File</button>
+      <span id="loinc-batch-indicator" class="indicator">Processing</span>
+    </div>
+  </form>
+  <div class="progress-bar" id="loinc-batch-progress"></div>
+  <div id="loinc-batch-result"></div>
+</section>
+{{end}}

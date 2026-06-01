@@ -8,9 +8,9 @@
     <ul class="suggest-list">
       <li class="suggest-item"
           onmousedown="event.preventDefault();
-                       document.getElementById('code').value='{{.Suggestion.Code}}';
-                       document.getElementById('suggestions').innerHTML='';
-                       document.getElementById('single-form').requestSubmit();">
+                       document.getElementById('{{.SystemID}}-code').value='{{.Suggestion.Code}}';
+                       document.getElementById('{{.SystemID}}-suggestions').innerHTML='';
+                       document.getElementById('{{.SystemID}}-single-form').requestSubmit();">
         <span class="suggest-code">{{.Suggestion.Code}}</span>
         <span class="suggest-name">{{.Suggestion.Name}}</span>
       </li>
@@ -18,8 +18,8 @@
   </div>
   {{end}}
   {{if .SimilarCode}}
-  <div id="similar-results"
-       hx-get="/suggest-similar?code={{.SimilarCode}}"
+  <div id="{{.SystemID}}-similar-results"
+       hx-get="/{{.SystemID}}/suggest-similar?code={{.SimilarCode}}"
        hx-trigger="load"
        hx-swap="innerHTML">
   </div>
@@ -65,26 +65,18 @@
     </tr>
   </table>
 
+  {{if or .ShortName .Component .DataType .Units .RelatedNames}}
   <details>
     <summary>Advanced details</summary>
     <table class="result-fields" style="margin-top:0.75rem;">
-      {{if .ShortName}}
-      <tr><td>Short name</td><td>{{.ShortName}}</td></tr>
-      {{end}}
-      {{if .Component}}
-      <tr><td>Component</td><td>{{.Component}}</td></tr>
-      {{end}}
-      {{if .DataType}}
-      <tr><td>Data type</td><td>{{.DataType}}</td></tr>
-      {{end}}
-      {{if .Units}}
-      <tr><td>Units</td><td>{{range $i, $u := .Units}}{{if $i}}, {{end}}{{$u}}{{end}}</td></tr>
-      {{end}}
-      {{if .RelatedNames}}
-      <tr><td>Related</td><td class="related">{{.RelatedNames}}</td></tr>
-      {{end}}
+      {{if .ShortName}}<tr><td>Short name</td><td>{{.ShortName}}</td></tr>{{end}}
+      {{if .Component}}<tr><td>Component</td><td>{{.Component}}</td></tr>{{end}}
+      {{if .DataType}}<tr><td>Data type</td><td>{{.DataType}}</td></tr>{{end}}
+      {{if .Units}}<tr><td>Units</td><td>{{range $i, $u := .Units}}{{if $i}}, {{end}}{{$u}}{{end}}</td></tr>{{end}}
+      {{if .RelatedNames}}<tr><td>Related</td><td class="related">{{.RelatedNames}}</td></tr>{{end}}
     </table>
   </details>
+  {{end}}
 </div>
 {{if .Deprecated}}
 <div class="deprecated-warn">
@@ -94,9 +86,9 @@
 {{else}}
 <div class="result-box invalid">
   <span class="status-badge invalid">Not found</span>
-  <p><span class="code-value">{{.Code}}</span> was not found in the LOINC database.</p>
-  <div id="similar-results"
-       hx-get="/suggest-similar?code={{.Code}}"
+  <p><span class="code-value">{{.Code}}</span> was not found in the database.</p>
+  <div id="{{.SystemID}}-similar-results"
+       hx-get="/{{.SystemID}}/suggest-similar?code={{.Code}}"
        hx-trigger="load"
        hx-swap="innerHTML">
   </div>
@@ -107,9 +99,7 @@
 function copyText(btn, text) {
   navigator.clipboard.writeText(text).then(function() {
     btn.classList.add('copy-btn--done');
-    setTimeout(function() {
-      btn.classList.remove('copy-btn--done');
-    }, 1500);
+    setTimeout(function() { btn.classList.remove('copy-btn--done'); }, 1500);
   });
 }
 </script>

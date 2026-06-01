@@ -1,0 +1,78 @@
+{{define "icd10/tab.html"}}
+<section class="card">
+  <p class="card-title">Single Code</p>
+  <button class="card-reset" id="icd10-single-reset" aria-label="Clear"
+          onclick="document.getElementById('icd10-single-form').reset();
+                   document.getElementById('icd10-result').innerHTML='';
+                   document.getElementById('icd10-suggestions').innerHTML='';
+                   this.style.display='none';"
+          style="display:none">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
+      <path d="M3 3v5h5"/>
+    </svg>
+    Clear
+  </button>
+  <form id="icd10-single-form"
+        hx-post="/icd10/validate"
+        hx-target="#icd10-result"
+        hx-swap="innerHTML"
+        hx-indicator="#icd10-single-indicator"
+        hx-on:submit="document.getElementById('icd10-suggestions').innerHTML='';
+                      document.getElementById('icd10-single-reset').style.display='flex';">
+    <label for="icd10-code">ICD-10-CM Code or name</label>
+    <div class="input-wrap">
+      <input type="text" id="icd10-code" name="code" placeholder="e.g. E11.9 or &quot;diabetes&quot;"
+             autocomplete="off" spellcheck="false"
+             hx-get="/icd10/suggest"
+             hx-trigger="input changed delay:300ms"
+             hx-target="#icd10-suggestions"
+             hx-swap="innerHTML"
+             hx-include="this"
+             hx-params="code"
+             hx-indicator="#icd10-suggest-progress"
+             onclick="document.getElementById('icd10-suggestions').innerHTML=''"
+             onblur="setTimeout(function(){document.getElementById('icd10-suggestions').innerHTML=''},200)">
+      <div id="icd10-suggestions" class="suggest-dropdown"></div>
+      <div class="progress-bar" id="icd10-suggest-progress"></div>
+    </div>
+    <div style="margin-top:0.75rem;">
+      <button class="btn" type="submit">Validate</button>
+      <span id="icd10-single-indicator" class="indicator">Checking</span>
+    </div>
+  </form>
+  <div id="icd10-result"></div>
+</section>
+
+<section class="card">
+  <p class="card-title">Batch Validation</p>
+  <button class="card-reset" id="icd10-batch-reset" aria-label="Clear"
+          onclick="document.getElementById('icd10-batch-form').reset();
+                   document.getElementById('icd10-batch-result').innerHTML='';
+                   this.style.display='none';"
+          style="display:none">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
+      <path d="M3 3v5h5"/>
+    </svg>
+    Clear
+  </button>
+  <form id="icd10-batch-form"
+        hx-post="/icd10/batch"
+        hx-target="#icd10-batch-result"
+        hx-swap="innerHTML"
+        hx-indicator="#icd10-batch-indicator, #icd10-batch-progress"
+        hx-encoding="multipart/form-data"
+        hx-on:submit="document.getElementById('icd10-batch-reset').style.display='flex';">
+    <label for="icd10-file">File upload</label>
+    <p class="hint">Plain text or CSV — one ICD-10-CM code per line. Lines starting with # are ignored.</p>
+    <input type="file" id="icd10-file" name="file" accept=".txt,.csv">
+    <div>
+      <button class="btn" type="submit">Validate File</button>
+      <span id="icd10-batch-indicator" class="indicator">Processing</span>
+    </div>
+  </form>
+  <div class="progress-bar" id="icd10-batch-progress"></div>
+  <div id="icd10-batch-result"></div>
+</section>
+{{end}}
