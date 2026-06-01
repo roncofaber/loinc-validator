@@ -1,0 +1,12 @@
+# Common ICD-10-CM diagnosis codes
+# Source: ICD-10-CM April 2026 release, billable codes only
+# All codes are valid and billable
+
+E11.9  # Type 2 diabetes mellitus without complications
+I10  # Essential (primary) hypertension
+J06.9  # Acute upper respiratory infection, unspecified
+M54.5  # Low back pain
+Z00.00  # Encounter for general adult medical exam without abnormal findings
+S00.00XA  # Unspecified superficial injury of scalp, initial encounter
+F32.1  # Major depressive disorder, single episode, moderate
+Z23  # Encounter for immunization

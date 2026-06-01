@@ -185,9 +185,19 @@ ICD-10-CM has no check digit. `SimilarCandidates` returns `nil`. The `similar.go
 
 ICD-10-CM API returns `[code, name]` only. The `Parse` method populates `Code` and `Name`. `ShortName`, `Component`, `DataType`, `Units`, and `RelatedNames` are empty — the advanced details section renders nothing.
 
+### API vs Local Database
+
+The official ICD-10-CM April 2026 release (`icd10cm-order-April-1-2026.txt`) contains **74,719 billable codes** and **23,467 non-billable header/category codes** (e.g. `A01` — "Typhoid and paratyphoid fevers" — is a valid category but cannot be used on a claim). Key findings from comparing the local data against the NIH API:
+
+- **The API uses dot notation** — local file stores `A0102`, API returns `A01.02`. Our format validation must accept dot notation.
+- **The API only returns billable leaf codes on exact match** — category headers (`A01`, `A00`) return no exact match from the API, making them correctly "not found" even though they exist in ICD-10-CM as organisational concepts. This is correct behaviour for a billing/coding validator.
+- **No status field** — the API does not expose whether a code is active or retired. Validation accuracy is limited to what the NIH API returns.
+
+A production system would load the local release file at startup to distinguish billable vs non-billable codes and detect retired codes. For this app, the API is sufficient and the limitation is documented.
+
 ### Deprecation / Retired Codes
 
-ICD-10-CM codes are revised annually by CMS. The API does not expose a status field, so retired codes cannot be detected at runtime — identical limitation to LOINC's discouraged codes. This is documented in the README. The NIH API data version is "2026", so codes in the API are current for 2026; codes entered by users that predate 2026 may be retired without warning.
+ICD-10-CM codes are revised annually by CMS. The API does not expose a status field, so retired codes cannot be detected at runtime — identical limitation to LOINC's discouraged codes. This is documented in the README. The NIH API data version is "2026", so codes in the API are current for 2026; codes entered by users that predate 2026 may be retired without warning. Additionally, **non-billable category header codes** (e.g. `A01`, `M54`) will correctly return "not found" from the API even though they appear in the ICD-10-CM tabular list — this is expected behaviour since they cannot be used for billing.
 
 ### API Fields
 

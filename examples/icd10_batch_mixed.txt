@@ -1,0 +1,20 @@
+# Mixed ICD-10-CM batch — exercises all result types
+
+# Valid billable codes
+E11.9  # Type 2 diabetes mellitus without complications
+I10  # Essential (primary) hypertension
+J06.9  # Acute upper respiratory infection, unspecified
+M54.5  # Low back pain
+
+# Non-billable header codes (exist in ICD-10-CM but API returns not found)
+S30.95  # Unspecified superficial injury of vagina and vulva — NON-BILLABLE HEADER
+T24.492  # Corros unsp deg mult sites of left lower limb, except ank/ft — NON-BILLABLE HEADER
+O29.8X  # Other complications of anesthesia during pregnancy — NON-BILLABLE HEADER
+
+# Non-existent codes
+Z99.99  # Does not exist
+A00.99  # Does not exist
+
+# Malformed codes
+123  # wrong format
+U07.1  # U is excluded from ICD-10-CM (reserved for ICD-11)

@@ -1,6 +1,6 @@
-# Example LOINC Codes
+# Example Codes
 
-This folder contains example codes and batch files for testing the LOINC Code Validator.
+This folder contains example codes and batch files for testing the validator.
 
 ## Single codes to try
 
@@ -18,7 +18,7 @@ This folder contains example codes and batch files for testing the LOINC Code Va
 | `abc` | Malformed input | Format error |
 | `` | Empty input | Format error |
 
-## Batch files
+## LOINC Batch files
 
 | File | Contents |
 |------|----------|
@@ -26,3 +26,23 @@ This folder contains example codes and batch files for testing the LOINC Code Va
 | `batch_vital_signs.txt` | Vital sign codes — all active |
 | `batch_mixed_status.txt` | Mix of active, deprecated, discouraged, invalid, and malformed codes |
 | `batch_large.txt` | 500 active codes sampled across clinical domains (chemistry, microbiology, hematology, drug/tox, serology, allergy, radiology, H&P, panels, coagulation, urinalysis, cardiology, vital signs, pathology) — good for testing performance and batch export |
+
+## ICD-10-CM Single codes to try
+
+| Code | Description | Expected result |
+|------|-------------|-----------------|
+| `E11.9` | Type 2 diabetes mellitus without complications | Valid |
+| `I10` | Essential (primary) hypertension | Valid |
+| `S00.00XA` | Scalp injury, initial encounter (X placeholder) | Valid |
+| `A01` | Typhoid and paratyphoid fevers (category header) | Not found — non-billable |
+| `U07.1` | COVID-19 (U reserved — invalid in ICD-10-CM) | Format error |
+| `Z99.99` | Non-existent code | Not found |
+| `123` | Malformed input | Format error |
+
+## ICD-10-CM Batch files
+
+| File | Contents |
+|------|----------|
+| `icd10_batch_common.txt` | 8 common diagnosis codes — all billable |
+| `icd10_batch_large.txt` | ~83 billable codes across all chapters (A–Z excl. U), including X-placeholder and 7-character codes |
+| `icd10_batch_mixed.txt` | Mix of valid billable, non-billable headers (correctly "not found"), non-existent, and malformed codes |

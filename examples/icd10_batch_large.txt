@@ -1,0 +1,89 @@
+# Large ICD-10-CM batch — ~80 billable codes sampled across all chapters (A-Z excl U)
+# Source: ICD-10-CM April 2026 release
+# Includes codes with X placeholders and 7-character codes
+
+O25.3  # Malnutrition in the puerperium
+K92.1  # Melena
+N35.010  # Post-traumatic urethral stricture, male, meatal
+D03.122  # Melanoma in situ of left lower eyelid, including canthus
+G05.3  # Encephalitis and encephalomyelitis in diseases classd elswhr
+X96.1XXS  # Assault by gasoline bomb, sequela
+C43.71  # Malignant melanoma of right lower limb, including hip
+G83.24  # Monoplegia of upper limb affecting left nondominant side
+V03.02XS  # Ped on sktbrd inj pick-up truck, pk-up/van nontraf, sequela
+K85.81  # Other acute pancreatitis with uninfected necrosis
+D44.0  # Neoplasm of uncertain behavior of thyroid gland
+A18.53  # Tuberculous chorioretinitis
+L97.824  # Non-prs chronic ulcer oth prt l low leg w necrosis of bone
+H59.353  # Postproc seroma of eye and adnexa fol an opth procedure, bi
+M26.34  # Vertical displacement of fully erupted tooth or teeth
+T23.011D  # Burn of unsp degree of right thumb (nail), subs encntr
+T50.Z93S  # Poisn by oth vaccines and biolg substnc, assault, sequela
+E05.40  # Thyrotoxicosis factitia without thyrotoxic crisis or storm
+Y36.221D  # War op involving explosion of guided missile, civilian, subs
+P04.11  # Newborn affected by maternal antineoplastic chemotherapy
+B08.5  # Enteroviral vesicular pharyngitis
+Z94.0  # Kidney transplant status
+O36.73X1  # Matern care for viable fetus in abd preg, third tri, fetus 1
+W33.11XD  # Accidental malfunction of shotgun, subsequent encounter
+A03.0  # Shigellosis due to Shigella dysenteriae
+I82.210  # Acute embolism and thrombosis of superior vena cava
+S24.131S  # Anterior cord syndrome at T1, sequela
+M48.48XA  # Fatigue fracture of vertebra, sacr/sacrocygl region, init
+U07.1  # COVID-19
+S63.106D  # Unspecified dislocation of unspecified thumb, subs encntr
+C90.31  # Solitary plasmacytoma in remission
+H66.009  # Acute suppr otitis media w/o spon rupt ear drum, unsp ear
+O26.72  # Subluxation of symphysis (pubis) in childbirth
+J67.8  # Hypersensitivity pneumonitis due to other organic dusts
+N20.2  # Calculus of kidney with calculus of ureter
+V01.10XD  # Ped on foot injured in collision w pedl cyc in traf, subs
+L97.205  # Non-prs chr ulcer of unsp calf with msl invl w/o evd of necr
+F13.130  # Sedatv/hyp/anxiolytc abuse with withdrawal, uncomplicated
+C40.81  # Malig neoplm of ovrlp sites of bone/artic cartl of r limb
+F19.24  # Oth psychoactive substance dependence w mood disorder
+Y35.003D  # Legal intervnt w unsp firearm disch, suspect injured, subs
+J35.2  # Hypertrophy of adenoids
+W26.1XXD  # Contact with sword or dagger, subsequent encounter
+U07.0  # Vaping-related disorder
+X95.9XXS  # Assault by unspecified firearm discharge, sequela
+V81.81XS  # Occ of rail trn/veh inj d/t explosn or fire on train, sqla
+Q72.51  # Longitudinal reduction defect of right tibia
+S61.213D  # Laceration w/o fb of l mid finger w/o damage to nail, subs
+Z80.6  # Family history of leukemia
+M65.269  # Calcific tendinitis, unspecified lower leg
+E08.3543  # Diabetes with prolif diabetic rtnop with combined detach, bi
+B25.8  # Other cytomegaloviral diseases
+F33.2  # Major depressv disorder, recurrent severe w/o psych features
+I70.513  # Athscl nonaut bio bypass of extrm w intrmt claud, bi legs
+X08.8XXS  # Exposure to other specified smoke, fire and flames, sequela
+R35.81  # Nocturnal polyuria
+A48.4  # Brazilian purpuric fever
+R07.89  # Other chest pain
+E10.22  # Type 1 diabetes mellitus w diabetic chronic kidney disease
+B26.89  # Other mumps complications
+U09.9  # Post COVID-19 condition, unspecified
+Q52.124  # Longitudinal vaginal septum, microperforate, left side
+R94.110  # Abnormal electro-oculogram [EOG]
+N95.9  # Unspecified menopausal and perimenopausal disorder
+J94.8  # Other specified pleural conditions
+Y37.010A  # Milt op involving explosion of depth-charge, milt, init
+Q98.6  # Male with structurally abnormal sex chromosome
+T82.867D  # Thrombosis due to cardiac prosth dev/grft, subs
+Z68.26  # Body mass index [BMI] 26.0-26.9, adult
+K00.6  # Disturbances in tooth eruption
+W16.221D  # Fall in (into) bucket of water causing drown, subs
+H68.139  # Extrinsic cartilagenous obst of eustach tube, unsp ear
+D61.02  # Shwachman-Diamond syndrome
+L10.5  # Drug-induced pemphigus
+I65.23  # Occlusion and stenosis of bilateral carotid arteries
+P24.10  # Neonatal aspirat of amnio fluid and mucus w/o resp symp
+P23.0  # Congenital pneumonia due to viral agent
+G40.844  # KCNQ2-related epilepsy, intractable, without stat epi
+
+# X-placeholder examples
+S24.9XXA  # Injury of unspecified nerve of thorax, initial encounter
+T53.0X2A  # Toxic effect of carbon tetrachloride, self-harm, init
+H40.33X4  # Glaucoma secondary to eye trauma, bi, indeterminate stage
+V88.3XXS  # Person injured in clsn betw car and bus, nontraf, sequela
+Y23.8XXD  # Oth larger firearm discharge, undetermined intent, subs
