@@ -37,6 +37,7 @@ type batchTemplateData struct {
 	ResultsJSON string
 	Summary     batchSummary
 	Error       string
+	SystemID    string
 }
 
 func (h *BatchHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
@@ -94,6 +95,7 @@ func (h *BatchHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		Results:     results,
 		ResultsJSON: string(jsonBytes),
 		Summary:     summary,
+		SystemID:    h.codec.SystemID(),
 	})
 }
 

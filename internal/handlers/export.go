@@ -32,7 +32,11 @@ func (h *ExportHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	filename := fmt.Sprintf("validation_%s.csv", time.Now().UTC().Format("20060102_150405"))
+	system := r.FormValue("system")
+	if system == "" {
+		system = "validation"
+	}
+	filename := fmt.Sprintf("%s_%s.csv", system, time.Now().UTC().Format("20060102_150405"))
 	w.Header().Set("Content-Type", "text/csv")
 	w.Header().Set("Content-Disposition", "attachment; filename="+filename)
 

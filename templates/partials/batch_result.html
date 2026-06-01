@@ -13,6 +13,7 @@
 
     <form method="post" action="/export" style="margin-left:auto;">
       <input type="hidden" name="results" value="{{.ResultsJSON}}">
+      <input type="hidden" name="system" value="{{.SystemID}}">
       <button class="btn btn-sm" type="submit">↓ Export CSV</button>
     </form>
   </div>

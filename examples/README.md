@@ -22,10 +22,10 @@ This folder contains example codes and batch files for testing the validator.
 
 | File | Contents |
 |------|----------|
-| `batch_common_labs.txt` | 20 most common laboratory test codes — all active |
-| `batch_vital_signs.txt` | Vital sign codes — all active |
-| `batch_mixed_status.txt` | Mix of active, deprecated, discouraged, invalid, and malformed codes |
-| `batch_large.txt` | 500 active codes sampled across clinical domains (chemistry, microbiology, hematology, drug/tox, serology, allergy, radiology, H&P, panels, coagulation, urinalysis, cardiology, vital signs, pathology) — good for testing performance and batch export |
+| `loinc_batch_common_labs.txt` | 20 most common laboratory test codes — all active |
+| `loinc_batch_vital_signs.txt` | Vital sign codes — all active |
+| `loinc_batch_mixed_status.txt` | Mix of active, deprecated, discouraged, invalid, and malformed codes |
+| `loinc_batch_large.txt` | 500 active codes sampled across clinical domains (chemistry, microbiology, hematology, drug/tox, serology, allergy, radiology, H&P, panels, coagulation, urinalysis, cardiology, vital signs, pathology) — good for testing performance and batch export |
 
 ## ICD-10-CM Single codes to try
 
