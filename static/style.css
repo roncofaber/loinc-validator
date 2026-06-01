@@ -453,6 +453,26 @@ input[type="file"] {
 
 .input-wrap input[type="text"] {
   margin-bottom: 0;
+  padding-right: 2.25rem;
+}
+
+.input-spinner {
+  display: none;
+  position: absolute;
+  right: 0.65rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 14px;
+  height: 14px;
+  border: 2px solid var(--border-dark);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.htmx-request .input-spinner {
+  display: block;
+  animation: spin 0.7s linear infinite;
 }
 
 .suggest-dropdown {
