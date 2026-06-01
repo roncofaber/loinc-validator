@@ -24,7 +24,7 @@ type LOINCCodec struct {
 }
 
 func NewCodec() *LOINCCodec {
-	return &LOINCCodec{httpClient: &http.Client{Timeout: 10 * time.Second}}
+	return &LOINCCodec{httpClient: coding.NewHTTPClient()}
 }
 
 func (c *LOINCCodec) Name() string     { return "LOINC" }

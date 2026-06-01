@@ -7,7 +7,15 @@ import (
 	"net/http"
 	"net/url"
 	"strings"
+	"time"
 )
+
+// NewHTTPClient returns a pre-configured HTTP client for NIH API calls.
+// Using this factory ensures all systems share the same timeout and
+// transport settings from a single place.
+func NewHTTPClient() *http.Client {
+	return &http.Client{Timeout: 10 * time.Second}
+}
 
 // ExactMatch finds the first row whose first field matches code (case-insensitive).
 func ExactMatch(rows [][]string, code string) ([]string, int) {

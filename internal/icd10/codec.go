@@ -23,7 +23,7 @@ type ICD10Codec struct {
 }
 
 func NewCodec() *ICD10Codec {
-	return &ICD10Codec{httpClient: &http.Client{Timeout: 10 * time.Second}}
+	return &ICD10Codec{httpClient: coding.NewHTTPClient()}
 }
 
 func (c *ICD10Codec) Name() string     { return "ICD-10-CM" }
