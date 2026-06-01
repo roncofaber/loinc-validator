@@ -66,7 +66,8 @@
         hx-on:submit="document.getElementById('icd10-batch-reset').style.display='flex';">
     <label for="icd10-file">File upload</label>
     <p class="hint">Plain text or CSV — one ICD-10-CM code per line. Lines starting with # are ignored.</p>
-    <input type="file" id="icd10-file" name="file" accept=".txt,.csv">
+    <input type="file" id="icd10-file" name="file" accept=".txt,.csv"
+           onchange="if(this.files.length) document.getElementById('icd10-batch-reset').style.display='flex';">
     <div>
       <button class="btn" type="submit">Validate File</button>
       <span id="icd10-batch-indicator" class="indicator">Processing</span>
