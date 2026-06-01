@@ -19,18 +19,19 @@ func NewValidateHandler(tmpl *template.Template, client *loinc.Client) *Validate
 }
 
 type resultData struct {
-	Code         string
-	Name         string
-	ShortName    string
-	Component    string
-	RelatedNames string
-	DataType     string
-	Units        []string
-	Valid         bool
-	Deprecated    bool
-	CheckedAt    time.Time
-	Error        string
-	Suggestion   *loinc.Suggestion // set when check digit is wrong
+	Code          string
+	Name          string
+	ShortName     string
+	Component     string
+	RelatedNames  string
+	DataType      string
+	Units         []string
+	Valid          bool
+	Deprecated     bool
+	CheckedAt     time.Time
+	Error         string
+	Suggestion    *loinc.Suggestion // set when corrected code exists directly
+	SimilarCode   string            // set when corrected code doesn't exist — triggers transposition search
 }
 
 func (h *ValidateHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
@@ -44,14 +45,18 @@ func (h *ValidateHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	if err := loinc.ValidateFormat(code); err != nil {
 		data := resultData{Error: err.Error()}
 
-		// If the only problem is the check digit, look up the corrected code
-		// and offer it as a clickable suggestion.
+		// If the only problem is the check digit, look up the corrected code.
+		// If it exists, show it as a direct clickable suggestion.
+		// If it doesn't exist either, pass it to the template so transposition
+		// search runs on the corrected form.
 		if corrected := loinc.CorrectedCode(code); corrected != "" {
 			if res, apiErr := h.client.Validate(corrected); apiErr == nil && res.Valid {
 				data.Suggestion = &loinc.Suggestion{
 					Code: res.Code,
 					Name: res.Name,
 				}
+			} else {
+				data.SimilarCode = corrected
 			}
 		}
 

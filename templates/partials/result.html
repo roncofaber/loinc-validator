@@ -17,6 +17,13 @@
     </ul>
   </div>
   {{end}}
+  {{if .SimilarCode}}
+  <div id="similar-results"
+       hx-get="/suggest-similar?code={{.SimilarCode}}"
+       hx-trigger="load"
+       hx-swap="innerHTML">
+  </div>
+  {{end}}
 </div>
 {{else if .Valid}}
 <div class="result-box valid">
