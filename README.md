@@ -24,7 +24,7 @@ A multi-system medical code validator supporting LOINC and ICD-10-CM, built with
 
 ## Local Setup
 
-**Prerequisites:** Go 1.23+
+**Prerequisites:** Go 1.22+ (developed with Go 1.26)
 
 ```bash
 git clone https://github.com/roncofaber/loinc-validator
