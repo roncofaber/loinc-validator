@@ -5,8 +5,7 @@
     {{range .}}
     <li class="suggest-item"
         onmousedown="event.preventDefault();
-                     var container = this.closest('[id$="-similar-results"]') || this.closest('.result-box');
-                     var panel = container.closest('.tab-panel');
+                     var panel = this.closest('.tab-panel');
                      var input = panel ? panel.querySelector('input[type=text]') : document.querySelector('input[type=text]');
                      var form = input.closest('form');
                      var dropdown = panel ? panel.querySelector('.suggest-dropdown') : document.querySelector('.suggest-dropdown');
