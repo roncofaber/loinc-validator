@@ -371,6 +371,38 @@ input[type="file"] {
   100% { transform: translateX(350%); }
 }
 
+/* ── Similar suggestions (post-validation) ───────────────────── */
+.similar-suggestions {
+  margin-top: 0.75rem;
+  border-top: 1px solid var(--invalid-border);
+  padding-top: 0.75rem;
+}
+
+.similar-label {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--invalid-text);
+  margin-bottom: 0.4rem;
+}
+
+.similar-suggestions .suggest-list {
+  padding: 0;
+}
+
+.similar-suggestions .suggest-item {
+  padding: 0.35rem 0;
+  border-radius: 0;
+}
+
+.similar-suggestions .suggest-item:hover {
+  background: var(--invalid-bg);
+  border-radius: var(--radius);
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+}
+
 /* ── Autocomplete ────────────────────────────────────────────── */
 .input-wrap {
   position: relative;

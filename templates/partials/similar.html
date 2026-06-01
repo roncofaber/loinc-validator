@@ -1,0 +1,17 @@
+{{if .}}
+<div class="similar-suggestions">
+  <p class="similar-label">Did you mean?</p>
+  <ul class="suggest-list">
+    {{range .}}
+    <li class="suggest-item"
+        onmousedown="event.preventDefault();
+                     document.getElementById('code').value='{{.Code}}';
+                     document.getElementById('suggestions').innerHTML='';
+                     document.getElementById('single-form').requestSubmit();">
+      <span class="suggest-code">{{.Code}}</span>
+      <span class="suggest-name">{{.Name}}</span>
+    </li>
+    {{end}}
+  </ul>
+</div>
+{{end}}

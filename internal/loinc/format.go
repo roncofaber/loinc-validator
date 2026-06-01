@@ -38,6 +38,15 @@ func ValidateFormat(code string) error {
 	return nil
 }
 
+// Suggestion is a candidate code returned when an exact match is not found.
+type Suggestion struct {
+	Code string
+	Name string
+}
+
+// CheckDigit computes the LOINC Mod-10 check digit for the numeric prefix.
+func CheckDigit(prefix string) int { return checkDigit(prefix) }
+
 // checkDigit computes the LOINC Mod-10 check digit for the numeric prefix.
 // Each digit is processed right-to-left; even-indexed positions (0-based from
 // the right) are doubled, with values > 9 reduced by 9.

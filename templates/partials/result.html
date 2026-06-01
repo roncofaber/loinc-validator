@@ -73,6 +73,11 @@
 <div class="result-box invalid">
   <span class="status-badge invalid">Not found</span>
   <p><span class="code-value">{{.Code}}</span> was not found in the LOINC database.</p>
+  <div id="similar-results"
+       hx-get="/suggest-similar?code={{.Code}}"
+       hx-trigger="load"
+       hx-swap="innerHTML">
+  </div>
 </div>
 {{end}}
 

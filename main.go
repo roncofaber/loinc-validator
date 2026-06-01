@@ -27,6 +27,7 @@ func main() {
 	})
 	mux.Handle("/validate", handlers.NewValidateHandler(tmpl, client))
 	mux.Handle("/suggest", handlers.NewSuggestHandler(tmpl))
+	mux.Handle("/suggest-similar", handlers.NewSimilarHandler(tmpl, client))
 	mux.Handle("/batch", handlers.NewBatchHandler(tmpl, client))
 	mux.Handle("/export", handlers.NewExportHandler(tmpl))
 
