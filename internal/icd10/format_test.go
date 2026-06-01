@@ -1,7 +1,6 @@
 package icd10_test
 
 import (
-	"strings"
 	"testing"
 
 	"github.com/roncofaber/loinc-validator/internal/icd10"
@@ -26,9 +25,10 @@ func TestValidateFormat(t *testing.T) {
 		{"", true},
 		{"   ", true},
 
-		// Invalid: U prefix (reserved for ICD-11)
-		{"U07.1", true},
-		{"U00.0", true},
+		// U codes are valid — U07.1 (COVID-19), U07.0 (vaping), U09.9 (long COVID)
+		// are real billable ICD-10-CM codes; the API is the authoritative existence check
+		{"U07.1", false},
+		{"U09.9", false},
 
 		// Invalid: wrong structure
 		{"123", true},         // digit in position 1
@@ -51,12 +51,11 @@ func TestValidateFormat(t *testing.T) {
 	}
 }
 
-func TestValidateFormatUMessage(t *testing.T) {
-	err := icd10.ValidateFormat("U07.1")
-	if err == nil {
-		t.Fatal("expected error for U prefix")
-	}
-	if !strings.Contains(err.Error(), "U") {
-		t.Errorf("expected error to mention U prefix, got: %s", err.Error())
+func TestValidateFormatUCodesValid(t *testing.T) {
+	// U codes are valid in ICD-10-CM — COVID-era codes use the U range
+	for _, code := range []string{"U07.1", "U07.0", "U09.9"} {
+		if err := icd10.ValidateFormat(code); err != nil {
+			t.Errorf("expected U code %q to pass format validation, got: %v", code, err)
+		}
 	}
 }

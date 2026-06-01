@@ -24,8 +24,12 @@ func TestICD10CodecValidateFormat(t *testing.T) {
 	if err := c.ValidateFormat("E11.9"); err != nil {
 		t.Errorf("expected nil for valid code, got: %v", err)
 	}
-	if err := c.ValidateFormat("U07.1"); err == nil {
-		t.Error("expected error for U prefix")
+	// U07.1 (COVID-19) is a valid billable ICD-10-CM code
+	if err := c.ValidateFormat("U07.1"); err != nil {
+		t.Errorf("expected nil for U07.1 (COVID-19), got: %v", err)
+	}
+	if err := c.ValidateFormat("123"); err == nil {
+		t.Error("expected error for malformed code")
 	}
 }
 

@@ -5,6 +5,8 @@ E11.9  # Type 2 diabetes mellitus without complications
 I10  # Essential (primary) hypertension
 J06.9  # Acute upper respiratory infection, unspecified
 M54.5  # Low back pain
+U07.1  # COVID-19 (valid U-range code, provisionally assigned by WHO)
+U09.9  # Post-COVID-19 condition
 
 # Non-billable header codes (exist in ICD-10-CM but API returns not found)
 S30.95  # Unspecified superficial injury of vagina and vulva — NON-BILLABLE HEADER
@@ -16,5 +18,4 @@ Z99.99  # Does not exist
 A00.99  # Does not exist
 
 # Malformed codes
-123  # wrong format
-U07.1  # U is excluded from ICD-10-CM (reserved for ICD-11)
+123  # wrong format — digit in position 1

@@ -35,7 +35,7 @@ This folder contains example codes and batch files for testing the validator.
 | `I10` | Essential (primary) hypertension | Valid |
 | `S00.00XA` | Scalp injury, initial encounter (X placeholder) | Valid |
 | `A01` | Typhoid and paratyphoid fevers (category header) | Not found — non-billable |
-| `U07.1` | COVID-19 (U reserved — invalid in ICD-10-CM) | Format error |
+| `U07.1` | COVID-19 (valid U-range code, provisionally assigned) | Valid |
 | `Z99.99` | Non-existent code | Not found |
 | `123` | Malformed input | Format error |
 
