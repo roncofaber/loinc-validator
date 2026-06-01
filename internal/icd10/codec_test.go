@@ -49,10 +49,46 @@ func TestICD10CodecParse(t *testing.T) {
 	}
 }
 
-func TestICD10CodecSimilarCandidatesNil(t *testing.T) {
+func TestICD10CodecSimilarCandidates(t *testing.T) {
 	c := icd10.NewCodec()
-	candidates := c.SimilarCandidates("E11.9")
-	if candidates != nil {
-		t.Errorf("expected nil candidates for ICD-10-CM, got: %v", candidates)
+
+	// 7-char code → should produce progressively shorter candidates
+	candidates := c.SimilarCandidates("S00.00XA")
+	if len(candidates) == 0 {
+		t.Error("expected candidates for 7-char code")
+	}
+	// Should include S00.00X, S00.00, S00.0, S00
+	for _, want := range []string{"S00.00X", "S00.00", "S00.0", "S00"} {
+		found := false
+		for _, got := range candidates {
+			if got == want {
+				found = true
+				break
+			}
+		}
+		if !found {
+			t.Errorf("expected candidate %q in %v", want, candidates)
+		}
+	}
+
+	// 3-char code → already at minimum, no candidates
+	candidates3 := c.SimilarCandidates("I10")
+	if len(candidates3) != 0 {
+		t.Errorf("expected no candidates for 3-char code, got: %v", candidates3)
+	}
+
+	// 5-char code with decimal → "E11.9" → ["E11"]
+	candidates5 := c.SimilarCandidates("E11.9")
+	if len(candidates5) == 0 {
+		t.Error("expected candidates for E11.9")
+	}
+	found := false
+	for _, got := range candidates5 {
+		if got == "E11" {
+			found = true
+		}
+	}
+	if !found {
+		t.Errorf("expected 'E11' in candidates for E11.9, got: %v", candidates5)
 	}
 }

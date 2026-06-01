@@ -43,8 +43,32 @@ func (c *ICD10Codec) Parse(fields []string) coding.Result {
 	return result
 }
 
-// SimilarCandidates returns nil — ICD-10-CM has no check digit mechanism
-// for generating transposition candidates.
+// SimilarCandidates returns prefix-truncated variants of an ICD-10-CM code
+// to surface near-matches when an exact code is not found.
+// For example, "E11.99" → ["E11.9", "E11"] (drop last char, drop to category).
+// This catches the most common ICD-10-CM mistake: a code that is too specific
+// or has a wrong final character.
 func (c *ICD10Codec) SimilarCandidates(code string) []string {
-	return nil
+	var candidates []string
+	seen := make(map[string]bool)
+
+	add := func(s string) {
+		if s != code && !seen[s] && len(s) >= 3 {
+			seen[s] = true
+			candidates = append(candidates, s)
+		}
+	}
+
+	// Drop one character at a time from the end, down to the 3-char category minimum.
+	current := code
+	for len(current) > 3 {
+		current = current[:len(current)-1]
+		// Remove trailing dot if we just exposed it (e.g. "E11." → "E11")
+		if len(current) > 0 && current[len(current)-1] == '.' {
+			current = current[:len(current)-1]
+		}
+		add(current)
+	}
+
+	return candidates
 }
