@@ -41,6 +41,13 @@ docker build -t loinc-validator .
 docker run -p 8080:8080 loinc-validator
 ```
 
+## Deployment (Fly.io)
+
+```bash
+flyctl auth login
+flyctl deploy
+```
+
 ## Examples
 
 See [`examples/`](examples/) and [`examples/README.md`](examples/README.md) for ready-to-use batch files for both systems.
@@ -73,27 +80,22 @@ See [`examples/`](examples/) and [`examples/README.md`](examples/README.md) for 
 
 ## Strengths
 
-- **Single static binary** — no runtime dependencies, no frontend build step; HTMX loaded from CDN.
-- **Three-layer LOINC validation** — regex shape → Mod-10 check digit (local) → API existence. Each layer fails with a specific, actionable message.
-- **Codec interface** — handlers are fully system-agnostic; each coding system is self-contained with its own client, format validator, and codec.
-- **Concurrent batch processing** — up to 10 concurrent API calls, bounded to be respectful of the NIH API.
-- **Stateless server** — no database required; batch results travel through the browser for export.
-- **Go test conventions** — unit tests co-located with code, mocked HTTP transports, integration tests gated by environment variables.
+- The app is a **single static binary** with no runtime dependencies and no frontend build step.
+- The **modular structure** of each coding system is self-contained with its own client, format validator, and codec. This makes extending the app to support other NIH APIs trivial. The ICD-10-CM integration on top of LOINC is an example.
+- For **batch processing**, up to 10 concurrent API calls are made (the limit is set to not abuse of the NIH API). This makes batch file analysis faster.
+- **Stateless server**: no database required; batch results travel directly through the browser for export (this could also be a long-term limitation...).
 
 ## Limitations
 
-- **Deprecated/discouraged status** — the NIH API does not expose `STATUS`. Deprecated codes are detected heuristically via name prefix ("Deprecated ") — covers most but not all cases. Discouraged and TRIAL codes are not flagged.
-- **No MapTo suggestions** — `MapTo.csv` in the LOINC release maps deprecated codes to active replacements; the API does not expose this mapping.
-- **LOINC version hardcoded** — the API exposes no machine-readable version; `loincVersion` in `main.go` must be updated manually with each LOINC release (~twice per year).
-- **ICD-10-CM non-billable headers** — category codes (e.g. `A01`) return "not found" from the API; the similar suggestions machinery surfaces billable children as alternatives.
-- **ICD-10-CM retired codes** — the API does not indicate whether a code has been retired in a prior release.
-- **Batch results in hidden field** — the JSON payload grows with batch size; a session store would be the production solution for very large files.
-- **No E2E tests** — HTMX fragment swaps and browser interactions are not covered.
+- **Deprecated/discouraged status**: for LOINC, the NIH API does not expose `STATUS`. Deprecated codes are detected via name prefix ("Deprecated "). This covers most but not all cases. Discouraged and TRIAL codes are not properly flagged.
+- **No MapTo suggestions**: `MapTo.csv` in the LOINC release maps deprecated codes to active replacements; the API does not expose this mapping.
+- **LOINC version hardcoded**: the API exposes no machine-readable version; `loincVersion` in `main.go` must be updated manually with each LOINC release.
+- **Batch results in hidden field**: the JSON payload grows with batch size; a session store would be the production solution for very large files.
 
 ## Technical Choices
 
-Go stdlib + HTMX: the app is a thin layer between a form and an external API. HTMX eliminates a frontend build pipeline and JSON API contract. No web framework keeps the dependency surface minimal and the code auditable — relevant for a healthcare-adjacent tool.
+Go stdlib + HTMX: the app is a thin layer between a form and an external API. HTMX eliminates a frontend build pipeline and JSON API contract. No web framework keeps the dependency surface minimal.
 
-The `coding.Codec` interface decouples systems from handlers. Each system owns its HTTP client — LOINC uses `ef=` for rich extra fields; ICD-10-CM delegates to the shared `coding.Search()` since its API exposes only code and name. Adding HCPCS or RxNorm follows the same pattern: one codec, one template, one registration.
+The coding.Codec interface keeps handlers independent of the underlying system. Under the hood, each system manages its own API calls. LOINC needs a dedicated client because it fetches extra fields like units and synonyms via the ef= parameter, while ICD-10-CM only returns code and name so it can share the generic coding.Search(). The result is that adding HCPCS, RxNorm, or any other NIH Clinical Tables endpoint is straightforward: implement the interface, add a tab template, and register it in main.go.
 
 **Known improvement:** per-system result templates (e.g. `loinc/result.html`) would replace the conditional guards in the shared `partials/result.html` as more systems with different optional fields are added.
