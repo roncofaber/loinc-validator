@@ -6,6 +6,7 @@ import (
 	"strings"
 
 	"github.com/roncofaber/loinc-validator/internal/coding"
+	icd10pkg "github.com/roncofaber/loinc-validator/internal/icd10"
 	loincpkg "github.com/roncofaber/loinc-validator/internal/loinc"
 )
 
@@ -45,6 +46,7 @@ func (h *ValidateHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 	if err := h.codec.ValidateFormat(code); err != nil {
 		data := resultData{Error: err.Error(), SystemID: h.codec.SystemID()}
+		// LOINC: try corrected check digit
 		if corrected := loincpkg.CorrectedCode(code); corrected != "" {
 			res, apiErr := h.codec.Validate(corrected)
 			if apiErr == nil && res.Valid {
@@ -52,6 +54,10 @@ func (h *ValidateHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 			} else {
 				data.SimilarCode = corrected
 			}
+		}
+		// ICD-10-CM: detect missing decimal (e.g. E800 → search E80.x children)
+		if base := icd10pkg.MissingDecimalBase(code); base != "" {
+			data.SimilarCode = base
 		}
 		h.tmpl.ExecuteTemplate(w, "result.html", data)
 		return

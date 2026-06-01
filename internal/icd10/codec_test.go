@@ -75,10 +75,19 @@ func TestICD10CodecSimilarCandidates(t *testing.T) {
 		}
 	}
 
-	// 3-char code → already at minimum, no candidates
+	// 3-char code → expands to decimal children E80.0–E80.9
 	candidates3 := c.SimilarCandidates("I10")
-	if len(candidates3) != 0 {
-		t.Errorf("expected no candidates for 3-char code, got: %v", candidates3)
+	if len(candidates3) == 0 {
+		t.Error("expected decimal expansion candidates for 3-char code")
+	}
+	foundExpansion := false
+	for _, cand := range candidates3 {
+		if cand == "I10.0" || cand == "I10.1" {
+			foundExpansion = true
+		}
+	}
+	if !foundExpansion {
+		t.Errorf("expected I10.x expansion candidates, got: %v", candidates3)
 	}
 
 	// 5-char code with decimal → "E11.9" → ["E11"]
